@@ -1,3 +1,0 @@
-void allegro_debug() {
-
-}

@@ -18,18 +18,24 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
+    <ClCompile Include="nginx_font.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="debug_framework.c">
+    <ClCompile Include="nginx_screen.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="basic_function.cpp">
+    <ClCompile Include="nginx_framework.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="my_awesome_system.h">
+    <ClInclude Include="nginx_font.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="nginx_framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="nginx_screen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
