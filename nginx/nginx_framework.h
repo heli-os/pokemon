@@ -1,12 +1,4 @@
-#ifndef INCLUDED_NGINX_FRAMEWORK_H
-#define INCLUDED_NGINX_FRAMEWORK_H
-//==============================================================================
-// Includes.
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_image.h>
+#include "nginx_common.h"
 
 //==============================================================================
 // UTIL
@@ -160,4 +152,3 @@
 	 */
 	int wait_for_keypress();
 
-#endif

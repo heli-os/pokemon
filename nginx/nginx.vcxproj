@@ -134,10 +134,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="map.c" />
     <ClCompile Include="nginx_framework.c" />
+    <ClCompile Include="player.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="map.h" />
+    <ClInclude Include="nginx_common.h" />
     <ClInclude Include="nginx_framework.h" />
+    <ClInclude Include="player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -270,10 +270,10 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 
 		if (should_redraw && al_is_event_queue_empty(event_queue) && !is_paused) {
 			should_redraw = false;
-			al_set_target_bitmap(al_get_backbuffer(display));
+			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 			render_proc();
-			al_flip_display();
+			
 		}
 	}
 }
@@ -317,6 +317,7 @@ bool is_key_released(int keycode)
 	assert(keycode >= 0 && keycode < ALLEGRO_KEY_MAX);
 	return keys_released[keycode];
 }
+
 
 int get_mouse_x()
 {
