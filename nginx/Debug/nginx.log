@@ -1,10 +1,2 @@
 ﻿  main.c
-  map.c
-  nginx_framework.c
-C:\Users\martin\Documents\projects\nginx\nginx\nginx_framework.c(83): warning C4113: 'void (__cdecl *)()'은(는) 'void (__cdecl *)(void)'과(와) 매개 변수 목록이 다릅니다.
-C:\Users\martin\Documents\projects\nginx\nginx\nginx_framework.c(344): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\martin\Documents\projects\nginx\nginx\nginx_framework.c(350): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\martin\Documents\projects\nginx\nginx\nginx_framework.c(356): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  player.c
-  코드를 생성하고 있습니다...
-  nginx.vcxproj -> C:\Users\martin\Documents\projects\nginx\Debug\nginx.exe
+  nginx.vcxproj -> C:\Users\MartinPearson\Documents\dev\repos\nginx\Debug\nginx.exe

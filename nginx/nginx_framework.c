@@ -79,7 +79,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	if (!al_init()) {
 		log_error("Failed to initialize allegro");
 	}
-
+	//Zero-Warning를 위해 destory_framework를 (void)형식으로 선언.
 	atexit(destroy_framework);
 
 	al_set_exe_name(title);
@@ -165,7 +165,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	brown_color = al_map_rgb(101, 55, 0);
 }
 
-void destroy_framework()
+void destroy_framework(void)
 {
 	if (default_font) {
 		al_destroy_font(default_font);
@@ -341,19 +341,19 @@ int get_mouse_dy()
 
 bool is_mouse_button_down(int mouse_button)
 {
-	assert(mouse_button >= 0 && mouse_button < al_get_mouse_num_buttons());
+	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons[mouse_button];
 }
 
 bool is_mouse_button_pressed(int mouse_button)
 {
-	assert(mouse_button >= 0 && mouse_button < al_get_mouse_num_buttons());
+	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons_pressed[mouse_button];
 }
 
 bool is_mouse_button_released(int mouse_button)
 {
-	assert(mouse_button >= 0 && mouse_button < al_get_mouse_num_buttons());
+	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons_released[mouse_button];
 }
 

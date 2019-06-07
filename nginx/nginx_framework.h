@@ -48,7 +48,7 @@
 		Destroys everything we need to clean up when it is time to quit the program.
 		This function is called automatically at program exit.
 	 */
-	void destroy_framework();
+	void destroy_framework(void);
 
 	/*
 		Runs the game loop; the heart of the game!

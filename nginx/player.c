@@ -6,8 +6,9 @@ void movement_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_t
 	int sw = character_movement[action_type][action_idx][2] * 16;
 	int sh = character_movement[action_type][action_idx][3] * 16;
 
-	al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
-
+	//al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
 void attack_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx) {
@@ -16,5 +17,7 @@ void attack_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_typ
 	int sw = character_attack[action_type][action_idx][2] * 32;
 	int sh = character_attack[action_type][action_idx][3] * 16;
 
-	al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	//al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
