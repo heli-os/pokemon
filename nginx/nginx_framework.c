@@ -131,7 +131,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	}
 	al_set_window_title(display, title);
 
-	timer = al_create_timer(1.0 / 60);
+	timer = al_create_timer(1.0 / GAME_FPS);
 	if (!timer) {
 		log_error("Failed to create timer");
 	}
@@ -267,16 +267,16 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 			}
 			break;
 		}
-
+		//printf("%d, %d, %d\n", should_redraw, al_is_event_queue_empty(event_queue), is_paused);
 		if (should_redraw && al_is_event_queue_empty(event_queue) && !is_paused) {
 			should_redraw = false;
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 			render_proc();
-			
 		}
 	}
 }
+
 
 void quit()
 {
