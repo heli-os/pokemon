@@ -1,0 +1,12 @@
+﻿  camera.c
+  main.c
+  map.c
+  nginx_framework.c
+  object.c
+  player.c
+  sock_client_framework.c
+  코드를 생성하고 있습니다.
+  Previous IPDB not found, fall back to full compilation.
+  All 19 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  nginx.vcxproj -> C:\Users\MartinPearson\Documents\dev\repos\nginx\Release\nginx.exe

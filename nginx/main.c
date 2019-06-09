@@ -3,6 +3,7 @@
 #include "map.h"
 #include "object.h"
 #include "cameara.h"
+#include "sock_client_framework.h"
 #include <stdio.h>
 
 enum character_movement {
@@ -99,7 +100,8 @@ int main(int argc, char* argv[])
 {
 	
 	// must be called first!l
-	init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);
+	//init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);
+	bind_sock_clnt();
 	
 	_map = al_load_bitmap("gfx/Overworld.png");
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
