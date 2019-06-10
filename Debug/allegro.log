@@ -1,9 +1,0 @@
-stdio    D         file_stdio.c:110  file_stdio_fopen                 [   0.00000] opening C:\Users\MartinPearson\Documents\dev\repos\nginx\Debug\allegro5.cfg r
-system   D            wsystem.c:802  maybe_parent_dir                 [   0.00000] Also searching C:\Users\MartinPearson\Documents\dev\repos\nginx\
-system   D            wsystem.c:852  _al_win_safe_load_library        [   0.00000] PathFindOnPath found: C:\WINDOWS\system32\shcore.dll
-system   D            wsystem.c:763  load_library_at_path             [   0.00000] Calling LoadLibrary C:\WINDOWS\system32\shcore.dll
-system   I            wsystem.c:766  load_library_at_path             [   0.00000] Loaded C:\WINDOWS\system32\shcore.dll
-system   I             system.c:267  al_install_system                [   0.00000] Allegro version: 5.2.5
-stdio    D         file_stdio.c:110  file_stdio_fopen                 [   0.00040] opening fonts/Roboto-Medium.ttf rb
-font     E                ttf.c:994  al_load_ttf_font_stretch         [   0.00055] Unable to open file for reading: fonts/Roboto-Medium.ttf
-stdio    D         file_stdio.c:110  file_stdio_fopen                 [   0.00059] opening log.txt w
