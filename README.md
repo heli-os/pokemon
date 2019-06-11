@@ -1,2 +1,3 @@
 # nginx
-This repository is a project for submitting a final exam for the C Programming (2) course in the first semester of the second year of my university.
+This Repository is a project for my project of critical importance. 
+That is for submitting final exams the C Programming (2) course in the first semester of our sophomore year.
