@@ -62,5 +62,8 @@
     <ClInclude Include="sock_client_framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="..\network_protocols.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

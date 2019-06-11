@@ -6,14 +6,17 @@
 #include "sock_client_framework.h"
 #include <stdio.h>
 
+#include <time.h>
+
+
 enum character_movement {
 	CHARACTER_DOWN,
 	CHARACTER_RIGHT,
 	CHARACTER_UP,
 	CHARACTER_LEFT
 };
-PLAYER_STATUS user_player = { NULL, NULL, 0,0,0,0.0,0.0 };
-
+PLAYER_STATUS user_player = { NULL, NULL,NULL, 0,0,0,0.0,0.0,100,0 };
+// player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor
 ALLEGRO_BITMAP* _map = NULL;
 ALLEGRO_BITMAP* _object = NULL;
 ALLEGRO_TRANSFORM camera;
@@ -26,6 +29,8 @@ object_info house_2;
 
 void update()
 {
+
+	sendMessage("TEST_MESSAGE");
 	if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
 		quit();
 
@@ -93,7 +98,6 @@ void render()
 		default:
 			break;
 	}
-
 	//al_rest(1.0 / GAME_FPS);
 }
 

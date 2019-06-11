@@ -166,6 +166,7 @@
     <ClCompile Include="sock_client_framework.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\network_protocols.h" />
     <ClInclude Include="cameara.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="nginx_common.h" />

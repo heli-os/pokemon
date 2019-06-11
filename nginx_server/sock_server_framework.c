@@ -4,7 +4,7 @@ int client_idx = 0;
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
-	char buf[BUFSIZE];
+	char buf[256];
 	while (1)
 	{
 		//Recive From Client
@@ -18,7 +18,7 @@ void __cdecl RecvThread(void* p)
 		{
 			if (client_list[i] != sock)
 			{
-				int sendsize = send(client_list[i], buf, strlen(buf), 0);
+				int sendsize = send(client_list[i], buf, (int)strlen(buf), 0);
 			}
 		}
 		//-----------------------------------------------

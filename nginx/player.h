@@ -2,11 +2,17 @@
 typedef struct _PLAYER_STATUS {
 	ALLEGRO_BITMAP* player;
 	ALLEGRO_BITMAP* hit_efftect;
+	char* name;
+
 	int action_type;
 	int player_direction;
 	int action_idx;
+
 	float pos_x;
 	float pos_y;
+
+	int hp;
+	int armor;
 } PLAYER_STATUS;
 
 static int character_movement[4][4][4] = {

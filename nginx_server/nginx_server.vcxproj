@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\network_protocols.h" />
     <ClInclude Include="sock_server_framework.h" />
   </ItemGroup>
   <ItemGroup>
