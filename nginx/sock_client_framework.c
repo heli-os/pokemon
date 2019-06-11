@@ -1,76 +1,86 @@
 #include "sock_client_framework.h"
 
 
-
+void __cdecl RecvThread(void* p)
+{
+	SOCKET sock = (SOCKET)p;
+	char buf[256];
+	while (1)
+	{
+		//-----------서버로부터 수신------------
+		int recvsize = recv(sock, buf, sizeof(buf), 0);
+		if (recvsize <= 0)
+		{
+			printf("접속종료\n");
+			break;
+		}
+		//------------------------------------------------
+		buf[recvsize] = '\0';
+		printf("\r%s\n>>", buf);
+	}
+}
 
 
 void bind_sock_clnt(void) {
 
-	SOCKET clntSock;
+	//-------소켓 라이브러리 불러오기(?)--------
 	WSADATA wsaData;
-	SOCKADDR_IN servAddr;
-
-	char sAddr[15] = "127.0.0.1";
-	int sPort = 2513;
-	int nRcv;
-	char message[BUFSIZE];
-
-	//printf("Server Address : ");       gets(sAddr);
-	//printf("%s", sAddr);
-	//printf("Port Number : ");       gets(message);
-	//sPort = atoi(message);
-
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-		ErrorHandling("Load WinSock 2.2 DLL Error");
-
-	clntSock = socket(AF_INET, SOCK_STREAM, 0);
-	if (clntSock == INVALID_SOCKET)
-		ErrorHandling("Socket Error");
-
-	memset(&servAddr, 0, sizeof(servAddr));
-	servAddr.sin_family = AF_INET;
-	servAddr.sin_addr.s_addr = inet_addr(sAddr);
-	servAddr.sin_port = htons(sPort);
-
-	if (connect(clntSock, (void*)& servAddr, sizeof(servAddr)) == SOCKET_ERROR) {
-		ErrorHandling("Connection Error");
+	int retval = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (retval != 0)
+	{
+		printf("WSAStartup() Error\n");
+		return 0;
 	}
-	else {
-		printf("Connect OK!\nStart...\n");
+	//------------------------------------------
+
+	//---------소켓생성-------- 
+	SOCKET serv_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);	//TCP를 이용한 소켓
+	//-------------------------
+
+	//---------서버 정보 입력--------------------
+	SOCKADDR_IN serv_addr;
+	serv_addr.sin_family = AF_INET;						// IP주소를 이용하고
+	serv_addr.sin_port = htons(2513);					// 소켓은 4000번에
+	serv_addr.sin_addr.s_addr = inet_addr("172.16.136.223");	// 서버의 ip 주소는 127.0.0.1
+	//--------------------------------------------
+
+	//---------서버 연결------------
+	retval = connect(serv_sock, (SOCKADDR*)& serv_addr, sizeof(SOCKADDR));
+	if (retval == SOCKET_ERROR)
+	{
+		printf("connect() Error\n");
+		return 0;
 	}
+	//-------------------------------
 
-	while (1) {
-		printf("\nSend Message : ");
-		gets_s(message,BUFSIZE);
+	char nick[20];
+	printf("닉네임 >> ");
+	gets(nick);
 
-		if (strcmp(message, "exit") == 0) {
-			send(clntSock, message, (int)strlen(message), 0);
+	_beginthread(RecvThread, 0, (void*)serv_sock);
+	/*
+	while (1)
+	{
+		char buf[256] = { 0 };
+		char str[256];
+		printf(">> ");
+		gets(str);
+		sprintf_s(buf, sizeof(buf),"[%s] %s", nick, str);
+
+		//---------서버에 메시지 전송---------------
+		int sendsize = send(serv_sock, buf, strlen(buf), 0);
+		if (sendsize <= 0)
 			break;
-		}
-
-		send(clntSock, message, (int)strlen(message), 0);
-		printf("Message Receives ...\n");
-
-		nRcv = recv(clntSock, message, sizeof(message) - 1, 0);
-		if (nRcv == SOCKET_ERROR) {
-			printf("Receive Error..\n");
-			break;
-		}
-		message[nRcv] = '\0';
-
-		if (strcmp(message, "exit") == 0) {
-			printf("Close Server Connection..\n");
-			break;
-		}
-
-		printf("Receive Message : %s", message);
+		//------------------------------------------
 	}
+	*/
+	//----------소켓 닫음------------------
+	//closesocket(serv_sock);
+	//-------------------------------------
 
-	closesocket(clntSock);
-	WSACleanup();
-	printf("Close Connection..\n");
-	
-	_getch();
+	//---------라이브러리 해제(?)---------
+	//WSACleanup();
+	//-------------------------------------
 
 }
 

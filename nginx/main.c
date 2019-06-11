@@ -93,19 +93,20 @@ void render()
 		default:
 			break;
 	}
+
 	//al_rest(1.0 / GAME_FPS);
 }
 
 int main(int argc, char* argv[])
 {
-	
-	// must be called first!l
-	//init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);
+
 	bind_sock_clnt();
+	// must be called first!l
+	init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);
 	
 	_map = al_load_bitmap("gfx/Overworld.png");
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
-	init_map(_map);
+	init_map(_map);	
 	
 	_object = al_load_bitmap("gfx/objects.png");
 

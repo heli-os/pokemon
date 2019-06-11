@@ -1,5 +1,6 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h>
+#include <process.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
