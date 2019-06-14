@@ -52,7 +52,7 @@ void update()
 
 
 
-	if (is_key_pressed(ALLEGRO_KEY_SPACE)) {user_player.action_idx = 0; user_player.action_type = 1;}
+	if (is_key_pressed(ALLEGRO_KEY_Z)) {user_player.action_idx = 0; user_player.action_type = 1;}
 		
 	if (is_key_released(ALLEGRO_KEY_DOWN) || is_key_released(ALLEGRO_KEY_RIGHT) || is_key_released(ALLEGRO_KEY_UP) || is_key_released(ALLEGRO_KEY_LEFT))
 		user_player.action_idx = 0;
