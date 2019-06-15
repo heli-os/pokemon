@@ -1,5 +1,6 @@
 #include "player.h"
 
+
 void movement_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx) {
 	int sx = character_movement[action_type][action_idx][0] * 16;
 	int sy = character_movement[action_type][action_idx][1] * 16;

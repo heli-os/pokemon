@@ -4,6 +4,7 @@
 #include "object.h"
 #include "cameara.h"
 #include "sock_client_framework.h"
+#include "collision.h"
 #include <stdio.h>
 
 #include <time.h>
@@ -15,17 +16,15 @@ enum character_movement {
 	CHARACTER_UP,
 	CHARACTER_LEFT
 };
-PLAYER_STATUS user_player = { NULL, NULL,NULL, 0,0,0,0.0,0.0,100,0 };
-// player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor
+
+player_status user_player = { NULL, NULL,NULL, 0,0,0,0.0,0.0,100,0,0 };
+// player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 ALLEGRO_BITMAP* _map = NULL;
 ALLEGRO_BITMAP* _object = NULL;
 ALLEGRO_TRANSFORM camera;
 extern ALLEGRO_BITMAP* world_map;
 
-object_info fountain_1;
-object_info castle_1;
-object_info house_1;
-object_info house_2;
+extern object_info object_list[OBJECT_COUNT];
 
 void update()
 {
@@ -34,33 +33,51 @@ void update()
 	if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
 		quit();
 
-	if (user_player.action_type==0 &&(is_key_down(ALLEGRO_KEY_DOWN) || is_key_down(ALLEGRO_KEY_RIGHT) || is_key_down(ALLEGRO_KEY_UP) || is_key_down(ALLEGRO_KEY_LEFT)))
+	if (user_player.iAction_type==0 &&(is_key_down(ALLEGRO_KEY_DOWN) || is_key_down(ALLEGRO_KEY_RIGHT) || is_key_down(ALLEGRO_KEY_UP) || is_key_down(ALLEGRO_KEY_LEFT)))
 	{
-		user_player.action_type = 0;
-		user_player.action_idx = user_player.action_idx >= 3 ? 0 : user_player.action_idx + 1;
+		user_player.iAction_type = 0;
+		user_player.iAction_idx = user_player.iAction_idx >= 3 ? 0 : user_player.iAction_idx + 1;
 	}
 
-	if (user_player.action_type == 0 && is_key_down(ALLEGRO_KEY_DOWN))  { user_player.pos_y += GAME_MOVE_TICK; user_player.player_direction = CHARACTER_DOWN; }
-	if (user_player.action_type == 0 && is_key_down(ALLEGRO_KEY_RIGHT)) { user_player.pos_x += GAME_MOVE_TICK; user_player.player_direction = CHARACTER_RIGHT;}
-	if (user_player.action_type == 0 && is_key_down(ALLEGRO_KEY_UP))	{ user_player.pos_y -= GAME_MOVE_TICK; user_player.player_direction = CHARACTER_UP;	 }
-	if (user_player.action_type == 0 && is_key_down(ALLEGRO_KEY_LEFT))  { user_player.pos_x -= GAME_MOVE_TICK; user_player.player_direction = CHARACTER_LEFT; }
+	if (user_player.iAction_type == 0 && is_key_down(ALLEGRO_KEY_DOWN)) {
+		user_player.fPos_y += GAME_MOVE_TICK; user_player.iPlayer_direction = CHARACTER_DOWN; 
+		if (isCollision(user_player)) 
+			user_player.fPos_y -= GAME_MOVE_TICK; 
+	}
+	if (user_player.iAction_type == 0 && is_key_down(ALLEGRO_KEY_RIGHT)) {
+		user_player.fPos_x += GAME_MOVE_TICK; user_player.iPlayer_direction = CHARACTER_RIGHT;
+		if (isCollision(user_player)) 
+			user_player.fPos_x -= GAME_MOVE_TICK;
+	}
+	if (user_player.iAction_type == 0 && is_key_down(ALLEGRO_KEY_UP))	{
+		user_player.fPos_y -= GAME_MOVE_TICK; user_player.iPlayer_direction = CHARACTER_UP;
+		if (isCollision(user_player)) 
+			user_player.fPos_y += GAME_MOVE_TICK;
+	}
+	if (user_player.iAction_type == 0 && is_key_down(ALLEGRO_KEY_LEFT))  {
+		user_player.fPos_x -= GAME_MOVE_TICK; user_player.iPlayer_direction = CHARACTER_LEFT;
+		if (isCollision(user_player)) 
+			user_player.fPos_x += GAME_MOVE_TICK;
+	}
 
-	if (user_player.pos_x < 0)user_player.pos_x = 0;
-	if (user_player.pos_x >= GAME_MAP_WIDTH-32) user_player.pos_x = GAME_MAP_WIDTH - 32;
-	if (user_player.pos_y < 0) user_player.pos_y = 0;
-	if (user_player.pos_y >= GAME_MAP_HEIGHT-64) user_player.pos_y = GAME_MAP_HEIGHT - 64;
+	if (user_player.fPos_x < 0)user_player.fPos_x = 0;
+	if (user_player.fPos_x >= GAME_MAP_WIDTH- PLAYER_WIDTH*GAME_SCALE) user_player.fPos_x = GAME_MAP_WIDTH - PLAYER_WIDTH * GAME_SCALE;
+	if (user_player.fPos_y < 0) user_player.fPos_y = 0;
+	if (user_player.fPos_y >= GAME_MAP_HEIGHT- PLAYER_HEIGHT * GAME_SCALE) user_player.fPos_y = GAME_MAP_HEIGHT - PLAYER_HEIGHT * GAME_SCALE;
 
 
 
-	if (is_key_pressed(ALLEGRO_KEY_Z)) {user_player.action_idx = 0; user_player.action_type = 1;}
+	if (is_key_pressed(ALLEGRO_KEY_Z)) {user_player.iAction_idx = 0; user_player.iAction_type = 1;}
 		
 	if (is_key_released(ALLEGRO_KEY_DOWN) || is_key_released(ALLEGRO_KEY_RIGHT) || is_key_released(ALLEGRO_KEY_UP) || is_key_released(ALLEGRO_KEY_LEFT))
-		user_player.action_idx = 0;
+		user_player.iAction_idx = 0;
 
-	//if (is_key_released(ALLEGRO_KEY_SPACE)) { user_player.action_type = 0; user_player.action_idx = 0; }
+	//if (is_key_released(ALLEGRO_KEY_SPACE)) { user_player.iAction_type = 0; user_player.iAction_idx = 0; }
 
-	float camera_position_x = camera_get_position('x',user_player.pos_x, 16);
-	float camera_position_y = camera_get_position('y',user_player.pos_y, 32);
+	
+
+	float camera_position_x = camera_get_position('x',user_player.fPos_x, 16);
+	float camera_position_y = camera_get_position('y',user_player.fPos_y, 32);
 	al_identity_transform(&camera);
 	al_translate_transform(&camera, -camera_position_x, -camera_position_y);
 	al_use_transform(&camera);
@@ -71,29 +88,30 @@ void render()
 {
 	al_draw_bitmap(world_map, 0, 0, 0);
 
-	printf("%d, %d :: x:%f, y:%f :: action_type:%d\n", user_player.player_direction, user_player.action_idx,user_player.pos_x,user_player.pos_y,user_player.action_type);
+	//printf("%d, %d :: x:%f, y:%f :: action_type:%d\n", user_player.iPlayer_direction, user_player.iAction_idx,user_player.fPos_x,user_player.fPos_y,user_player.iAction_type);
 	
-	fountain_1 = create_object(_map, FOUNTAIN_1, 400, 400);
-	castle_1 = create_object(_map, CASTLE_1, 200, 0);
-	house_1 = create_object(_map, HOUSE_1, 600, 300);
-	house_2 = create_object(_map, HOUSE_2, 760, 300);
+	object_list[0] = create_object(_map, FOUNTAIN_1, 400, 400);
+	object_list[1] = create_object(_map, FOUNTAIN_1, 400, 400);
+	object_list[2] = create_object(_map, CASTLE_1, 200, 0);
+	object_list[3] = create_object(_map, HOUSE_1, 600, 300);
+	object_list[4] = create_object(_map, HOUSE_2, 760, 300);
 
 	
 	
-	switch(user_player.action_type) {
+	switch(user_player.iAction_type) {
 		case 0:
-			movement_character(user_player.player, user_player.pos_x, user_player.pos_y, user_player.player_direction, user_player.action_idx);
+			movement_character(user_player._player, user_player.fPos_x, user_player.fPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
 			break;
 		case 1:
-			attack_character(user_player.player, user_player.pos_x, user_player.pos_y, user_player.player_direction, user_player.action_idx);
-			user_player.action_idx += 1;
-			if (user_player.action_idx >= 3) { user_player.action_type = 2; user_player.action_idx = 0;}
+			attack_character(user_player._player, user_player.fPos_x, user_player.fPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+			user_player.iAction_idx += 1;
+			if (user_player.iAction_idx >= 3) { user_player.iAction_type = 2; user_player.iAction_idx = 0;}
 			break;
 		case 2:
-			movement_character(user_player.player, user_player.pos_x, user_player.pos_y, user_player.player_direction, user_player.action_idx);
-			show_hit_effect(user_player.hit_efftect, user_player.pos_x, user_player.pos_y,user_player.player_direction, user_player.action_idx);
-			user_player.action_idx += 1;
-			if (user_player.action_idx >= 3) { user_player.action_type = 0; user_player.action_idx = 0;	}
+			movement_character(user_player._player, user_player.fPos_x, user_player.fPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+			show_hit_effect(user_player._hit_efftect, user_player.fPos_x, user_player.fPos_y,user_player.iPlayer_direction, user_player.iAction_idx);
+			user_player.iAction_idx += 1;
+			if (user_player.iAction_idx >= 3) { user_player.iAction_type = 0; user_player.iAction_idx = 0;	}
 
 		default:
 			break;
@@ -114,10 +132,10 @@ int main(int argc, char* argv[])
 	
 	_object = al_load_bitmap("gfx/objects.png");
 
-	user_player.player = al_load_bitmap("gfx/character.png");
-	user_player.hit_efftect = al_load_bitmap("gfx/hit_effect.png");
-	user_player.pos_x = al_get_display_width(al_get_current_display()) / 2 -8;
-	user_player.pos_y = al_get_display_height(al_get_current_display()) /2 -16;
+	user_player._player = al_load_bitmap("gfx/character.png");
+	user_player._hit_efftect = al_load_bitmap("gfx/hit_effect.png");
+	user_player.fPos_x = al_get_display_width(al_get_current_display()) / 2 -8;
+	user_player.fPos_y = al_get_display_height(al_get_current_display()) /2 -16;
 
 	
 	// the game loop runs until we call quit()

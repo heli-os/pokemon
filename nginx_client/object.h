@@ -1,4 +1,8 @@
+#ifndef _OBJECT_HEADER_
+#define _OBJECT_HEADER_
 #include "nginx_common.h"
+
+#define OBJECT_COUNT 5
 
 enum OBJECT_LIST {
 	FOUNTAIN_1,
@@ -10,11 +14,11 @@ enum OBJECT_LIST {
 };
 
 typedef struct OBJECT_INFO {
-	float sx;
-	float sy;
-	float sw;
-	float sh;
 	float dx;
 	float dy;
+	float sw;
+	float sh;
 }object_info;
-object_info create_object(ALLEGRO_BITMAP* bitmap, int type, float sx, float sy);
+object_info create_object(ALLEGRO_BITMAP* bitmap, int type, float dx, float dy);
+
+#endif

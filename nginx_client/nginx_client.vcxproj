@@ -109,7 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.c" />
+    <ClCompile Include="collision.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="nginx_framework.c" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\network_protocols.h" />
     <ClInclude Include="cameara.h" />
+    <ClInclude Include="collision.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="nginx_common.h" />
     <ClInclude Include="nginx_framework.h" />

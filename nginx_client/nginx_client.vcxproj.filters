@@ -39,6 +39,9 @@
     <ClCompile Include="sock_client_framework.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="collision.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nginx_framework.h">
@@ -63,6 +66,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\network_protocols.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

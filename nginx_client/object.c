@@ -10,7 +10,8 @@ object_info create_object(ALLEGRO_BITMAP* bitmap, int type, float dx, float dy) 
 		sx = 400; sy = 144; sw = 48, sh = 48;
 		break;
 	case FOUNTAIN_3:
-		sx = 448; sy = 144; sw = 48, sh = 48;break;
+		sx = 448; sy = 144; sw = 48, sh = 48;
+		break;
 	case CASTLE_1:
 		sx = 0; sy = 336; sw = 48, sh = 120;
 		break;
@@ -22,7 +23,7 @@ object_info create_object(ALLEGRO_BITMAP* bitmap, int type, float dx, float dy) 
 		break;
 	}
 
-	object_info obj = { sx,sy,sw,sh,sx + sw * GAME_SCALE,sy + sh * GAME_SCALE };
+	object_info obj = { dx,dy,sw,sh};
 	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, al_map_rgb(255, 255, 255), 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 	return obj;
 }
