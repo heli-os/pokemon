@@ -15,7 +15,9 @@ bool isCollision(player_status _player)
 		float oy = object_list[i].dy;
 		float ow = object_list[i].sw * GAME_SCALE;
 		float oh = object_list[i].sh * GAME_SCALE;
-		printf("%lf,%lf,%lf,%lf\n%lf,%lf,%lf,%lf\n", px, py, pw, ph, ox, oy, ow, oh);
+		
+		//printf("%lf,%lf,%lf,%lf\n%lf,%lf,%lf,%lf\n", px, py, pw, ph, ox, oy, ow, oh);
+		
 		if ((px + PLAYER_WIDTH/2 > ox + ow) ||
 			(py + PLAYER_HEIGHT > oy + oh) ||
 			(ox > px-PLAYER_WIDTH/2 + pw ) ||

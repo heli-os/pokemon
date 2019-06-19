@@ -3,7 +3,7 @@
 
 
 SOCKET serv_sock;
-
+char nick[20];
 
 void ErrorHandling(char* message) {
 	WSACleanup();
@@ -34,7 +34,6 @@ void __cdecl RecvThread(void* p)
 void __cdecl sendMessage(const char* message) {
 
 	char buf[256] = { 0 };
-	char nick[] = "TEST";
 	sprintf_s(buf, sizeof(buf), "[%s] %s",nick, message);
 
 	//send Packet Data (Client To Server)
@@ -90,10 +89,8 @@ void bind_sock_clnt(void) {
 	}
 	//-------------------------------
 
-	char nick[20];
 	printf("´Ð³×ÀÓ >> ");
 	gets_s(nick,sizeof(nick));
-
 	_beginthread(RecvThread, 0, (void*)serv_sock);
 	/*
 	while (1)
