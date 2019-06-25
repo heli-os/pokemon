@@ -89,9 +89,10 @@ void bind_sock_clnt(void) {
 	}
 	//-------------------------------
 
-	printf("닉네임 >> ");
-	gets_s(nick,sizeof(nick));
-	_beginthread(RecvThread, 0, (void*)serv_sock);
+	//printf("닉네임 >> ");
+	//gets_s(nick,sizeof(nick));
+	//_beginthread(RecvThread, 0, (void*)serv_sock);
+	strcpy_s(nick,sizeof(nick), "TEST_NICK");
 	/*
 	while (1)
 	{

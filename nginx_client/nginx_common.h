@@ -15,5 +15,5 @@
 
 
 #define GAME_FPS 20
-#define GAME_SCALE 2
+#define GAME_SCALE 1
 #define GAME_MOVE_TICK 6

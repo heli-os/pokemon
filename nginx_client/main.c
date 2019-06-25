@@ -95,9 +95,10 @@ void render()
 
 	object_list[0] = create_object(_map, FOUNTAIN_1, 400, 400);
 	object_list[1] = create_object(_map, FOUNTAIN_1, 400, 400);
-	object_list[2] = create_object(_map, CASTLE_1, 200, 0);
+	object_list[2] = create_object(_map, CASTLE_1, 400, 0);
 	object_list[3] = create_object(_map, HOUSE_1, 600, 300);
 	object_list[4] = create_object(_map, HOUSE_2, 760, 300);
+
 
 
 
@@ -131,7 +132,10 @@ int main(int argc, char* argv[])
 
 	_map = al_load_bitmap("gfx/Overworld.png");
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
-	init_map(_map);
+
+	init_tile();
+	//init_map(_map);
+	init_terrain(_map);
 
 	_object = al_load_bitmap("gfx/objects.png");
 
