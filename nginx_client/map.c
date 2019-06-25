@@ -8,15 +8,9 @@
 void init_tile() {
 	int idx = 0;
 	int i, j;
-	for (j = 0; j < 40; j++)
+	for (i = 0; i < 36; i++)
 	{
-		map_tile[idx].posX = 16 * j;
-		map_tile[idx].posY = 0;
-		idx++;
-	}
-	for (j = 0; j < 40; j++)
-	{
-		for (i = 1; i < 36; i++)
+		for (j = 0; j < 40; j++)
 		{
 			map_tile[idx].posX = 16 * j;
 			map_tile[idx].posY = 16 * i;
@@ -24,6 +18,7 @@ void init_tile() {
 		}
 	}
 }
+
 
 void init_terrain(ALLEGRO_BITMAP* bitmap) {
 	al_set_target_bitmap(world_map);

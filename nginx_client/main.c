@@ -134,7 +134,6 @@ int main(int argc, char* argv[])
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
 
 	init_tile();
-	//init_map(_map);
 	init_terrain(_map);
 
 	_object = al_load_bitmap("gfx/objects.png");
