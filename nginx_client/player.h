@@ -15,8 +15,8 @@ typedef struct _PLAYER_STATUS {
 	int iPlayer_direction;
 	int iAction_idx;
 
-	float fPos_x;
-	float fPos_y;
+	int iPos_x;
+	int iPos_y;
 
 	int iHp;
 	int iArmor;
@@ -43,8 +43,8 @@ static int character_hit_effect[10][4] = {
 };
 
 
-void movement_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx);
-void attack_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx);
-void show_hit_effect(ALLEGRO_BITMAP* bitmap, float dx, float dy, int player_direction, int action_idx);
+void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
+void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
+void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int player_direction, int action_idx);
 
 #endif

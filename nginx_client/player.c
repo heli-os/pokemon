@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-void movement_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx) {
+void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
 	int sx = character_movement[action_type][action_idx][0] * 16;
 	int sy = character_movement[action_type][action_idx][1] * 16;
 	int sw = character_movement[action_type][action_idx][2] * 16;
@@ -12,7 +12,7 @@ void movement_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_t
 	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
-void attack_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_type, int action_idx) {
+void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
     int sx = character_attack[action_type][action_idx][0] * 32;
 	int sy = 128 + character_attack[action_type][action_idx][1] * 32;
 	int sw = character_attack[action_type][action_idx][2] * 32;
@@ -23,7 +23,7 @@ void attack_character(ALLEGRO_BITMAP* bitmap, float dx, float dy, int action_typ
 	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
-void show_hit_effect(ALLEGRO_BITMAP* bitmap, float dx, float dy, int player_direction,int action_idx) {
+void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int player_direction,int action_idx) {
 	int sx = character_hit_effect[action_idx][0] * 64;
 	int sy = character_hit_effect[action_idx][1] * 64;
 	int sw = character_hit_effect[action_idx][2] * 64;

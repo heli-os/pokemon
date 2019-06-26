@@ -1,20 +1,40 @@
 #include "collision.h"
+void createCollision(collisionBox* colBox, int iPosX, int iPosY, int iWidth, int iHeight) {
+	colBox->sx     = iPosX;
+	colBox->sy	   = iPosY;
+	colBox->width  = iWidth;
+	colBox->height = iHeight;
+}
+void initCollision() {
+	const int colBoxLength = sizeof(colBoxArray)/4/sizeof(int);
+
+	colBoxes = (collisionBox*)malloc(sizeof(collisionBox) * colBoxLength);
+
+	if (colBoxes == NULL)
+		return;
+
+	int i;
+	for(i=0;i< colBoxLength;i++)
+		createCollision(&colBoxes[i], colBoxArray[i][0], colBoxArray[i][1], colBoxArray[i][2], colBoxArray[i][3]);
+
+}
 
 // Bounding Box(BB) Algorithm
 bool isCollision(player_status _player)
 {
+	const int colBoxLength = sizeof(colBoxArray) / 4 / sizeof(int);
 	int i = 0;
 	bool _status = false;
-	for (i = 0; i < OBJECT_COUNT; i++) {
-		float px = _player.fPos_x;
-		float py = _player.fPos_y;
-		float pw = PLAYER_WIDTH  * GAME_SCALE;
-		float ph = PLAYER_HEIGHT * GAME_SCALE;
+	for (i = 0; i < colBoxLength; i++) {
+		int px = _player.iPos_x;
+		int py = _player.iPos_y;
+		int pw = PLAYER_WIDTH  * GAME_SCALE;
+		int ph = PLAYER_HEIGHT * GAME_SCALE;
 
-		float ox = object_list[i].dx;
-		float oy = object_list[i].dy;
-		float ow = object_list[i].sw * GAME_SCALE;
-		float oh = object_list[i].sh * GAME_SCALE;
+		int ox = colBoxes[i].sx - pw/2;
+		int oy = colBoxes[i].sy - ph/2 ;
+		int ow = colBoxes[i].width + pw;
+		int oh = colBoxes[i].height + ph;
 		
 		//printf("%lf,%lf,%lf,%lf\n%lf,%lf,%lf,%lf\n", px, py, pw, ph, ox, oy, ow, oh);
 		

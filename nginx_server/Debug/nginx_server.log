@@ -1,5 +1,5 @@
 ﻿  main.c
   sock_server_framework.c
-C:\Users\martin\Documents\projects\nginx\nginx_server\sock_server_framework.c(32): warning C4047: '=': 'SOCKET'의 간접 참조 수준이 'void *'과(와) 다릅니다.
   코드를 생성하고 있습니다...
+C:\Users\martin\Documents\projects\nginx\nginx_server\sock_server_framework.c(32,25): warning C4047:  '=': 'SOCKET'의 간접 참조 수준이 'void *'과(와) 다릅니다.
   nginx_server.vcxproj -> C:\Users\martin\Documents\projects\nginx\Debug\nginx_server.exe

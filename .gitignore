@@ -1,3 +1,10 @@
 .vs
+
 Debug
+
 Release
+nginx_client/Debug
+nginx_client/Release
+nginx_server/Debug
+nginx_server/Release
+*.bak
