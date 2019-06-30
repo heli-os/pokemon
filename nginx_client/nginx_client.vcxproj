@@ -107,9 +107,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\martin\Documents\projects\nginx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\martin\Documents\projects\nginx\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jansson.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,9 +121,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\martin\Documents\projects\nginx\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>C:\Users\martin\Documents\projects\nginx\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jansson.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>MSVCRTD.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -158,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.c" />
+    <ClCompile Include="chat.c" />
     <ClCompile Include="collision.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
@@ -169,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="..\network_protocols.h" />
     <ClInclude Include="cameara.h" />
+    <ClInclude Include="chat.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="nginx_common.h" />

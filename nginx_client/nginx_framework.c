@@ -26,6 +26,9 @@ static bool mouse_buttons[MAX_MOUSE_BUTTONS] = { false };
 static bool mouse_buttons_pressed[MAX_MOUSE_BUTTONS] = { false };
 static bool mouse_buttons_released[MAX_MOUSE_BUTTONS] = { false };
 
+extern ALLEGRO_USTR* chatInput;
+extern bool onChat;
+
 ALLEGRO_COLOR black_color;
 ALLEGRO_COLOR white_color;
 ALLEGRO_COLOR dark_grey_color;
@@ -108,7 +111,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 
 	al_init_font_addon();
 	al_init_ttf_addon();	
-	default_font = default_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 50, ALLEGRO_TTF_NO_KERNING);
+	default_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 50, ALLEGRO_TTF_NO_KERNING);
 	if (!default_font) {
 		log_error("Failed to load ttf font");
 	}
@@ -135,6 +138,9 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	if (!timer) {
 		log_error("Failed to create timer");
 	}
+
+	chatInput = al_ustr_new("");
+
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
 	al_register_event_source(event_queue, al_get_mouse_event_source());
@@ -234,6 +240,15 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 				event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
 				al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, !(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW));
 			}
+			if (onChat)
+			{
+				int unichar = event.keyboard.unichar;
+				if (unichar == 8)
+					al_ustr_remove_chr(chatInput, (int)al_ustr_length(chatInput)-1);
+				if (unichar >= 32)
+					al_ustr_append_chr(chatInput, unichar);
+			}
+			
 			break;
 
 		case ALLEGRO_EVENT_MOUSE_AXES:

@@ -7,20 +7,22 @@ void __cdecl RecvThread(void* p)
 	char buf[256];
 	while (1)
 	{
+		memset(buf, 0, sizeof(buf));
 		//Recive From Client
 		int recvsize = recv(sock, buf, sizeof(buf), 0);
 		if (recvsize <= 0)		break;
 		//------------------------------------------------
-		buf[recvsize] = '\0';
 		printf("%s\n", buf);
-		//Send Data To Clientx
+
+		//Send Data To Client
 		for (int i = 0; i < client_idx; i++)
 		{
-			if (client_list[i] != sock)
-			{
-				int sendsize = send(client_list[i], buf, (int)strlen(buf), 0);
-			}
+			//if (client_list[i] != sock)
+			//{
+			int sendsize = send(client_list[i], buf, (int)strlen(buf), 0);
+			//}
 		}
+		
 		//-----------------------------------------------
 	}
 	printf("접속 종료\n");
@@ -29,7 +31,7 @@ void __cdecl RecvThread(void* p)
 	{
 		if (client_list[i] == sock)
 		{
-			client_list[i] = NULL;
+			client_list[i] = -1;
 			break;
 		}
 	}

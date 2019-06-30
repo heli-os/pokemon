@@ -36,7 +36,7 @@ bool isCollision(player_status _player)
 		int ow = colBoxes[i].width + pw;
 		int oh = colBoxes[i].height + ph;
 		
-		//printf("%lf,%lf,%lf,%lf\n%lf,%lf,%lf,%lf\n", px, py, pw, ph, ox, oy, ow, oh);
+		//printf("%d,%d,%d,%d\n%d,%d,%d,%d\n", px, py, pw, ph, ox, oy, ow, oh);
 		
 		if ((px + PLAYER_WIDTH/2 > ox + ow) ||
 			(py + PLAYER_HEIGHT > oy + oh) ||

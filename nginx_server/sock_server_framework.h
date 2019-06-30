@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include "../network_protocols.h"
 
 #pragma comment(lib,"wsock32.lib")
 

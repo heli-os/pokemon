@@ -151,4 +151,3 @@
 		Returns the keycode of the key that was pressed.
 	 */
 	int wait_for_keypress();
-

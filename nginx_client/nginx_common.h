@@ -1,3 +1,5 @@
+#ifndef _NGINX_COMMON_HEADER_
+#define _NGINX_COMMON_HEADER_
 //==============================================================================
 // Includes.
 //==============================================================================
@@ -14,6 +16,10 @@
 #define GAME_MAP_HEIGHT 960
 
 
-#define GAME_FPS 20
+#define GAME_FPS 24
 #define GAME_SCALE 1
 #define GAME_MOVE_TICK 4
+
+
+
+#endif

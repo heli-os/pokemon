@@ -5,10 +5,10 @@
 #include "cameara.h"
 #include "sock_client_framework.h"
 #include "collision.h"
+#include "chat.h"
 #include <stdio.h>
 
 #include <time.h>
-
 
 enum character_movement {
 	CHARACTER_DOWN,
@@ -17,7 +17,7 @@ enum character_movement {
 	CHARACTER_LEFT
 };
 
-player_status user_player = { NULL, NULL,NULL, 0,0,0,0.0,0.0,100,0,0 };
+player_status user_player = { NULL, NULL,"", 0,0,0,0.0,0.0,100,0,0 };
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 ALLEGRO_BITMAP* _map = NULL;
 ALLEGRO_BITMAP* _object = NULL;
@@ -26,13 +26,19 @@ extern ALLEGRO_BITMAP* world_map;
 
 extern object_info object_list[OBJECT_COUNT];
 
+extern ALLEGRO_USTR* chatInput;
+extern bool onChat;
+
+
 void update()
 {
+	/*
 	time_t c_time;
 	time(&c_time);
 	char buf[256];
 	ctime_s(buf, sizeof(buf), &c_time);
 	sendMessage(buf);
+	*/
 	if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
 		quit();
 
@@ -65,12 +71,14 @@ void update()
 
 	if (user_player.iPos_x < 0)user_player.iPos_x = 0;
 	if (user_player.iPos_x >= GAME_MAP_WIDTH - PLAYER_WIDTH * GAME_SCALE) user_player.iPos_x = GAME_MAP_WIDTH - PLAYER_WIDTH * GAME_SCALE;
-	if (user_player.iPos_y < 0) user_player.iPos_y = 0;
+	if (user_player.iPos_y < 0) user_player.iPos_y = 0;	
 	if (user_player.iPos_y >= GAME_MAP_HEIGHT - PLAYER_HEIGHT * GAME_SCALE) user_player.iPos_y = GAME_MAP_HEIGHT - PLAYER_HEIGHT * GAME_SCALE;
 
 
-
-	if (is_key_pressed(ALLEGRO_KEY_Z)) { user_player.iAction_idx = 0; user_player.iAction_type = 1; }
+	if (!onChat)
+	{
+		if (is_key_pressed(ALLEGRO_KEY_Z)) { user_player.iAction_idx = 0; user_player.iAction_type = 1; }
+	}
 
 	if (is_key_released(ALLEGRO_KEY_DOWN) || is_key_released(ALLEGRO_KEY_RIGHT) || is_key_released(ALLEGRO_KEY_UP) || is_key_released(ALLEGRO_KEY_LEFT))
 		user_player.iAction_idx = 0;
@@ -84,6 +92,26 @@ void update()
 	al_identity_transform(&camera);
 	al_translate_transform(&camera, -camera_position_x, -camera_position_y);
 	al_use_transform(&camera);
+
+	if (is_key_pressed(ALLEGRO_KEY_ENTER)) 
+	{
+		if (onChat && chatInput->slen > 0)
+		{
+			const char* txt = al_cstr(chatInput);
+			json_t* pHeader = json_array();
+			json_t* pData = json_array();
+			json_array_append_new(pHeader, json_string("CHAT"));
+			json_array_append_new(pData, json_string(user_player.cName));
+			json_array_append_new(pData, json_string(txt));
+			
+			json_t* pMessage = htonJson(pHeader, pData);
+
+			sendMessage(pMessage);
+			chatInput = al_ustr_new("");
+		}
+		onChat = !onChat;
+	}
+	showChat(camera_position_x,camera_position_y);
 }
 
 
@@ -91,15 +119,6 @@ void render()
 {
 	al_draw_bitmap(world_map, 0, 0, 0);
 
-	printf("%d, %d :: x:%d, y:%d :: action_type:%d\n", user_player.iPlayer_direction, user_player.iAction_idx,user_player.iPos_x,user_player.iPos_y,user_player.iAction_type);
-	
-	/*
-	object_list[0] = create_object(_map, FOUNTAIN_1, 400, 400);
-	object_list[1] = create_object(_map, FOUNTAIN_1, 400, 400);
-	object_list[2] = create_object(_map, CASTLE_1, 400, 0);
-	object_list[3] = create_object(_map, HOUSE_1, 600, 300);
-	object_list[4] = create_object(_map, HOUSE_2, 760, 300);
-	*/
 
 
 
@@ -126,7 +145,8 @@ void render()
 
 int main(int argc, char* argv[])
 {
-
+	//gets_s(user_player.cName, sizeof(user_player.cName));
+	strcpy_s(user_player.cName, sizeof(user_player.cName), "TEST_NICK");
 	bind_sock_clnt();
 	// must be called first!l
 	init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);

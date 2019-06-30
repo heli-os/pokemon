@@ -2,6 +2,7 @@
 
 
 
+
 SOCKET serv_sock;
 char nick[20];
 
@@ -12,12 +13,20 @@ void ErrorHandling(char* message) {
 	char c = _getch();
 	exit(1);
 }
+json_t* htonJson(json_t* header, json_t* data) {
+	json_t* jsonData = json_array();
+	json_array_append(jsonData, header);
+	json_array_append(jsonData, data);
+	return jsonData;
+}
+
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
 	char buf[256];
 	while (1)
 	{
+		memset(buf, 0, sizeof(buf));
 		//Recive wait From Server(_beginThread)
 		int recvsize = recv(sock, buf, sizeof(buf), 0);
 		if (recvsize <= 0)
@@ -26,15 +35,29 @@ void __cdecl RecvThread(void* p)
 			break;
 		}
 		//------------------------------------------------
-		buf[recvsize] = '\0';
-		printf("\r%s\n>>", buf);
+		json_error_t error;
+		json_t* pMessage = json_loads(buf, JSON_ENCODE_ANY, &error);
+		json_t* pHeader = json_array_get(pMessage, 0);
+		json_t* pData = json_array_get(pMessage, 1);
+
+		const char* ContentType = json_string_value(json_array_get(pHeader, 0));
+		if (strcmp(ContentType, "CHAT") == 0)
+		{
+			const char* UserName = json_string_value(json_array_get(pData, 0));
+			const char* ChatData = json_string_value(json_array_get(pData, 1));
+			printf("[%s] %s\n", UserName, ChatData);
+		}
+		free(pMessage);
+		free(pHeader);
+		free(pData);
+
 	}
 }
 
-void __cdecl sendMessage(const char* message) {
+void __cdecl sendMessage(const json_t* message) {
 
-	char buf[256] = { 0 };
-	sprintf_s(buf, sizeof(buf), "[%s] %s",nick, message);
+	char* buf = json_dumps(message, JSON_ENCODE_ANY);
+	//sprintf_s(buf, sizeof(buf), "[%s] %s",nick, message);
 
 	//send Packet Data (Client To Server)
 	int sendsize = send(serv_sock, buf, (int)strlen(buf), 0);
@@ -91,8 +114,7 @@ void bind_sock_clnt(void) {
 
 	//printf("´Ð³×ÀÓ >> ");
 	//gets_s(nick,sizeof(nick));
-	//_beginthread(RecvThread, 0, (void*)serv_sock);
-	strcpy_s(nick,sizeof(nick), "TEST_NICK");
+	_beginthread(RecvThread, 0, (void*)serv_sock);
 	/*
 	while (1)
 	{

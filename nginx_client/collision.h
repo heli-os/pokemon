@@ -21,12 +21,13 @@ static int colBoxArray[][4] =
 typedef struct _COLLISION_BOX {
 	int sx;
 	int sy;
-	int	  width;
-	int   height;
+	int	width;
+	int height;
 }collisionBox;
+static collisionBox* colBoxes = NULL;
 
 bool isCollision(player_status _player);
 void createCollision(collisionBox* colBox, int iPosX,int iPosY, int iWidth, int iHeight);
 void initCollision();
 
-static collisionBox* colBoxes = NULL;
+

@@ -1,5 +1,5 @@
 #include "map.h"
-
+#include "stdio.h"
 
 //캐릭터는 스크린 중앙에 고정.
 //맵은 캐릭터의 움직임에 따라 scroll transform

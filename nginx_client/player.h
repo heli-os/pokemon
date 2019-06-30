@@ -9,7 +9,7 @@
 typedef struct _PLAYER_STATUS {
 	ALLEGRO_BITMAP* _player;
 	ALLEGRO_BITMAP* _hit_efftect;
-	char* cName;
+	char cName[12];
 
 	int iAction_type;
 	int iPlayer_direction;
