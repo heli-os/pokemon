@@ -6,6 +6,7 @@
 #define PLAYER_HEIGHT 32
 
 
+
 typedef struct _PLAYER_STATUS {
 	ALLEGRO_BITMAP* _player;
 	ALLEGRO_BITMAP* _hit_efftect;
@@ -24,11 +25,12 @@ typedef struct _PLAYER_STATUS {
 	int iBuf;
 } player_status;
 
+
 static int character_movement[4][4][4] = {
-	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}},
-	{{0,2,1,2},{1,2,1,2},{2,2,1,2},{3,2,1,2}},
-	{{0,4,1,2},{1,4,1,2},{2,4,1,2},{3,4,1,2}},
-	{{0,6,1,2},{1,6,1,2},{2,6,1,2},{3,6,1,2}}
+	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}}, // го
+	{{0,2,1,2},{1,2,1,2},{2,2,1,2},{3,2,1,2}}, // ©Л
+	{{0,4,1,2},{1,4,1,2},{2,4,1,2},{3,4,1,2}}, // ╩С
+	{{0,6,1,2},{1,6,1,2},{2,6,1,2},{3,6,1,2}}  // аб
 };
 static int character_attack[4][4][4] = {
 	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}},
@@ -42,9 +44,9 @@ static int character_hit_effect[10][4] = {
 	{0,1,1,1},{1,1,1,1},{2,1,1,1},{3,1,1,1},{4,1,1,1}
 };
 
-
+void sendPlayerStatus(const char* header, const player_status uPlayer);
 void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
 void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
-void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int player_direction, int action_idx);
+void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_idx);
 
 #endif

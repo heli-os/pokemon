@@ -13,7 +13,8 @@ void __cdecl RecvThread(void* p)
 		if (recvsize <= 0)		break;
 		//------------------------------------------------
 		printf("%s\n", buf);
-
+		
+	
 		//Send Data To Client
 		for (int i = 0; i < client_idx; i++)
 		{

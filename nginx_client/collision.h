@@ -30,4 +30,6 @@ bool isCollision(player_status _player);
 void createCollision(collisionBox* colBox, int iPosX,int iPosY, int iWidth, int iHeight);
 void initCollision();
 
+bool isHit(player_status _player, player_status user_list[], int player_idx);
+
 

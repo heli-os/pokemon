@@ -36,6 +36,6 @@ void init_terrain(ALLEGRO_BITMAP* bitmap) {
 			}
 		}
 	}
-	printf("BITMAP_SAVE..:%s\n", al_save_bitmap("a.png", world_map)?"true":"false");
+	//printf("BITMAP_SAVE..:%s\n", al_save_bitmap("a.png", world_map)?"true":"false");
 	al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
 }

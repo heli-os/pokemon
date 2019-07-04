@@ -21,6 +21,6 @@ UINT64 => 8Byte
 
 /*
 *ContentType 2Byte
-**[c] : 채팅
+**[c] : 채팅6
 **[
 */

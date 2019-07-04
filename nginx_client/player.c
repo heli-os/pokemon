@@ -1,5 +1,30 @@
 #include "player.h"
+#include "sock_client_framework.h"
 
+void sendPlayerStatus(const char* header, const player_status uPlayer) {
+	json_t* pHeader = json_array();
+	json_t* pData = json_array();
+
+
+	json_array_append_new(pHeader, json_string(header));
+	json_array_append_new(pData, json_string(uPlayer.cName));
+
+	json_array_append_new(pData, json_integer(uPlayer.iAction_type));
+	json_array_append_new(pData, json_integer(uPlayer.iPlayer_direction));
+	json_array_append_new(pData, json_integer(uPlayer.iAction_idx));
+	
+	json_array_append_new(pData, json_integer(uPlayer.iPos_x));
+	json_array_append_new(pData, json_integer(uPlayer.iPos_y));
+	
+	json_array_append_new(pData, json_integer(uPlayer.iHp));
+	json_array_append_new(pData, json_integer(uPlayer.iArmor));
+	json_array_append_new(pData, json_integer(uPlayer.iBuf));
+	
+	
+	json_t* pMessage = htonJson(pHeader, pData);
+
+	sendMessage(pMessage);
+}
 
 void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
 	int sx = character_movement[action_type][action_idx][0] * 16;
@@ -7,9 +32,11 @@ void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type,
 	int sw = character_movement[action_type][action_idx][2] * 16;
 	int sh = character_movement[action_type][action_idx][3] * 16;
 
-	//al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
-	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
-	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
+	al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	//al_draw_filled_rounded_rectangle(dx,dy,dx+16,dy+32,0,0,al_map_rgb(255,0,0));
+
+	//ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	//al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
 void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
@@ -18,12 +45,14 @@ void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, i
 	int sw = character_attack[action_type][action_idx][2] * 32;
 	int sh = character_attack[action_type][action_idx][3] * 16;
 
-	//al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
-	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
-	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
+	al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	//al_draw_filled_rounded_rectangle(dx, dy, dx + 16, dy + 32, 0, 0, al_map_rgb(0, 0, 255));
+
+	//ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	//al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
-void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int player_direction,int action_idx) {
+void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_idx) {
 	int sx = character_hit_effect[action_idx][0] * 64;
 	int sy = character_hit_effect[action_idx][1] * 64;
 	int sw = character_hit_effect[action_idx][2] * 64;
@@ -49,6 +78,6 @@ void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int player_directio
 	*/
 	//al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
 	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
-	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, 1, 1, 0, 0);
+	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, 0.7, 0.7, 0, 0);
 
 }

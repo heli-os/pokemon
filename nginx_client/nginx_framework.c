@@ -11,6 +11,8 @@ static ALLEGRO_DISPLAY* display = NULL;
 static ALLEGRO_TIMER* timer = NULL;
 static ALLEGRO_FILE* logfile = NULL;
 static ALLEGRO_FONT* default_font = NULL;
+static ALLEGRO_FONT* chatInput_font = NULL;
+static ALLEGRO_FONT* chatText_font = NULL;
 
 static bool is_done = false;
 static bool is_paused = false;
@@ -113,6 +115,14 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	al_init_ttf_addon();	
 	default_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 50, ALLEGRO_TTF_NO_KERNING);
 	if (!default_font) {
+		log_error("Failed to load ttf font");
+	}
+	chatInput_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 20, ALLEGRO_TTF_NO_KERNING);
+	if (!chatInput_font) {
+		log_error("Failed to load ttf font");
+	}
+	chatText_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 20, ALLEGRO_TTF_NO_KERNING);
+	if (!chatText_font) {
 		log_error("Failed to load ttf font");
 	}
 
@@ -283,6 +293,7 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 			break;
 		}
 		//printf("%d, %d, %d\n", should_redraw, al_is_event_queue_empty(event_queue), is_paused);
+		is_paused = false;
 		if (should_redraw && al_is_event_queue_empty(event_queue) && !is_paused) {
 			should_redraw = false;
 			al_flip_display();
@@ -384,4 +395,12 @@ int wait_for_keypress()
 ALLEGRO_FONT* get_default_font()
 {
 	return default_font;
+}
+ALLEGRO_FONT* get_chatInput_font()
+{
+	return chatInput_font;
+}
+ALLEGRO_FONT* get_chatText_font()
+{
+	return chatText_font;
 }

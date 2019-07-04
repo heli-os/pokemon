@@ -10,12 +10,7 @@
 
 #include <time.h>
 
-enum character_movement {
-	CHARACTER_DOWN,
-	CHARACTER_RIGHT,
-	CHARACTER_UP,
-	CHARACTER_LEFT
-};
+
 
 player_status user_player = { NULL, NULL,"", 0,0,0,0.0,0.0,100,0,0 };
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
@@ -29,7 +24,8 @@ extern object_info object_list[OBJECT_COUNT];
 extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
-
+player_status user_list[10];
+int player_idx = 0;
 void update()
 {
 	/*
@@ -44,8 +40,7 @@ void update()
 
 	if (user_player.iAction_type == 0 && (is_key_down(ALLEGRO_KEY_DOWN) || is_key_down(ALLEGRO_KEY_RIGHT) || is_key_down(ALLEGRO_KEY_UP) || is_key_down(ALLEGRO_KEY_LEFT)))
 	{
-		user_player.iAction_type = 0;
-		user_player.iAction_idx = user_player.iAction_idx >= 3 ? 0 : user_player.iAction_idx + 1;
+		user_player.iAction_idx = user_player.iAction_idx >= 15 ? 0 : user_player.iAction_idx + 1;
 	}
 
 	if (user_player.iAction_type == 0 && is_key_down(ALLEGRO_KEY_DOWN)) {
@@ -75,10 +70,7 @@ void update()
 	if (user_player.iPos_y >= GAME_MAP_HEIGHT - PLAYER_HEIGHT * GAME_SCALE) user_player.iPos_y = GAME_MAP_HEIGHT - PLAYER_HEIGHT * GAME_SCALE;
 
 
-	if (!onChat)
-	{
-		if (is_key_pressed(ALLEGRO_KEY_Z)) { user_player.iAction_idx = 0; user_player.iAction_type = 1; }
-	}
+	if (!onChat && user_player.iAction_type ==0 && is_key_pressed(ALLEGRO_KEY_Z) ) { user_player.iAction_idx = 0; user_player.iAction_type = 1; }
 
 	if (is_key_released(ALLEGRO_KEY_DOWN) || is_key_released(ALLEGRO_KEY_RIGHT) || is_key_released(ALLEGRO_KEY_UP) || is_key_released(ALLEGRO_KEY_LEFT))
 		user_player.iAction_idx = 0;
@@ -111,43 +103,82 @@ void update()
 		}
 		onChat = !onChat;
 	}
-	showChat(camera_position_x,camera_position_y);
-}
-
-
-void render()
-{
-	al_draw_bitmap(world_map, 0, 0, 0);
-
-
-
-
+	showChat(camera_position_x,camera_position_y+(GAME_HEIGHT-120));
 	switch (user_player.iAction_type) {
 	case 0:
-		movement_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+		//movement_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
 		break;
 	case 1:
-		attack_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
-		user_player.iAction_idx += 1;
-		if (user_player.iAction_idx >= 3) { user_player.iAction_type = 2; user_player.iAction_idx = 0; }
+		//attack_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+		if (user_player.iAction_idx >= 9)
+		{
+			user_player.iAction_type = 0;
+			user_player.iAction_idx = 0;
+			printf("%s\n", (isHit(user_player, user_list, player_idx)) ? "true" : "false");
+		}
+		else {
+			user_player.iAction_idx += 1;
+		}
 		break;
 	case 2:
-		movement_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
-		show_hit_effect(user_player._hit_efftect, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
-		user_player.iAction_idx += 1;
-		if (user_player.iAction_idx >= 3) { user_player.iAction_type = 0; user_player.iAction_idx = 0; }
-
+		//movement_character(user_player._player, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+		//show_hit_effect(user_player._hit_efftect, user_player.iPos_x, user_player.iPos_y, user_player.iPlayer_direction, user_player.iAction_idx);
+		if (user_player.iAction_idx+1 >= 10) { user_player.iAction_type = 0; user_player.iAction_idx = 0; }
+		else { user_player.iAction_idx += 1; }
+		break;
 	default:
 		break;
 	}
+	if (user_player.iHp <= 0) 
+		sendPlayerStatus("EXIT",user_player);
+	else
+		sendPlayerStatus("PLAYER",user_player);
+}
+
+
+int testInt = 0;
+void render()
+{
+	al_draw_bitmap(world_map, 0, 0, 0);	
+
+	int i;
+	for (i = 0; i < player_idx; i++) {
+		const char* userName		= user_list[i].cName;
+		const int action_type		= user_list[i].iAction_type;
+		const int player_direction	= user_list[i].iPlayer_direction;
+		const int action_idx		= user_list[i].iAction_idx;
+		const int pos_x				= user_list[i].iPos_x;
+		const int pos_y				= user_list[i].iPos_y;
+		const int hp				= user_list[i].iHp;
+		const int armor				= user_list[i].iArmor;
+		const int buf				= user_list[i].iBuf;
+		switch (action_type) {
+		case 0:
+			movement_character(user_player._player, pos_x, pos_y, player_direction, action_idx/5);
+			break;
+		case 1:
+			attack_character(user_player._player, pos_x, pos_y, player_direction, action_idx/3);
+			break;
+		case 2:
+			movement_character(user_player._player, pos_x, pos_y, player_direction, 0);
+			show_hit_effect(user_player._hit_efftect, pos_x, pos_y, action_idx);
+			break;
+		default:
+			break;
+		}
+	}
+
+	
+		
 	//al_rest(1.0 / GAME_FPS);
 }
 
 int main(int argc, char* argv[])
 {
-	//gets_s(user_player.cName, sizeof(user_player.cName));
-	strcpy_s(user_player.cName, sizeof(user_player.cName), "TEST_NICK");
+	gets_s(user_player.cName, sizeof(user_player.cName));
+	//strcpy_s(user_player.cName, sizeof(user_player.cName), "TEST_NICK");
 	bind_sock_clnt();
+	
 	// must be called first!l
 	init_framework("OverWorld", GAME_WIDTH, GAME_HEIGHT, false);
 
@@ -165,6 +196,9 @@ int main(int argc, char* argv[])
 	user_player._hit_efftect = al_load_bitmap("gfx/hit_effect.png");
 	user_player.iPos_x = al_get_display_width(al_get_current_display()) / 2 - 8;
 	user_player.iPos_y = al_get_display_height(al_get_current_display()) / 2 - 16;
+
+	sendPlayerStatus("JOIN_GAME",user_player);
+
 
 
 	// the game loop runs until we call quit()

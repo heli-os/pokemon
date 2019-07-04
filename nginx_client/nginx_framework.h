@@ -82,6 +82,8 @@
 
 	// Returns a default font. Mainly used for debugging purposes.
 	ALLEGRO_FONT* get_default_font();
+	ALLEGRO_FONT* get_chatInput_font();
+	ALLEGRO_FONT* get_chatText_font();
 
 	// Default colors.
 	extern ALLEGRO_COLOR black_color;
