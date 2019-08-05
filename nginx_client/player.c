@@ -27,18 +27,30 @@ void sendPlayerStatus(const char* header, const player_status uPlayer) {
 }
 
 void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
+	int sx = character_movement[action_type][action_idx][0];
+	int sy = character_movement[action_type][action_idx][1];
+	int sw = character_movement[action_type][action_idx][2];
+	int sh = character_movement[action_type][action_idx][3];
+
+	//al_draw_bitmap_region(bitmap, 8+sx, 36+sy, sw, sh, dx, dy, 0);
+	//al_draw_filled_rounded_rectangle(dx,dy,dx+16,dy+32,0,0,al_map_rgb(255,0,0));
+
+	int iFlag = action_type == CHARACTER_RIGHT ? ALLEGRO_FLIP_HORIZONTAL : 0;
+	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, iFlag);
+}
+void draw_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
 	int sx = character_movement[action_type][action_idx][0] * 16;
 	int sy = character_movement[action_type][action_idx][1] * 16;
 	int sw = character_movement[action_type][action_idx][2] * 16;
-	int sh = character_movement[action_type][action_idx][3] * 16;
+	int sh = character_movement[action_type][action_idx][3] * 20;
 
-	al_draw_bitmap_region(bitmap, sx, sy, sw, sh, dx, dy, 0);
+	//al_draw_bitmap_region(bitmap, 8+sx, 36+sy, sw, sh, dx, dy, 0);
 	//al_draw_filled_rounded_rectangle(dx,dy,dx+16,dy+32,0,0,al_map_rgb(255,0,0));
 
-	//ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
-	//al_draw_tinted_scaled_rotated_bitmap_region(bitmap, sx, sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
+	ALLEGRO_COLOR tint = al_map_rgb(255, 255, 255);
+	al_draw_tinted_scaled_rotated_bitmap_region(bitmap, 8 + sx, 36 + sy, sw, sh, tint, 0, 0, dx, dy, GAME_SCALE, GAME_SCALE, 0, 0);
 }
-
 void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx) {
     int sx = character_attack[action_type][action_idx][0] * 32;
 	int sy = 128 + character_attack[action_type][action_idx][1] * 32;

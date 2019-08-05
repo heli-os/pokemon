@@ -3,7 +3,7 @@
 #include "nginx_common.h"
 
 #define PLAYER_WIDTH 16
-#define PLAYER_HEIGHT 32
+#define PLAYER_HEIGHT 20
 
 
 
@@ -15,6 +15,7 @@ typedef struct _PLAYER_STATUS {
 	int iAction_type;
 	int iPlayer_direction;
 	int iAction_idx;
+	bool bMoveFlag;
 
 	int iPos_x;
 	int iPos_y;
@@ -26,11 +27,11 @@ typedef struct _PLAYER_STATUS {
 } player_status;
 
 
-static int character_movement[4][4][4] = {
-	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}}, // го
-	{{0,2,1,2},{1,2,1,2},{2,2,1,2},{3,2,1,2}}, // ©Л
-	{{0,4,1,2},{1,4,1,2},{2,4,1,2},{3,4,1,2}}, // ╩С
-	{{0,6,1,2},{1,6,1,2},{2,6,1,2},{3,6,1,2}}  // аб
+static int character_movement[4][3][4] = {
+	{{24,36,16,20},{8,36,16,20},{40,36,16,20}}, // го
+	{{24,100,16,20},{8,100,16,20},{40,100,16,20}}, // ©Л
+	{{24,68,16,20},{8,68,16,20},{40,68,16,20}}, // ╩С
+	{{24,100,16,20},{8,100,16,20},{40,100,16,20} }  // аб
 };
 static int character_attack[4][4][4] = {
 	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}},

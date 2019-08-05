@@ -7,8 +7,6 @@ extern char messages[5][256];
 
 extern player_status user_player;
 
-extern player_status user_list[10];
-extern int player_idx;
 void ErrorHandling(char* message) {
 	WSACleanup();
 	fputs(message, stderr);
@@ -55,81 +53,6 @@ void __cdecl RecvThread(void* p)
 			for (i = 0; i < 4; i++) strcpy_s(&messages[i][0], 256, &messages[i + 1][0]);
 
 			sprintf_s(&messages[4][0], 256, "[%s] %s", UserName, ChatData);
-		}
-		else if (strcmp(ContentType, "JOIN_GAME") == 0)
-		{
-			const char* userName = json_string_value(json_array_get(pData, 0));
-			const int action_type = json_integer_value(json_array_get(pData, 1));
-			const int player_direction = json_integer_value(json_array_get(pData, 2));
-			const int action_idx = json_integer_value(json_array_get(pData, 3));
-			const int pos_x = json_integer_value(json_array_get(pData, 4));
-			const int pos_y = json_integer_value(json_array_get(pData, 5));
-			const int hp = json_integer_value(json_array_get(pData, 6));
-			const int armor = json_integer_value(json_array_get(pData, 7));
-			const int buf = json_integer_value(json_array_get(pData, 8));
-
-			strcpy_s(user_list[player_idx].cName, 12, userName);
-
-			user_list[player_idx].iAction_type = action_type;
-			user_list[player_idx].iPlayer_direction = player_direction;
-			user_list[player_idx].iAction_idx = action_idx;
-
-			user_list[player_idx].iPos_x = pos_x;
-			user_list[player_idx].iPos_y = pos_y;
-
-			user_list[player_idx].iHp = hp;
-			user_list[player_idx].iArmor = armor;
-			user_list[player_idx].iBuf = buf;
-
-			player_idx++;
-		}
-		else if (strcmp(ContentType, "PLAYER") == 0)
-		{
-			const char* userName = json_string_value(json_array_get(pData, 0));
-			const int action_type = json_integer_value(json_array_get(pData, 1));
-			const int player_direction = json_integer_value(json_array_get(pData, 2));
-			const int action_idx = json_integer_value(json_array_get(pData, 3));
-			const int pos_x = json_integer_value(json_array_get(pData, 4));
-			const int pos_y = json_integer_value(json_array_get(pData, 5));
-			const int hp = json_integer_value(json_array_get(pData, 6));
-			const int armor = json_integer_value(json_array_get(pData, 7));
-			const int buf = json_integer_value(json_array_get(pData, 8));
-
-
-			int i;
-			bool exist = false;
-			for (i = 0; i < player_idx; i++) {
-				if (strcmp(user_list[i].cName,userName)==0)
-				{
-					exist = true;
-					user_list[i].iAction_type = action_type;
-					user_list[i].iPlayer_direction = player_direction;
-					user_list[i].iAction_idx = action_idx;
-
-					user_list[i].iPos_x = pos_x;
-					user_list[i].iPos_y = pos_y;
-
-					user_list[i].iHp = hp;
-					user_list[i].iArmor = armor;
-					user_list[i].iBuf = buf;
-				}
-			}
-			
-			if (!exist) {
-				strcpy_s(user_list[player_idx].cName, 12, userName);
-				user_list[player_idx].iAction_type = action_type;
-				user_list[player_idx].iPlayer_direction = player_direction;
-				user_list[player_idx].iAction_idx = action_idx;
-
-				user_list[player_idx].iPos_x = pos_x;
-				user_list[player_idx].iPos_y = pos_y;
-
-				user_list[player_idx].iHp = hp;
-				user_list[player_idx].iArmor = armor;
-				user_list[player_idx].iBuf = buf;
-				player_idx++;
-			}
-			
 		}
 		free(pMessage);
 		free(pHeader);

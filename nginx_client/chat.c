@@ -9,6 +9,7 @@ bool onChat = false;
 
 void showChat(float cx, float cy) 
 {	
+	
 	if (onChat)
 	{
 		al_draw_filled_rounded_rectangle(cx,  (onChat?-22:0) + cy, cx + GAME_WIDTH, cy + 120, 5, 5, al_map_rgba(128, 128, 128, 190));
