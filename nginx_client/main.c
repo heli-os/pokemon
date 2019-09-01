@@ -23,6 +23,8 @@ extern object_info object_list[OBJECT_COUNT];
 extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
+extern int GAME_SPEED;
+
 void update()
 {
 	/*
@@ -56,7 +58,15 @@ void update()
 		user_player.iAction_type = 1;
 		user_player.iPlayer_direction = CHARACTER_LEFT;
 	}
+	/*
+	if (is_key_down(ALLEGRO_KEY_SPACE)) {
+		GAME_SPEED = 4;
+	}
 
+	if (is_key_released(ALLEGRO_KEY_SPACE)) {
+		GAME_SPEED = 1;
+	}
+	*/
 	if (user_player.bMoveFlag) {
 		user_player.iAction_idx++;
 		switch (user_player.iPlayer_direction)
