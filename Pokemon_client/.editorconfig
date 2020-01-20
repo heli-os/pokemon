@@ -1,0 +1,4 @@
+﻿root = true
+
+[*.{c,h}]
+charset = utf-8-bom
