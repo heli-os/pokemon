@@ -1,4 +1,4 @@
-#ifndef _NGINX_COMMON_HEADER_
+﻿#ifndef _NGINX_COMMON_HEADER_
 #define _NGINX_COMMON_HEADER_
 //==============================================================================
 // Includes.
@@ -16,8 +16,8 @@
 
 #define GAME_MODE GAME_ENV_DEVELOPMENT
 
-#define GAME_WIDTH 800*2
-#define GAME_HEIGHT 640*2
+#define GAME_WIDTH 800
+#define GAME_HEIGHT 640
 
 #define GAME_FPS 60
 #define GAME_SCALE 4

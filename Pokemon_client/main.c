@@ -100,7 +100,7 @@ void update()
 		{
 			user_player.iAction_type = 0;
 			user_player.iAction_idx = 0;
-			user_player.bMoveFlag = false;
+
 
 			int stageChanges = isPortal(user_player);
 			if (stageChanges != -4) {
@@ -115,18 +115,23 @@ void update()
 				initCollision();
 			}
 
-			int bushJoins = isBush(user_player);
-			if (bushJoins != -4) {
-				printf("on bush(ID:%d)\n",bushJoins);
-				//fadeOut();
+			if (GAME_STAGE == 2 || GAME_STAGE == 5) {
+				int bushJoins = isBush(user_player);
+				if (bushJoins != -4) {
+					printf("on bush(ID:%d)\n", bushJoins);
+					//fadeOut();
 
-				//init_terrain(_map[mapOffset[GAME_STAGE][0]]);
-				//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
-				//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
-				//updateCamera(user_player);
+					//init_terrain(_map[mapOffset[GAME_STAGE][0]]);
+					//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
+					//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
+					//updateCamera(user_player);
 
-				//fadeIn();
+					//fadeIn();
+				}
 			}
+
+			user_player.bMoveFlag = false;
+
 			
 			sendPlayerStatus("PLAYER", user_player);
 		}
