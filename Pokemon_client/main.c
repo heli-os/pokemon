@@ -17,7 +17,7 @@ int GAME_STAGE = 2;
 
 player user_player = { NULL, NULL,"", 0,0,0,false,0,0,100,0,0 };
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
-ALLEGRO_BITMAP* _map[2] = { NULL };
+ALLEGRO_BITMAP* _map[3] = { NULL };
 ALLEGRO_BITMAP* _object = NULL;
 
 
@@ -193,6 +193,13 @@ int main(int argc, char* argv[])
 
 	_map[0] = al_load_bitmap("gfx/Pallet_Town_Interiors.png");
 	_map[1] = al_load_bitmap("gfx/Pallet_Town_Full.png");
+	_map[2] = al_load_bitmap("gfx/Gym_Inner.png");
+	
+	for (int i = 0; i < 3; i++)
+	{
+		if (!_map[i])
+			printf("%d _map not load\r\n", i);
+	}
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
