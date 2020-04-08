@@ -1,4 +1,4 @@
-#include "chat.h"
+﻿#include "chat.h"
 extern ALLEGRO_FONT* get_default_font();
 extern ALLEGRO_FONT* get_chatInput_font();
 extern ALLEGRO_FONT* get_chatText_font();

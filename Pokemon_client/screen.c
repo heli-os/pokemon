@@ -1,4 +1,4 @@
-#include "screen.h"
+﻿#include "screen.h"
 float camera_position_x;
 float camera_position_y;
 ALLEGRO_TRANSFORM camera;
@@ -55,6 +55,7 @@ void fadeIn() {
 
 
 		render();
+
 		//al_clear_to_color(al_map_rgb(255, 255, 255));
 		//al_clear_to_color(al_map_rgba_f(1 * alpha, 1 * alpha, 1 * alpha, alpha));
 

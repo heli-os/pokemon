@@ -14,7 +14,7 @@
 #define GAME_ENV_DEVELOPMENT 0
 #define GAME_ENV_PRODUCTION  1 
 
-#define GAME_MODE GAME_ENV_DEVELOPMENT
+#define GAME_MODE GAME_ENV_PRODUCTION
 
 #define GAME_WIDTH 800
 #define GAME_HEIGHT 640
@@ -42,6 +42,8 @@ enum character_movement {
 	CHARACTER_UP,
 	CHARACTER_LEFT
 };
+
+void render();
 
 
 #endif

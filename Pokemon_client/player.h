@@ -1,4 +1,4 @@
-#ifndef _NGINX_PLAYER_HEADER_
+Ôªø#ifndef _NGINX_PLAYER_HEADER_
 #define _NGINX_PLAYER_HEADER_
 
 #include "nginx_common.h"
@@ -10,10 +10,10 @@
 
 typedef struct _player {
 	ALLEGRO_BITMAP* _player;
-	ALLEGRO_BITMAP* _hit_efftect;
 	char cName[12];
 
 	int iAction_type;
+	int iAction_mode;
 	int iPlayer_direction;
 	int iAction_idx;
 	bool bMoveFlag;
@@ -21,19 +21,20 @@ typedef struct _player {
 	int iPos_x;
 	int iPos_y;
 
-
-	int iHp;
-	int iArmor;
-
-	int iBuf;
 } player;
 
 
-static int character_movement[4][3][4] = {
-	{{24,36,16,20},{8,36,16,20},{40,36,16,20}}, // «œ
-	{{24,100,16,20},{8,100,16,20},{40,100,16,20}}, // øÏ
-	{{24,68,16,20},{8,68,16,20},{40,68,16,20}}, // ªÛ
-	{{24,100,16,20},{8,100,16,20},{40,100,16,20} }  // ¡¬
+static int character_movement[8][3][4] = {
+	{{24,36,16,20},{8,36,16,20},{40,36,16,20}}, // Ìïò(1)
+	{{24,100,16,20},{8,100,16,20},{40,100,16,20}}, // Ïö∞(1)
+	{{24,68,16,20},{8,68,16,20},{40,68,16,20}}, // ÏÉÅ(1)
+	{{24,100,16,20},{8,100,16,20},{40,100,16,20} },  // Ï¢å(1)
+
+	{{80,36,16,20},{64,36,16,20},{96,36,16,20}}, // Ìïò(2)
+	{{80,100,16,20},{64,100,16,20},{96,100,16,20}}, // Ïö∞(2)
+	{{80,68,16,20},{64,68,16,20},{96,68,16,20}}, // ÏÉÅ(2)
+	{{80,100,16,20},{64,100,16,20},{96,100,16,20} }  // Ï¢å(2)
+
 };
 static int character_attack[4][4][4] = {
 	{{0,0,1,2},{1,0,1,2},{2,0,1,2},{3,0,1,2}},
@@ -48,7 +49,7 @@ static int character_hit_effect[10][4] = {
 };
 
 void sendPlayerStatus(const char* header, const player uPlayer);
-void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
+void movement_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_mode, int action_idx);
 void attack_character(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_type, int action_idx);
 void show_hit_effect(ALLEGRO_BITMAP* bitmap, int dx, int dy, int action_idx);
 

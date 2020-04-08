@@ -1,4 +1,4 @@
-#ifndef _NGINX_FRAMEWORK_HEADER_
+﻿#ifndef _NGINX_FRAMEWORK_HEADER_
 #define _NGINX_FRAMEWORK_HEADER_
 #include "nginx_common.h"
 
@@ -86,6 +86,11 @@ int get_window_height();
 ALLEGRO_FONT* get_default_font();
 ALLEGRO_FONT* get_chatInput_font();
 ALLEGRO_FONT* get_chatText_font();
+ALLEGRO_FONT* get_menuPirnt_font();
+ALLEGRO_FONT* get_pokemonmenuPirnt_font();
+ALLEGRO_FONT* get_pokemonmenu_level_Print_font();
+ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
+ALLEGRO_FONT* get_convsPirnt_font();
 
 // Default colors.
 extern ALLEGRO_COLOR black_color;
@@ -120,6 +125,9 @@ bool is_key_pressed(int keycode);
 
 // Returns true if a key on the keyboard was released.
 bool is_key_released(int keycode);
+
+// Clear Keyboard Buffed
+void clear_key_buffered();
 
 // helper mouse input enum
 enum {

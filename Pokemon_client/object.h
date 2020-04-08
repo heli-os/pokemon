@@ -1,24 +1,31 @@
-#ifndef _NGINX_OBJECT_HEADER_
+﻿#ifndef _NGINX_OBJECT_HEADER_
 #define _NGINX_OBJECT_HEADER_
 #include "nginx_common.h"
-
-#define OBJECT_COUNT 5
-
-enum OBJECT_LIST {
-	FOUNTAIN_1,
-	FOUNTAIN_2,
-	FOUNTAIN_3,
-	CASTLE_1,
-	HOUSE_1,
-	HOUSE_2
+#include "player.h"
+static int objectItem[][4] = {
+	{0},
+	// 포켓볼
+	{10,392,10,10}
 };
 
-typedef struct OBJECT_INFO {
-	float dx;
-	float dy;
-	float sw;
-	float sh;
-}object_info;
-object_info create_object(ALLEGRO_BITMAP* bitmap, int type, float dx, float dy);
+enum OBJECT_ID {
+	LAB_POKEBALL_0,
+	LAB_POKEBALL_1,
+	LAB_POKEBALL_2
+};
 
+
+typedef struct _OBJEECT_BOX {
+	int btmId;
+	int type;
+	int sx;
+	int sy;
+	int sw;
+	int sh;
+}objectBox;
+
+static objectBox* objBoxes = NULL;
+void initObject(ALLEGRO_BITMAP* object);
+int isObject(const player _player);
+void interactObject(int objId);
 #endif

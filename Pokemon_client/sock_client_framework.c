@@ -1,4 +1,4 @@
-#include "sock_client_framework.h"
+ï»¿#include "sock_client_framework.h"
 #include "player.h"
 
 SOCKET serv_sock;
@@ -33,7 +33,7 @@ void __cdecl RecvThread(void* p)
 		int recvsize = recv(sock, buf, sizeof(buf), 0);
 		if (recvsize <= 0)
 		{
-			printf("Á¢¼ÓÁ¾·á\n");
+			printf("ì ‘ì†ì¢…ë£Œ\n");
 			break;
 		}
 		//------------------------------------------------
@@ -73,7 +73,7 @@ void __cdecl sendMessage(const json_t* message) {
 
 void bind_sock_clnt(void) {
 
-	//-------¼ÒÄÏ ¶óÀÌºê·¯¸® ºÒ·¯¿À±â(?)--------
+	//-------ì†Œì¼“ ë¼ì´ë¸ŒëŸ¬ë¦¬ ë¶ˆëŸ¬ì˜¤ê¸°(?)--------
 	WSADATA wsaData;
 	int retval = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (retval != 0)
@@ -82,11 +82,11 @@ void bind_sock_clnt(void) {
 	}
 	//------------------------------------------
 
-	//---------¼ÒÄÏ»ı¼º-------- 
-	serv_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);	//TCP¸¦ ÀÌ¿ëÇÑ ¼ÒÄÏ
+	//---------ì†Œì¼“ìƒì„±-------- 
+	serv_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);	//TCPë¥¼ ì´ìš©í•œ ì†Œì¼“
 	//-------------------------
 
-	//---------¼­¹ö Á¤º¸ ÀÔ·Â--------------------
+	//---------ì„œë²„ ì •ë³´ ì…ë ¥--------------------
 	SOCKADDR_IN serv_addr;
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(4000);
@@ -95,15 +95,15 @@ void bind_sock_clnt(void) {
 	server_type = "local";
 	if (server_type == "remote") {
 		struct addrinfo hints;
-		struct addrinfo* servinfo; // °á°ú¸¦ ÀúÀåÇÒ º¯¼ö
+		struct addrinfo* servinfo; // ê²°ê³¼ë¥¼ ì €ì¥í•  ë³€ìˆ˜
 		memset(&hints, 0, sizeof(hints));
-		hints.ai_family = AF_INET; // IPv4¸¸ ¹Ş°Ú´Ù.
+		hints.ai_family = AF_INET; // IPv4ë§Œ ë°›ê² ë‹¤.
 		hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
 		int status = getaddrinfo("foretion.codns.com", "http", &hints, &servinfo);
 
 		struct sockaddr_in* saddr = (struct sockaddr_in*)servinfo->ai_addr;
 		char* ip_addr = inet_ntoa(saddr->sin_addr);
-		serv_addr.sin_addr = saddr->sin_addr; //SOCKADDR_IN::sin_addr¿¡ ÇÒ´ç
+		serv_addr.sin_addr = saddr->sin_addr; //SOCKADDR_IN::sin_addrì— í• ë‹¹
 		freeaddrinfo(servinfo);
 	}
 	else if (server_type == "local") {
@@ -118,7 +118,7 @@ void bind_sock_clnt(void) {
 	}
 	//-------------------------------
 
-	//printf("´Ğ³×ÀÓ >> ");
+	//printf("ë‹‰ë„¤ì„ >> ");
 	//gets_s(nick,sizeof(nick));
 	_beginthread(RecvThread, 0, (void*)serv_sock);
 	/*
@@ -130,18 +130,18 @@ void bind_sock_clnt(void) {
 		gets_s(str,sizeof(str));
 		sprintf_s(buf, sizeof(buf),"[%s] %s", nick, str);
 
-		//---------¼­¹ö¿¡ ¸Ş½ÃÁö Àü¼Û---------------
+		//---------ì„œë²„ì— ë©”ì‹œì§€ ì „ì†¡---------------
 		int sendsize = send(serv_sock, buf, (int)strlen(buf), 0);
 		if (sendsize <= 0)
 			break;
 		//------------------------------------------
 	}
 	*/
-	//----------¼ÒÄÏ ´İÀ½------------------
+	//----------ì†Œì¼“ ë‹«ìŒ------------------
 	//closesocket(serv_sock);
 	//-------------------------------------
 
-	//---------¶óÀÌºê·¯¸® ÇØÁ¦(?)---------
+	//---------ë¼ì´ë¸ŒëŸ¬ë¦¬ í•´ì œ(?)---------
 	//WSACleanup();
 	//-------------------------------------
 

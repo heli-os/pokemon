@@ -1,4 +1,4 @@
-#include "collision.h"
+﻿#include "collision.h"
 void createCollision(collisionBox* colBox, int iPosX, int iPosY, int iWidth, int iHeight) {
 	colBox->sx = iPosX;
 	colBox->sy = iPosY;

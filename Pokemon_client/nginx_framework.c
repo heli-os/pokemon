@@ -1,10 +1,11 @@
-#include "nginx_framework.h"
+ï»¿#include "nginx_framework.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
 #include <assert.h>
+#include "player.h"
 
 static ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 static ALLEGRO_DISPLAY* display = NULL;
@@ -13,6 +14,13 @@ static ALLEGRO_FILE* logfile = NULL;
 static ALLEGRO_FONT* default_font = NULL;
 static ALLEGRO_FONT* chatInput_font = NULL;
 static ALLEGRO_FONT* chatText_font = NULL;
+
+static ALLEGRO_FONT* menuPrint_font = NULL;
+static ALLEGRO_FONT* pokemonMenuPrint_font = NULL;
+static ALLEGRO_FONT* convsPrint_font = NULL;
+static ALLEGRO_FONT* pokemonMenu_level_Print_font = NULL;
+static ALLEGRO_FONT* pokemonMenu_hp_Print_font = NULL;
+
 
 static bool is_done = false;
 static bool is_paused = false;
@@ -30,6 +38,9 @@ static bool mouse_buttons_released[MAX_MOUSE_BUTTONS] = { false };
 
 extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
+
+extern player user_player;
+
 
 ALLEGRO_COLOR black_color;
 ALLEGRO_COLOR white_color;
@@ -84,7 +95,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	if (!al_init()) {
 		log_error("Failed to initialize allegro");
 	}
-	//Zero-Warning¸¦ À§ÇØ destory_framework¸¦ (void)Çü½ÄÀ¸·Î ¼±¾ð.
+	//Zero-Warningë¥¼ ìœ„í•´ destory_frameworkë¥¼ (void)í˜•ì‹ìœ¼ë¡œ ì„ ì–¸.
 	atexit(destroy_framework);
 
 	al_set_exe_name(title);
@@ -123,6 +134,33 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	}
 	chatText_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 20, ALLEGRO_TTF_NO_KERNING);
 	if (!chatText_font) {
+		log_error("Failed to load ttf font");
+	}
+
+	menuPrint_font = al_load_ttf_font("fonts/pkm.ttf", 27, ALLEGRO_TTF_NO_KERNING);
+	if (!menuPrint_font) {
+		log_error("Failed to load ttf font");
+	}
+
+	pokemonMenuPrint_font = al_load_ttf_font("fonts/pkm.ttf", 21, ALLEGRO_TTF_NO_KERNING);
+	if (!pokemonMenuPrint_font) {
+		log_error("Failed to load ttf font");
+	}
+
+	pokemonMenu_level_Print_font = al_load_ttf_font("fonts/pkm.ttf", 35, ALLEGRO_TTF_NO_KERNING);
+	if (!pokemonMenu_level_Print_font) {
+		log_error("Failed to load ttf font");
+	}
+	
+	pokemonMenu_hp_Print_font = al_load_ttf_font("fonts/pkm.ttf", 21, ALLEGRO_TTF_NO_KERNING);
+	if (!pokemonMenu_hp_Print_font) {
+		log_error("Failed to load ttf font");
+	}
+
+	
+
+	convsPrint_font = al_load_ttf_font("fonts/pkm.ttf", 35, ALLEGRO_TTF_NO_KERNING);
+	if (!convsPrint_font) {
 		log_error("Failed to load ttf font");
 	}
 
@@ -246,18 +284,18 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 
 		case ALLEGRO_EVENT_KEY_CHAR:
 			// handle alt-tab
-			if ((event.keyboard.modifiers & ALLEGRO_KEYMOD_ALT) &&
-				event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
-				al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, !(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW));
-			}
-			if (onChat)
-			{
-				int unichar = event.keyboard.unichar;
-				if (unichar == 8)
-					al_ustr_remove_chr(chatInput, (int)al_ustr_length(chatInput)-1);
-				if (unichar >= 32)
-					al_ustr_append_chr(chatInput, unichar);
-			}
+			//if ((event.keyboard.modifiers & ALLEGRO_KEYMOD_ALT) &&
+			//	event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
+			//	al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, !(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW));
+			//}
+			//if (onChat)
+			//{
+			//	int unichar = event.keyboard.unichar;
+			//	if (unichar == 8)
+			//		al_ustr_remove_chr(chatInput, (int)al_ustr_length(chatInput)-1);
+			//	if (unichar >= 32)
+			//		al_ustr_append_chr(chatInput, unichar);
+			//}
 			
 			break;
 
@@ -344,6 +382,11 @@ bool is_key_released(int keycode)
 	return keys_released[keycode];
 }
 
+void clear_key_buffered() {
+	memset(keys, false, sizeof(keys));
+	memset(keys_pressed, false, sizeof(keys_pressed));
+	memset(keys_released, false, sizeof(keys_pressed));
+}
 
 int get_mouse_x()
 {
@@ -403,4 +446,24 @@ ALLEGRO_FONT* get_chatInput_font()
 ALLEGRO_FONT* get_chatText_font()
 {
 	return chatText_font;
+}
+ALLEGRO_FONT* get_menuPirnt_font()
+{
+	return menuPrint_font;
+}
+ALLEGRO_FONT* get_pokemonmenuPirnt_font()
+{
+	return pokemonMenuPrint_font;
+}
+ALLEGRO_FONT* get_pokemonmenu_level_Print_font()
+{
+	return pokemonMenu_level_Print_font;
+}
+ALLEGRO_FONT* get_pokemonmenu_hp_Print_font()
+{
+	return pokemonMenu_hp_Print_font;
+}
+ALLEGRO_FONT* get_convsPirnt_font()
+{
+	return convsPrint_font;
 }
