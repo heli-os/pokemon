@@ -7,6 +7,7 @@ extern ALLEGRO_FONT* get_convsPirnt_font();
 
 void showConversation(int convsId) {
 	if (convsId == -1) return;
+
 	int col = 0, row = 0;
 	ALLEGRO_BITMAP* convBitmap = al_clone_bitmap(menuFrame);
 	al_convert_mask_to_alpha(convBitmap, al_map_rgb(112, 200, 160));

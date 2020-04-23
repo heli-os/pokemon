@@ -21,6 +21,8 @@ static ALLEGRO_FONT* convsPrint_font = NULL;
 static ALLEGRO_FONT* pokemonMenu_level_Print_font = NULL;
 static ALLEGRO_FONT* pokemonMenu_hp_Print_font = NULL;
 
+static ALLEGRO_FONT* pokemonSkill_list_font = NULL;
+
 
 static bool is_done = false;
 static bool is_paused = false;
@@ -157,6 +159,10 @@ void init_framework(const char* title, int window_width, int window_height, bool
 		log_error("Failed to load ttf font");
 	}
 
+	pokemonSkill_list_font = al_load_ttf_font("fonts/pkm.ttf", 23, ALLEGRO_TTF_NO_KERNING);
+	if (!pokemonSkill_list_font) {
+		log_error("Failed to load ttf font");
+	}
 	
 
 	convsPrint_font = al_load_ttf_font("fonts/pkm.ttf", 35, ALLEGRO_TTF_NO_KERNING);
@@ -466,4 +472,9 @@ ALLEGRO_FONT* get_pokemonmenu_hp_Print_font()
 ALLEGRO_FONT* get_convsPirnt_font()
 {
 	return convsPrint_font;
+}
+
+ALLEGRO_FONT* get_pokemonSkill_list_font()
+{
+	return pokemonSkill_list_font;
 }

@@ -10,7 +10,9 @@
 #include "chat.h"
 #include "book.h"
 #include "menu.h"
+#include "battle.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include "conversation.h"
 #include "environment.h"
@@ -20,31 +22,119 @@ int GAME_STAGE = 0;
 
 player user_player = { NULL, "", 0,1,0,0,false,0,0 };
 pokemon myPokemonList[6] = {
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL },
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL },
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL },
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL },
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL },
-	 { -1,"",0,0,0,0,0,0,0, NULL,NULL,NULL }
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0}
 };
 
 menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
+battleUIStatus battleUI_status = { false, false, false, -1, -1, 0 };
 
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
 ALLEGRO_BITMAP* _object = NULL;
 
+pokemon enemy;
 
 extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
-
+extern pokemon pokemonBook[15];
 void update()
 {
-	if (pokemonMenu_status.pokemonMenuOpen) {
+	if (battleUI_status.battleUIOpen) {
+		if (battleUI_status.battleUIConv) {
+			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
+				battleUI_status.battleUIConv = false;
+				if (battleUI_status.currentMenu == 4) {
+					fadeOut(0.05);
+					battleUI_status.battleUIOpen = false;
+					battleUI_status.currentMenu = -1;
+					battleUI_status.currentIndex = -1;
+					battleUI_status.currentPokemonIdx = -1;
+					fadeIn(0.05);
+				}
+				else {
+					battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
+					battleUI_status.currentMenu = 0;
+				}
+			}
+		}
+		else if (battleUI_status.battleUISkill) {
+			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+				if (battleUI_status.currentIndex > 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex - 1].own == true)
+					battleUI_status.currentIndex--;
+				else {
+					for (int i = 3; i >= 1; i--) {
+						if (myPokemonList[battleUI_status.currentPokemonIdx].skill[i].own == true) {
+							battleUI_status.currentIndex = i;
+							break;
+						}
+					}
+				}
+			}
+			if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+				if (battleUI_status.currentIndex < 3 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex+1].own == true)
+					battleUI_status.currentIndex++;
+				else
+					battleUI_status.currentIndex = 0;
+			}
+			
+			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
+			}
+			if (is_key_pressed(ALLEGRO_KEY_X) || is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
+				battleUI_status.battleUISkill = false;
+				battleUI_status.currentMenu = 0;
+				battleUI_status.currentIndex = 0;
+			}
+		}
+		else {
+			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+				if (battleUI_status.currentIndex > 0)
+					battleUI_status.currentIndex--;
+				else
+					battleUI_status.currentIndex = 3;
+			}
+			if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+				if (battleUI_status.currentIndex < 3)
+					battleUI_status.currentIndex++;
+				else
+					battleUI_status.currentIndex = 0;
+			}
+			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+				battleUI_status.currentMenu = battleUI_status.currentIndex + 1;
+				switch (battleUI_status.currentMenu) {
+				case 1:
+					battleUI_status.battleUISkill = true;
+					battleUI_status.currentMenu = battleUI_status.currentIndex + 1;
+					battleUI_status.currentIndex = 0;
+					break;
+				case 2:
+					battleUI_status.battleUIConv = true;
+					break;
+				case 3:
+					battleUI_status.battleUIConv = true;
+					break;
+				case 4:
+					battleUI_status.battleUIConv = true;
+					break;
+				}
+				
+			}
+			if (battleUI_status.currentMenu != -1 && is_key_pressed(ALLEGRO_KEY_X)) {
+				battleUI_status.currentMenu = 0;
+				battleUI_status.currentIndex = 0;
+			}
+		}
+	}
+	else if (pokemonMenu_status.pokemonMenuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 			if (pokemonMenu_status.currentIndex > 0) {
 				pokemonMenu_status.currentIndex--;
@@ -176,12 +266,12 @@ void update()
 			if (stageChanges != -4) {
 				GAME_STAGE = stageChanges;
 				printf("main.c->GAME_STAGE%d\n", GAME_STAGE);
-				fadeOut();
+				fadeOut(0.05);
 				init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 				user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
 				user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
 				updateCamera(user_player);
-				fadeIn();
+				fadeIn(0.05);
 				clear_key_buffered();
 				initCollision();
 			}
@@ -189,15 +279,40 @@ void update()
 			if (GAME_STAGE == 2 || GAME_STAGE == 5) {
 				int bushJoins = isBush(user_player);
 				if (bushJoins != -4) {
-					printf("on bush(ID:%d)\n", bushJoins);
-					//fadeOut();
+					double randItem = ((double)rand() / RAND_MAX * 1.0);
+					if (randItem <= TOTAL_APPEAR_RATE) {
+						fadeOut(0.02);
+						fadeIn(0.02);
+						fadeOut(0.02);
+						fadeIn(0.02);
+						fadeOut(0.02);
 
-					//init_terrain(_map[mapOffset[GAME_STAGE][0]]);
-					//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
-					//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
-					//updateCamera(user_player);
+						battleUI_status.battleUIOpen = true;
+						battleUI_status.currentMenu = 0;
+						battleUI_status.currentIndex = 0;
+						battleUI_status.currentPokemonIdx = 0;
 
-					//fadeIn();
+						randItem = ((double)rand() / RAND_MAX * 1.0);
+						if (randItem <= GRADE_3_APPEAR_RATE) {
+							int idxArr[] = { 13 };
+							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+						}
+						else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE) {
+							int idxArr[] = { 0,3,6 };
+							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+						}
+						else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE + GRADE_1_APPEAR_RATE) {
+							int idxArr[] = { 9, 12 };
+							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+						}
+						enemy = createPokemon(battleUI_status.enemyPokemonIdx, 5);
+						showBattleUI();
+						fadeIn(0.03);
+						clear_key_buffered();
+					}
 				}
 			}
 			user_player.bMoveFlag = false;
@@ -248,10 +363,13 @@ void render()
 	showConversation(conversation_status.currentConvs);
 	showPokemonThumb(pokemonThumb_status.currentThumb);
 	showPoekmonMenu();
+
+	showBattleUI();
 }
 
 int main(int argc, char* argv[])
 {
+	srand((unsigned int)time(NULL));
 	//gets_s(user_player.cName, sizeof(user_player.cName));
 	bind_sock_clnt();
 
@@ -261,13 +379,12 @@ int main(int argc, char* argv[])
 	_map[0] = al_load_bitmap("gfx/Pallet_Town_Interiors.png");
 	_map[1] = al_load_bitmap("gfx/Pallet_Town_Full.png");
 	_map[2] = al_load_bitmap("gfx/Gym_Inner.png");
-	for (int i = 0; i < 3; i++)
-	{
+	for (int i = 0; i < 3; i++) {
 		if (_map[i] == NULL)
 			printf("%d _map not load\n", i);
 	}
 	menuFrame = al_load_bitmap("gfx/MenuFrame.png");
-	if(menuFrame == NULL)
+	if (menuFrame == NULL)
 		printf("menuFrame not load\n");
 	pokemonBitmap = al_load_bitmap("gfx/pokemonBook.png");
 	if (pokemonBitmap == NULL)
@@ -278,20 +395,27 @@ int main(int argc, char* argv[])
 		printf("pokemonMenuBitmap not load\n");
 	user_player._player = al_load_bitmap("gfx/Hero&Heroine.png");
 	al_convert_mask_to_alpha(user_player._player, al_map_rgb(255, 200, 106));
+
+	battleUIBitmap = al_load_bitmap("gfx/BattleUI.png");
+	al_convert_mask_to_alpha(battleUIBitmap, al_map_rgb(163, 73, 164));
+	if (battleUIBitmap == NULL)
+		printf("battleUIBitmap not load\n");
+
 	// 디버깅용, 스테이지 임의 이동
 	//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
 	//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
-	
+
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
 
 	initPokemonThumb();
+	initPokemonSkill();
 
 	environmentLoad();
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 	initCollision();
 
-	
+
 
 	sendPlayerStatus("JOIN_GAME", user_player);
 

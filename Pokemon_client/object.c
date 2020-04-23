@@ -95,7 +95,7 @@ int isObject(const player _player) {
 		}
 
 		if (GAME_MODE == GAME_ENV_DEVELOPMENT)
-			al_draw_rectangle(tx, ty, tx + tw, ty + th, al_map_rgb(110, 110, 110), 3);
+			al_draw_rectangle(tx, ty, tx + tw, ty + th, al_map_rgb(255,0,0), 3);
 
 		int ox = objBoxes[i].sx;
 		int oy = objBoxes[i].sy;

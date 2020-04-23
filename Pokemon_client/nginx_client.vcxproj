@@ -172,6 +172,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="battle.c" />
     <ClCompile Include="book.c" />
     <ClCompile Include="bush.c" />
     <ClCompile Include="conversation.c" />
@@ -186,10 +187,12 @@
     <ClCompile Include="nginx_framework.c" />
     <ClCompile Include="object.c" />
     <ClCompile Include="player.c" />
+    <ClCompile Include="skill.c" />
     <ClCompile Include="sock_client_framework.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\network_protocols.h" />
+    <ClInclude Include="battle.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="bush.h" />
     <ClInclude Include="conversation.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="nginx_framework.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="skill.h" />
     <ClInclude Include="sock_client_framework.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

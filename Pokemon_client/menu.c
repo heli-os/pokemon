@@ -97,7 +97,7 @@ void menuHandler() {
 	case POKEBALL_00_MENU:
 		switch (menu_status.menuIndex) {
 		case 0:
-			catchingPokemon(POKEMON_Bulbasaur);
+			catchingPokemon(POKEMON_Bulbasaur,5);
 			objectPosition[GAME_STAGE][0][4] = 0;
 			objectPosition[GAME_STAGE][1][4] = 0;
 			objectPosition[GAME_STAGE][2][4] = 0;
@@ -116,7 +116,7 @@ void menuHandler() {
 	case POKEBALL_01_MENU:
 		switch (menu_status.menuIndex) {
 		case 0:
-			catchingPokemon(POKEMON_Charmander);
+			catchingPokemon(POKEMON_Charmander,5);
 			objectPosition[GAME_STAGE][0][4] = 0;
 			objectPosition[GAME_STAGE][1][4] = 0;
 			objectPosition[GAME_STAGE][2][4] = 0;
@@ -135,7 +135,7 @@ void menuHandler() {
 	case POKEBALL_02_MENU:
 		switch (menu_status.menuIndex) {
 		case 0:
-			catchingPokemon(POKEMON_Squirtle);
+			catchingPokemon(POKEMON_Squirtle,5);
 			objectPosition[GAME_STAGE][0][4] = 0;
 			objectPosition[GAME_STAGE][1][4] = 0;
 			objectPosition[GAME_STAGE][2][4] = 0;

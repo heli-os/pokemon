@@ -33,7 +33,7 @@ void updateCamera(player _player) {
 	al_use_transform(&camera);
 }
 
-void fadeOut() {
+void fadeOut(double seconds) {
 
 	for (float alpha = 0.0; alpha <= 1.0; alpha += 0.1)
 	{
@@ -43,11 +43,11 @@ void fadeOut() {
 		//al_clear_to_color(al_map_rgb(0, 0, 0));
 		//al_clear_to_color(al_map_rgba_f(1 * alpha, 1 * alpha, 1 * alpha, alpha));
 
-		al_rest(0.05);
+		al_rest(seconds);
 	}
 }
 
-void fadeIn() {
+void fadeIn(double seconds) {
 	for (float alpha = 1.0; alpha >= 0.0; alpha -= 0.1)
 	{
 		al_draw_filled_rectangle(0, 0, GAME_MAP_WIDTH, GAME_MAP_HEIGHT, al_map_rgba_f(0, 0, 0, alpha));
@@ -59,6 +59,6 @@ void fadeIn() {
 		//al_clear_to_color(al_map_rgb(255, 255, 255));
 		//al_clear_to_color(al_map_rgba_f(1 * alpha, 1 * alpha, 1 * alpha, alpha));
 
-		al_rest(0.05);
+		al_rest(seconds);
 	}
 }

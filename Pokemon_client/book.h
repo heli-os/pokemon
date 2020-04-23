@@ -1,6 +1,7 @@
 ﻿#ifndef _NGINX_BOOK_HEADER_
 #define _NGINX_BOOK_HEADER_
 #include "nginx_common.h"
+#include "skill.h"
 
 ALLEGRO_BITMAP* pokemonBitmap;
 ALLEGRO_BITMAP* pokemonMenuBitmap;
@@ -28,32 +29,36 @@ typedef struct _POKEMON_STATUS {
 	char* displayName;	// 포켓몬 이름
 	char type;			// 타입(풀,독,불꽃,비행,물,노말,전기)
 	int level;
+	int exp;
 	int crt_hp;
 	int max_hp;
 	int dmg;
 	int def;
 	int spd;
+	pokemonSkill skill[4];
 	ALLEGRO_BITMAP* front;
 	ALLEGRO_BITMAP* back;
 	ALLEGRO_BITMAP* icon[2];
 } pokemon;
 
-#define POKEMON_TYPE_NORMAL		0b0000001
-#define POKEMON_TYPE_GRASS		0b0000010
-#define POKEMON_TYPE_POISON		0b0000100
-#define POKEMON_TYPE_FIRE		0b0001000
-#define POKEMON_TYPE_FLYING		0b0010000
-#define POKEMON_TYPE_WATER		0b0100000
-#define POKEMON_TYPE_ELECTRIC	0b1000000
+enum {
+	POKEMON_TYPE_NORMAL,
+	POKEMON_TYPE_GRASS,
+	POKEMON_TYPE_POISON,
+	POKEMON_TYPE_FIRE,
+	POKEMON_TYPE_FLYING,
+	POKEMON_TYPE_WATER,
+	POKEMON_TYPE_ELECTRIC
+};
 
 // 체력 상승량 8/16/24
 // 공격 상승량 4/8/12
 // 방어 상승량 2/4/6
 // 속도 상승량 3/6/9
-#define POKEMON_HP_PER_LEVELUP	8
-#define POKEMON_DMG_PER_LEVELUP	4
-#define POKEMON_DEF_PER_LEVELUP	2
-#define POKEMON_SPD_PER_LEVELUP	3
+#define POKEMON_HP_PER_LEVELUP	0.08
+#define POKEMON_DMG_PER_LEVELUP	0.04
+#define POKEMON_DEF_PER_LEVELUP	0.02
+#define POKEMON_SPD_PER_LEVELUP	0.03
 
 
 enum POKEMONBOOK {
@@ -84,6 +89,8 @@ void closePokemonThumb();
 void showPoekmonMenu();
 void closePokemonMenu();
 
-void catchingPokemon(int pokemonId);
+
+pokemon createPokemon(int pokemonId, int level);
+void catchingPokemon(int pokemonId, int level);
 
 #endif

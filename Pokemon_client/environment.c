@@ -33,11 +33,29 @@ void environmentSave() {
 		json_object_set_new(pokemonListData, "displayName", json_string(myPokemonList[i].displayName));
 		json_object_set_new(pokemonListData, "type", json_integer((long long)myPokemonList[i].type));
 		json_object_set_new(pokemonListData, "level", json_integer(myPokemonList[i].level));
+		json_object_set_new(pokemonListData, "exp", json_integer(myPokemonList[i].exp));
 		json_object_set_new(pokemonListData, "crt_hp", json_integer(myPokemonList[i].crt_hp));
 		json_object_set_new(pokemonListData, "max_hp", json_integer(myPokemonList[i].max_hp));
 		json_object_set_new(pokemonListData, "dmg", json_integer(myPokemonList[i].dmg));
 		json_object_set_new(pokemonListData, "def", json_integer(myPokemonList[i].def));
 		json_object_set_new(pokemonListData, "spd", json_integer(myPokemonList[i].spd));
+		
+		json_t* pokemonSkillDataArray = json_array();
+		for (int j = 0; j < 4; j++) {
+			json_t* pokemonSkillData = json_object();
+			json_object_set_new(pokemonSkillData, "no", json_integer(myPokemonList[i].skill[j].no));
+			json_object_set_new(pokemonSkillData, "displayName", json_string(myPokemonList[i].skill[j].displayName));
+			json_object_set_new(pokemonSkillData, "type", json_integer((long long)myPokemonList[i].skill[j].type));
+			json_object_set_new(pokemonSkillData, "dmg_cf", json_real(myPokemonList[i].skill[j].dmg_cf));
+			json_object_set_new(pokemonSkillData, "acc", json_real(myPokemonList[i].skill[j].acc));
+			json_object_set_new(pokemonSkillData, "crt_pp", json_integer(myPokemonList[i].skill[j].crt_pp));
+			json_object_set_new(pokemonSkillData, "max_pp", json_integer(myPokemonList[i].skill[j].max_pp));
+			json_object_set_new(pokemonSkillData, "level_condition", json_integer(myPokemonList[i].skill[j].level_condition));
+			json_object_set_new(pokemonSkillData, "own", json_boolean(myPokemonList[i].skill[j].own));
+
+			json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
+		}
+		json_object_set_new(pokemonListData, "skill", pokemonSkillDataArray);
 
 		json_array_append_new(pokemonListDataArray, pokemonListData);
 	}
@@ -96,6 +114,7 @@ void environmentLoad() {
 
 		myPokemonList[i].type = json_integer_value(json_object_get(tmpData, "type"));
 		myPokemonList[i].level = json_integer_value(json_object_get(tmpData, "level"));
+		myPokemonList[i].exp = json_integer_value(json_object_get(tmpData, "exp"));
 		myPokemonList[i].crt_hp = json_integer_value(json_object_get(tmpData, "crt_hp"));
 		myPokemonList[i].max_hp = json_integer_value(json_object_get(tmpData, "max_hp"));
 		myPokemonList[i].dmg = json_integer_value(json_object_get(tmpData, "dmg"));
@@ -104,8 +123,21 @@ void environmentLoad() {
 
 
 		if (myPokemonList[i].no == -1) continue;
-		myPokemonList[i].front = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
-		myPokemonList[i].back = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
+		for (int j = 0; j < 4; j++) {
+			json_t* tmpSkilData = json_array_get(json_object_get(tmpData, "skill"), j);
+			myPokemonList[i].skill[j].no				= json_integer_value(json_object_get(tmpSkilData, "no"));
+			myPokemonList[i].skill[j].displayName		= (char*)json_string_value(json_object_get(tmpSkilData, "displayName"));
+			myPokemonList[i].skill[j].type				= json_integer_value(json_object_get(tmpSkilData, "type"));
+			myPokemonList[i].skill[j].dmg_cf			= json_number_value(json_object_get(tmpSkilData, "dmg_cf"));
+			myPokemonList[i].skill[j].acc				= json_number_value(json_object_get(tmpSkilData, "acc"));
+			myPokemonList[i].skill[j].crt_pp			= json_integer_value(json_object_get(tmpSkilData, "crt_pp"));
+			myPokemonList[i].skill[j].max_pp			= json_integer_value(json_object_get(tmpSkilData, "max_pp"));
+			myPokemonList[i].skill[j].level_condition	= json_integer_value(json_object_get(tmpSkilData, "level_condition"));
+			myPokemonList[i].skill[j].own				= json_boolean_value(json_object_get(tmpSkilData, "own"));
+		}
+
+		myPokemonList[i].front	 = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
+		myPokemonList[i].back	 = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
 		myPokemonList[i].icon[0] = al_create_bitmap(32 * GAME_SCALE, 32 * GAME_SCALE);
 		myPokemonList[i].icon[1] = al_create_bitmap(32 * GAME_SCALE, 32 * GAME_SCALE);
 
@@ -113,10 +145,6 @@ void environmentLoad() {
 		myPokemonList[i].back	 = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].back);
 		myPokemonList[i].icon[0] = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].icon[0]);
 		myPokemonList[i].icon[1] = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].icon[1]);
-		//myPokemonList[i].front = pokemonBook[myPokemonList[i].no - 1].front;
-		//myPokemonList[i].back = pokemonBook[myPokemonList[i].no - 1].back;
-		//myPokemonList[i].icon[0] = pokemonBook[myPokemonList[i].no - 1].icon[0];
-		//myPokemonList[i].icon[1] = pokemonBook[myPokemonList[i].no - 1].icon[1];
 	}
 
 	json_t* tmpObjPosition = json_object_get(pData, "OBJECT_POSITION");

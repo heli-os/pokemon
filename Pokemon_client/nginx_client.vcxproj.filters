@@ -64,6 +64,12 @@
     <ClCompile Include="environment.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="battle.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="skill.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nginx_framework.h">
@@ -112,6 +118,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="environment.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="battle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="skill.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

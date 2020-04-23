@@ -1,4 +1,4 @@
-#ifndef _NGINX_BUSH_HEADER_
+﻿#ifndef _NGINX_BUSH_HEADER_
 #define _NGINX_BUSH_HEADER_
 #include "nginx_common.h"
 #include "player.h"
