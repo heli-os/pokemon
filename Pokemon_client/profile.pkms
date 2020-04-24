@@ -1,1 +1,383 @@
-{"PLAYER": {"cName": "ASDSADASD", "iAction_type": 0, "iPlayer_direction": 2, "iAction_idx": 0, "iPos_x": 1268, "iPos_y": 1236}, "GAME_STAGE": 5, "POKEMON_LIST": [{"no": 7, "displayName": "Squirtle", "type": 5, "level": 5, "exp": 125, "crt_hp": 139, "max_hp": 139, "dmg": 10, "def": 5, "spd": 0, "skill": [{"no": 9, "displayName": "Tackle", "type": 0, "dmg_cf": 1.1000000000000001, "acc": 0.94999999999999996, "crt_pp": 35, "max_pp": 35, "level_condition": 1, "own": true}, {"no": 10, "displayName": "Bubble", "type": 5, "dmg_cf": 0.90000000000000002, "acc": 1.0, "crt_pp": 30, "max_pp": 30, "level_condition": 8, "own": false}, {"no": 11, "displayName": "Water Gun", "type": 5, "dmg_cf": 1.1499999999999999, "acc": 1.0, "crt_pp": 25, "max_pp": 25, "level_condition": 15, "own": false}, {"no": 12, "displayName": "Hydro Pump", "type": 5, "dmg_cf": 2.0, "acc": 0.80000000000000004, "crt_pp": 5, "max_pp": 5, "level_condition": 52, "own": false}]}, {"no": -1, "displayName": "", "type": 0, "level": 0, "exp": 0, "crt_hp": 0, "max_hp": 0, "dmg": 0, "def": 0, "spd": 0, "skill": [{"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}]}, {"no": -1, "displayName": "", "type": 0, "level": 0, "exp": 0, "crt_hp": 0, "max_hp": 0, "dmg": 0, "def": 0, "spd": 0, "skill": [{"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}]}, {"no": -1, "displayName": "", "type": 0, "level": 0, "exp": 0, "crt_hp": 0, "max_hp": 0, "dmg": 0, "def": 0, "spd": 0, "skill": [{"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}]}, {"no": -1, "displayName": "", "type": 0, "level": 0, "exp": 0, "crt_hp": 0, "max_hp": 0, "dmg": 0, "def": 0, "spd": 0, "skill": [{"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}]}, {"no": -1, "displayName": "", "type": 0, "level": 0, "exp": 0, "crt_hp": 0, "max_hp": 0, "dmg": 0, "def": 0, "spd": 0, "skill": [{"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}, {"no": 0, "type": 0, "dmg_cf": 0.0, "acc": 0.0, "crt_pp": 0, "max_pp": 0, "level_condition": 0, "own": false}]}], "OBJECT_POSITION": [[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[1, 0, 524, 285, 0], [1, 1, 588, 285, 0], [1, 2, 652, 285, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]]}
+{
+  "PLAYER": {
+    "cName": "ASDSADASD",
+    "iAction_type": 0,
+    "iPlayer_direction": 2,
+    "iAction_idx": 0,
+    "iPos_x": 1268,
+    "iPos_y": 1556
+  },
+  "GAME_STAGE": 2,
+  "POKEMON_LIST": [
+    {
+      "no": 7,
+      "displayName": "Squirtle",
+      "type": 5,
+      "level": 5,
+      "exp": 125,
+      "crt_hp": 139,
+      "max_hp": 139,
+      "dmg": 10,
+      "def": 5,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 9,
+          "displayName": "Tackle",
+          "type": 0,
+          "dmg_cf": 1.1000000000000001,
+          "acc": 0.94999999999999996,
+          "crt_pp": 35,
+          "max_pp": 35,
+          "level_condition": 1,
+          "own": true
+        },
+        {
+          "no": 10,
+          "displayName": "Bubble",
+          "type": 5,
+          "dmg_cf": 0.90000000000000002,
+          "acc": 1.0,
+          "crt_pp": 30,
+          "max_pp": 30,
+          "level_condition": 8,
+          "own": false
+        },
+        {
+          "no": 11,
+          "displayName": "Water Gun",
+          "type": 5,
+          "dmg_cf": 1.1499999999999999,
+          "acc": 1.0,
+          "crt_pp": 25,
+          "max_pp": 25,
+          "level_condition": 15,
+          "own": false
+        },
+        {
+          "no": 12,
+          "displayName": "Hydro Pump",
+          "type": 5,
+          "dmg_cf": 2.0,
+          "acc": 0.80000000000000004,
+          "crt_pp": 5,
+          "max_pp": 5,
+          "level_condition": 52,
+          "own": false
+        }
+      ]
+    },
+    {
+      "no": -1,
+      "displayName": "",
+      "type": 0,
+      "level": 0,
+      "exp": 0,
+      "crt_hp": 0,
+      "max_hp": 0,
+      "dmg": 0,
+      "def": 0,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        }
+      ]
+    },
+    {
+      "no": -1,
+      "displayName": "",
+      "type": 0,
+      "level": 0,
+      "exp": 0,
+      "crt_hp": 0,
+      "max_hp": 0,
+      "dmg": 0,
+      "def": 0,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        }
+      ]
+    },
+    {
+      "no": -1,
+      "displayName": "",
+      "type": 0,
+      "level": 0,
+      "exp": 0,
+      "crt_hp": 0,
+      "max_hp": 0,
+      "dmg": 0,
+      "def": 0,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        }
+      ]
+    },
+    {
+      "no": -1,
+      "displayName": "",
+      "type": 0,
+      "level": 0,
+      "exp": 0,
+      "crt_hp": 0,
+      "max_hp": 0,
+      "dmg": 0,
+      "def": 0,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        }
+      ]
+    },
+    {
+      "no": -1,
+      "displayName": "",
+      "type": 0,
+      "level": 0,
+      "exp": 0,
+      "crt_hp": 0,
+      "max_hp": 0,
+      "dmg": 0,
+      "def": 0,
+      "spd": 0,
+      "skill": [
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        },
+        {
+          "no": 0,
+          "type": 0,
+          "dmg_cf": 0.0,
+          "acc": 0.0,
+          "crt_pp": 0,
+          "max_pp": 0,
+          "level_condition": 0,
+          "own": false
+        }
+      ]
+    }
+  ],
+  "OBJECT_POSITION": [
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 1, 0, 524, 285, 0 ],
+      [ 1, 1, 588, 285, 0 ],
+      [ 1, 2, 652, 285, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ],
+    [
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0 ]
+    ]
+  ]
+}

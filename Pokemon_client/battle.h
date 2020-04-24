@@ -14,7 +14,7 @@ typedef struct BATTLEUI_STATUS {
 	int enemyPokemonIdx;
 } battleUIStatus;
 
-#define TOTAL_APPEAR_RATE 0.1
+#define TOTAL_APPEAR_RATE 1.0 // 0.125
 #define GRADE_1_APPEAR_RATE 0.65
 #define GRADE_2_APPEAR_RATE 0.3
 #define GRADE_3_APPEAR_RATE 0.05

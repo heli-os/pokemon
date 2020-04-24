@@ -48,6 +48,7 @@ extern bool onChat;
 extern pokemon pokemonBook[15];
 void update()
 {
+	// 배틀메뉴 초기화면(4개 메뉴)
 	if (battleUI_status.battleUIOpen) {
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
@@ -66,6 +67,7 @@ void update()
 				}
 			}
 		}
+		// 스킬 선택 메뉴
 		else if (battleUI_status.battleUISkill) {
 			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 				if (battleUI_status.currentIndex > 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex - 1].own == true)
@@ -86,6 +88,7 @@ void update()
 					battleUI_status.currentIndex = 0;
 			}
 			
+			// 스킬 선택
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
 			}

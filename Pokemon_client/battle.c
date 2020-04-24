@@ -41,7 +41,42 @@ void drawBasicUI() {
 
 	// my pokemon
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 246, 148, 104, 37, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 105 * GAME_SCALE, camera_position_y + 74 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
-	al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 58 * GAME_SCALE, 0);
+	switch (myPokemonList[0].no) {
+	case 1:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 64 * GAME_SCALE, 0);
+		break;
+	case 2:
+	case 3:
+	case 4:
+	case 8:
+	case 9:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 58 * GAME_SCALE, 0);
+		break;
+	case 5:
+	case 14:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 55 * GAME_SCALE, 0);
+		break;
+	case 6:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 52 * GAME_SCALE, 0);
+		break;
+	case 7:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 63 * GAME_SCALE, 0);
+		break;
+	case 10:
+	case 15:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 0);
+		break;
+	case 11:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 60 * GAME_SCALE, 0);
+		break;
+	case 12:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 54 * GAME_SCALE, 0);
+		break;
+	case 13:
+		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 61 * GAME_SCALE, 0);
+		break;
+	}
+	
 
 	sprintf_s(tmp_crt_hp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].crt_hp);
 	sprintf_s(tmp_max_hp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].max_hp);
