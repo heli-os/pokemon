@@ -125,3 +125,38 @@ void showSkillList() {
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 123, 0, 6, 10, al_map_rgb(255, 255, 255), 0, 0, convsX + arrowOffset_x, convsY + arrowOffset_y, 3.3333333, GAME_SCALE, 0, 0);
 
 }
+
+double convertSynergy(int this, int target) {
+	if (this == POKEMON_TYPE_NORMAL) return 1.0;
+	if (this == target) return 0.5;
+
+	double ret = 0.0;
+	switch (this) {
+	case POKEMON_TYPE_GRASS:
+		if (target == POKEMON_TYPE_FIRE) return 0.5;
+		if (target == POKEMON_TYPE_POISON) return 0.5;
+		if (target == POKEMON_TYPE_FLYING) return 0.5;
+		if (target == POKEMON_TYPE_WATER) return 2.0;
+		return 1.0;
+	case POKEMON_TYPE_POISON:
+		if (target == POKEMON_TYPE_GRASS) return 2.0;
+		return 1.0;
+	case POKEMON_TYPE_FIRE:
+		if (target == POKEMON_TYPE_WATER) return 0.5;
+		if (target == POKEMON_TYPE_GRASS) return 2.0;
+		return 1.0;
+	case POKEMON_TYPE_FLYING:
+		if (target == POKEMON_TYPE_ELECTRIC) return 0.5;
+		if (target == POKEMON_TYPE_GRASS) return 2.0;
+		return 1.0;
+	case POKEMON_TYPE_WATER:
+		if (target == POKEMON_TYPE_GRASS) return 0.5;
+		if (target == POKEMON_TYPE_FIRE) return 2.0;
+		return 1.0;
+	case POKEMON_TYPE_ELECTRIC:
+		if (target == POKEMON_TYPE_GRASS) return 0.5;
+		if (target == POKEMON_TYPE_WATER) return 2.0;
+		if (target == POKEMON_TYPE_FLYING) return 2.0;
+		return 1.0;
+	}
+}

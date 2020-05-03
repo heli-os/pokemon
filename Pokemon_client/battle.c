@@ -76,7 +76,7 @@ void drawBasicUI() {
 		al_draw_bitmap(myPokemonList[0].back, camera_position_x + 20 * GAME_SCALE, camera_position_y + 61 * GAME_SCALE, 0);
 		break;
 	}
-	
+
 
 	sprintf_s(tmp_crt_hp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].crt_hp);
 	sprintf_s(tmp_max_hp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].max_hp);
@@ -129,6 +129,13 @@ void fightHandler() {
 		else
 			battleUI_status.currentIndex = 0;
 	}
+}
+
+void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill skill) {
+	double synergy = convertSynergy(skill.type, defender->type);
+	int dmg = (skill.dmg_cf * attacker->dmg - defender->def) * synergy;
+	printf("SKILL-DAMAGE: %d / %lf\n", dmg, synergy);
+	defender->crt_hp -= dmg;
 }
 
 void showBattleUI() {

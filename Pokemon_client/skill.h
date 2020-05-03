@@ -26,5 +26,6 @@ static char* SkillType[] = {
 
 void initPokemonSkill();
 void showSkillList();
+double convertSynergy(int this, int target);
 
 #endif

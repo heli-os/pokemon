@@ -90,8 +90,10 @@ void update()
 			
 			// 스킬 선택
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx],&enemy,myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
 			}
+
 			if (is_key_pressed(ALLEGRO_KEY_X) || is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
 				battleUI_status.battleUISkill = false;
 				battleUI_status.currentMenu = 0;
