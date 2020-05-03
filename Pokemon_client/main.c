@@ -279,7 +279,7 @@ void update()
 				initCollision();
 			}
 
-			if (GAME_STAGE == 2 || GAME_STAGE == 5) {
+			if (GAME_STAGE == 2 || GAME_STAGE == 5 || GAME_STAGE == 7) {
 				int bushJoins = isBush(user_player);
 				if (bushJoins != -4) {
 					double randItem = ((double)rand() / RAND_MAX * 1.0);
@@ -378,7 +378,6 @@ int main(int argc, char* argv[])
 
 	// must be called first!l
 	init_framework("Pokemon By JupiterFlow.com", GAME_WIDTH, GAME_HEIGHT, false);
-
 	_map[0] = al_load_bitmap("gfx/Pallet_Town_Interiors.png");
 	_map[1] = al_load_bitmap("gfx/Pallet_Town_Full.png");
 	_map[2] = al_load_bitmap("gfx/Gym_Inner.png");
