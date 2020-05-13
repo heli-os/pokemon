@@ -8,6 +8,7 @@ typedef struct BATTLEUI_STATUS {
 	bool battleUIOpen;
 	bool battleUIConv;
 	bool battleUISkill;
+	bool battleUIEnd;
 	int currentMenu;
 	int currentIndex;	
 	int currentPokemonIdx;

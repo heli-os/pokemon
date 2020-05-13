@@ -131,11 +131,32 @@ void fightHandler() {
 	}
 }
 
+bool isDead(pokemon* target) {
+	return target->crt_hp <= 0;
+}
+
+void battleOverProcess() {
+
+}
+
+
 void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill skill) {
 	double synergy = convertSynergy(skill.type, defender->type);
-	int dmg = (skill.dmg_cf * attacker->dmg - defender->def) * synergy;
-	printf("SKILL-DAMAGE: %d / %lf\n", dmg, synergy);
+	double randRate = (((double)rand() / RAND_MAX) * 0.6) + 1.0;
+	int dmg = (skill.dmg_cf * attacker->dmg - defender->def) * synergy * randRate;
+	printf("SKILL-DAMAGE: %lf, %d / %lf\n", randRate, dmg, synergy);
 	defender->crt_hp -= dmg;
+
+	if (isDead(defender)) {
+		battleUI_status.battleUIEnd = true;
+		int pokemon_grade = defender->no == 14 ? 3 : ((defender->no == 1) || (defender->no == 4) || (defender->no == 7)) ? 2 : 1;
+		int increase_exp = (pokemon_grade * 40 * defender->level) / 7;
+		int pokemon_next_level_exp = pow((double)myPokemonList[battleUI_status.currentPokemonIdx].level + 1, 3.0);
+		if ((attacker->exp + increase_exp) > pokemon_next_level_exp) {
+			attacker->level++;
+		}
+		attacker->exp += increase_exp;
+	}
 }
 
 void showBattleUI() {
@@ -187,6 +208,18 @@ void showBattleUI() {
 	case 4:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "RUN!");
+		break;
+	case 5:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "BATTLE END!");
+		break;
+	case 6:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "Your attack hit the enemy!");
+		break;
+	case 7:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "The enemy's attack hit you!");
 		break;
 	}
 }

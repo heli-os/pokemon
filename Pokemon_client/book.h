@@ -77,7 +77,6 @@ enum POKEMONBOOK {
 	POKEMON_Rattata,
 	POKEMON_Pikachu,
 	POKEMON_Raichu,
-
 };
 
 

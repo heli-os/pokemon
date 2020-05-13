@@ -22,26 +22,26 @@ extern pokemonSkill pokemonSkillRef[20];
 // 도감번호, 이름, 타입, HP, 공격, 방어, 속도
 pokemon pokemonBook[15] = {
 	// 이상해씨, 이상해풀, 이상해꽃
-	{ 1,  "Bulbasaur",  POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 110, 110, 20, 10 ,5},
-	{ 2,  "Ivysaur",    POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 220, 220, 30, 15 ,7},
-	{ 3,  "Venusaur",   POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 385, 385, 44, 22 ,10},
+	{ 1,  "Bulbasaur",  POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 110, 110, 21, 10 ,5},
+	{ 2,  "Ivysaur",    POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 220, 220, 45, 15 ,7},
+	{ 3,  "Venusaur",   POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 385, 385, 78, 22 ,10},
 	// 파이리, 리자드, 리자몽
-	{ 4,  "Charmander", POKEMON_TYPE_FIRE						, 1, 0,  90,  90, 24,  8 ,5},
-	{ 5,  "Charmeleon", POKEMON_TYPE_FIRE						, 1, 0, 180, 180, 36, 12 ,7},
-	{ 6,  "Charizard",  POKEMON_TYPE_FIRE | POKEMON_TYPE_FLYING , 1, 0, 315, 315, 53, 18 ,10},
+	{ 4,  "Charmander", POKEMON_TYPE_FIRE						, 1, 0,  90,  90, 27,  8 ,5},
+	{ 5,  "Charmeleon", POKEMON_TYPE_FIRE						, 1, 0, 180, 180, 55, 12 ,7},
+	{ 6,  "Charizard",  POKEMON_TYPE_FIRE | POKEMON_TYPE_FLYING , 1, 0, 315, 315, 96, 18 ,10},
 	// 꼬부기, 어니부기, 거북왕
 	{ 7,  "Squirtle",   POKEMON_TYPE_WATER, 1, 0, 95, 22, 9 ,5},
-	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 33, 14 ,7},
-	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 49, 20 ,10},
+	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 47, 14 ,7},
+	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 83, 20 ,10},
 	// 구구, 피죤, 피죤투
 	{ 10, "Pidgey",     POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0,  93,  93, 23,  8 ,9},
-	{ 11, "Pidgeotto",  POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 186, 186, 35, 12 ,13},
-	{ 12, "Pidgeot",    POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 325, 325, 51, 18 ,18},
+	{ 11, "Pidgeotto",  POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 186, 186, 46, 12 ,13},
+	{ 12, "Pidgeot",    POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 325, 325, 81, 18 ,18},
 	// 꼬렛
-	{ 13, "Rattata",    POKEMON_TYPE_NORMAL, 1, 0, 83, 83, 17, 15 ,8},
+	{ 13, "Rattata",    POKEMON_TYPE_NORMAL, 1, 0, 83, 83, 20, 15 ,8},
 	// 피카츄, 라이츄
-	{ 14, "Pikachu",    POKEMON_TYPE_ELECTRIC, 1, 0, 105, 105, 22,  9,  6},
-	{ 15, "Raichu",     POKEMON_TYPE_ELECTRIC, 1, 0, 240, 240, 51, 21, 14},
+	{ 14, "Pikachu",    POKEMON_TYPE_ELECTRIC, 1, 0, 105, 105, 28,  9,  6},
+	{ 15, "Raichu",     POKEMON_TYPE_ELECTRIC, 1, 0, 240, 240, 70, 21, 14},
 };
 
 bool checkPokemonType(const pokemon _pokemon, const int type) {

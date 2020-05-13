@@ -34,7 +34,7 @@ menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
-battleUIStatus battleUI_status = { false, false, false, -1, -1, 0 };
+battleUIStatus battleUI_status = { false, false, false, false, -1, -1, 0 };
 
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -53,13 +53,18 @@ void update()
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.battleUIConv = false;
-				if (battleUI_status.currentMenu == 4) {
+				if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
 					fadeOut(0.05);
 					battleUI_status.battleUIOpen = false;
 					battleUI_status.currentMenu = -1;
 					battleUI_status.currentIndex = -1;
 					battleUI_status.currentPokemonIdx = -1;
 					fadeIn(0.05);
+				}
+				else if (battleUI_status.currentMenu == 6) {
+					battleUI_status.battleUISkill = false;
+					battleUI_status.currentMenu = 0;
+					battleUI_status.currentIndex = 0;
 				}
 				else {
 					battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
@@ -82,16 +87,19 @@ void update()
 				}
 			}
 			if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
-				if (battleUI_status.currentIndex < 3 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex+1].own == true)
+				if (battleUI_status.currentIndex < 3 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex + 1].own == true)
 					battleUI_status.currentIndex++;
 				else
 					battleUI_status.currentIndex = 0;
 			}
-			
+
 			// 스킬 선택
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
-				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx],&enemy,myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
+				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
+				battleUI_status.battleUIConv = true;
+				battleUI_status.currentMenu = 6;
+				battleUI_status.currentIndex = 0;
 			}
 
 			if (is_key_pressed(ALLEGRO_KEY_X) || is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
@@ -100,6 +108,13 @@ void update()
 				battleUI_status.currentIndex = 0;
 			}
 		}
+		// 배틀 종료
+		else if (battleUI_status.battleUIEnd) {
+			battleUI_status.battleUIEnd = false;
+			battleUI_status.battleUIConv = true;
+			battleUI_status.currentMenu = 5;
+		}
+		// 그 외
 		else {
 			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 				if (battleUI_status.currentIndex > 0)
@@ -131,7 +146,7 @@ void update()
 					battleUI_status.battleUIConv = true;
 					break;
 				}
-				
+
 			}
 			if (battleUI_status.currentMenu != -1 && is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.currentMenu = 0;
@@ -139,6 +154,7 @@ void update()
 			}
 		}
 	}
+	// 포켓몬 메뉴
 	else if (pokemonMenu_status.pokemonMenuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 			if (pokemonMenu_status.currentIndex > 0) {
@@ -169,6 +185,7 @@ void update()
 			closePokemonMenu();
 		}
 	}
+	// 일반 메뉴
 	else if (menu_status.menuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
 			if (menu_status.menuIndex > 0)
@@ -192,11 +209,13 @@ void update()
 			closePokemonThumb();
 		}
 	}
+	// 대화창
 	else if (conversation_status.convsOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
 			closeConversation();
 		}
 	}
+	// 기타(아무것도 안함)
 	else {
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
 			quit();
