@@ -6,6 +6,8 @@ extern battleUIStatus battleUI_status;
 extern float camera_position_x;
 extern float camera_position_y;
 
+extern pokemonMenuStatus pokemonMenu_status;
+
 extern ALLEGRO_FONT* get_convsPirnt_font();
 extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
 
@@ -15,13 +17,13 @@ extern pokemon enemy;
 void drawBasicUI() {
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 0, 107, 240, 112, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.3333333, GAME_SCALE, 0, 0);
 
-	char tmp_crt_hp[4], tmp_max_hp[4], tmp_level[4];
+	char tmp_crt_hp[255], tmp_max_hp[255], tmp_level[255];
 	// enemy
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 246, 107, 100, 29, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 6 * GAME_SCALE, camera_position_y + 8 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 	al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 15 * GAME_SCALE, 0);
-	sprintf_s(tmp_crt_hp, 4, "%d", enemy.crt_hp);
-	sprintf_s(tmp_max_hp, 4, "%d", enemy.max_hp);
-	sprintf_s(tmp_level, 4, "%d", enemy.level);
+	sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", enemy.crt_hp);
+	sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", enemy.max_hp);
+	sprintf_s(tmp_level, sizeof(tmp_level), "%d", enemy.level);
 
 	al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(64, 64, 64), camera_position_x + 11 * GAME_SCALE, camera_position_y + 14.5 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, enemy.displayName);
 	al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(64, 64, 64), camera_position_x + 65 * GAME_SCALE, camera_position_y + 14.5 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
@@ -139,13 +141,23 @@ void battleOverProcess() {
 
 }
 
+void CPUattackProcess() {
+	int skillCnt = 0;
+	int i = 0;
+	for (i = 0; i < 4; i++)
+		if (enemy.skill[i].own) skillCnt++;
 
-void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill skill) {
-	double synergy = convertSynergy(skill.type, defender->type);
+	int selectSkill = rand() % skillCnt;
+	attackProcess(&enemy, &myPokemonList[battleUI_status.currentPokemonIdx], &enemy.skill[selectSkill]);
+}
+
+void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
+	double synergy = convertSynergy(skill->type, defender->type);
 	double randRate = (((double)rand() / RAND_MAX) * 0.6) + 1.0;
-	int dmg = (skill.dmg_cf * attacker->dmg - defender->def) * synergy * randRate;
+	int dmg = (skill->dmg_cf * attacker->dmg - defender->def) * synergy * randRate;
 	printf("SKILL-DAMAGE: %lf, %d / %lf\n", randRate, dmg, synergy);
 	defender->crt_hp -= dmg;
+	if (defender->crt_hp < 0) defender->crt_hp = 0;
 
 	if (isDead(defender)) {
 		battleUI_status.battleUIEnd = true;
@@ -203,7 +215,9 @@ void showBattleUI() {
 		break;
 	case 3:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
-		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "POKEMON!");
+		//al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "POKEMON!");
+
+		showPoekmonMenu();
 		break;
 	case 4:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);

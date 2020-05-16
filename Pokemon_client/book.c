@@ -1,5 +1,6 @@
 ﻿#include "book.h"
 #include <math.h>
+#include "battle.h"
 
 extern pokemonSkill pokemonSkillRef[20];
 /*
@@ -30,9 +31,9 @@ pokemon pokemonBook[15] = {
 	{ 5,  "Charmeleon", POKEMON_TYPE_FIRE						, 1, 0, 180, 180, 55, 12 ,7},
 	{ 6,  "Charizard",  POKEMON_TYPE_FIRE | POKEMON_TYPE_FLYING , 1, 0, 315, 315, 96, 18 ,10},
 	// 꼬부기, 어니부기, 거북왕
-	{ 7,  "Squirtle",   POKEMON_TYPE_WATER, 1, 0, 95, 22, 9 ,5},
-	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 47, 14 ,7},
-	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 83, 20 ,10},
+	{ 7,  "Squirtle",   POKEMON_TYPE_WATER, 1, 0, 95, 95, 22, 9 ,5},
+	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 190, 47, 14 ,7},
+	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 332, 83, 20 ,10},
 	// 구구, 피죤, 피죤투
 	{ 10, "Pidgey",     POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0,  93,  93, 23,  8 ,9},
 	{ 11, "Pidgeotto",  POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 186, 186, 46, 12 ,13},
@@ -133,6 +134,7 @@ extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
 void showPoekmonMenu() {
 	if (!pokemonMenu_status.pokemonMenuOpen) return;
 
+
 	al_draw_tinted_scaled_rotated_bitmap_region(pokemonMenuBitmap, 250, 5, 240, 160, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.33333333, GAME_SCALE, 0, 0);
 
 	int index_0_pos_x = camera_position_x + 2 * GAME_SCALE;
@@ -145,13 +147,13 @@ void showPoekmonMenu() {
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_0_pos_x + (myPokemonList[0].no == 6 ? 30 : 27) * GAME_SCALE, index_0_pos_y + 22 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[0].displayName);
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_0_pos_x + (myPokemonList[0].no == 6 ? 30 : 27) * GAME_SCALE - 2, index_0_pos_y + 22 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[0].displayName);
 
-		char tmp_level[4];
-		sprintf_s(tmp_level, 4, "%d", myPokemonList[0].level);
+		char tmp_level[255];
+		sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[0].level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_0_pos_x + 40 * GAME_SCALE, index_0_pos_y + 29 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(255, 255, 255), index_0_pos_x + 40 * GAME_SCALE - 2, index_0_pos_y + 29 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_level);
-		char tmp_crt_hp[4], tmp_max_hp[4];
-		sprintf_s(tmp_crt_hp, 4, "%d", myPokemonList[0].crt_hp);
-		sprintf_s(tmp_max_hp, 4, "%d", myPokemonList[0].max_hp);
+		char tmp_crt_hp[255], tmp_max_hp[255];
+		sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", myPokemonList[0].crt_hp);
+		sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", myPokemonList[0].max_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_0_pos_x + 36 * GAME_SCALE, index_0_pos_y + 46 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(255, 255, 255), index_0_pos_x + 36 * GAME_SCALE - 2, index_0_pos_y + 46 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_0_pos_x + 54 * GAME_SCALE, index_0_pos_y + 46 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
@@ -182,13 +184,13 @@ void showPoekmonMenu() {
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 23 * GAME_SCALE, index_other_pos_y + 5 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[1].displayName);
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 23 * GAME_SCALE - 2, index_other_pos_y + 5 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[1].displayName);
 
-		char tmp_level[4];
-		sprintf_s(tmp_level, 4, "%d", myPokemonList[1].level);
+		char tmp_level[255];
+		sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[1].level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 42 * GAME_SCALE, index_other_pos_y + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 42 * GAME_SCALE - 2, index_other_pos_y + 14 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_level);
-		char tmp_crt_hp[4], tmp_max_hp[4];
-		sprintf_s(tmp_crt_hp, 4, "%d", myPokemonList[1].crt_hp);
-		sprintf_s(tmp_max_hp, 4, "%d", myPokemonList[1].max_hp);
+		char tmp_crt_hp[255], tmp_max_hp[255];
+		sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", myPokemonList[1].crt_hp);
+		sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", myPokemonList[1].max_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 91 * GAME_SCALE, index_other_pos_y + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 91 * GAME_SCALE - 2, index_other_pos_y + 14 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 109 * GAME_SCALE, index_other_pos_y + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
@@ -214,13 +216,13 @@ void showPoekmonMenu() {
 			al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 23 * GAME_SCALE, index_other_pos_y + ((i-2)*24 + 29) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[i].displayName);
 			al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 23 * GAME_SCALE - 2, index_other_pos_y + ((i - 2) * 24 + 29) * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[i].displayName);
 
-			char tmp_level[4];
-			sprintf_s(tmp_level, 4, "%d", myPokemonList[i].level);
+			char tmp_level[255];
+			sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[i].level);
 			al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 42 * GAME_SCALE, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
 			al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 42 * GAME_SCALE - 2, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_level);
-			char tmp_crt_hp[4], tmp_max_hp[4];
-			sprintf_s(tmp_crt_hp, 4, "%d", myPokemonList[i].crt_hp);
-			sprintf_s(tmp_max_hp, 4, "%d", myPokemonList[i].max_hp);
+			char tmp_crt_hp[255], tmp_max_hp[255];
+			sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", myPokemonList[i].crt_hp);
+			sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", myPokemonList[i].max_hp);
 			al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 91 * GAME_SCALE, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 			al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 91 * GAME_SCALE - 2, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_crt_hp);
 			al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 109 * GAME_SCALE, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
@@ -264,7 +266,13 @@ void showPoekmonMenu() {
 	}
 }
 
+extern battleUIStatus battleUI_status;
 void closePokemonMenu() {
+	if (battleUI_status.battleUIOpen) {
+		battleUI_status.battleUIConv = false;
+		battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
+		battleUI_status.currentMenu = 0;
+	}
 	pokemonMenu_status.currentIndex = -1;
 	pokemonMenu_status.pokemonMenuOpen = false;
 }
@@ -278,6 +286,10 @@ pokemon createPokemon(int pokemonId, int level) {
 	tmpPokemon.dmg = tmpPokemon.dmg * pow(1 + POKEMON_DMG_PER_LEVELUP, level);
 	tmpPokemon.def = tmpPokemon.def * pow(1 + POKEMON_DEF_PER_LEVELUP, level);
 	tmpPokemon.spd = tmpPokemon.spd * pow(1 + POKEMON_SPD_PER_LEVELUP, level);
+
+	for (int i = 0; i < 4; i++)
+		if(tmpPokemon.skill[i].no != 0)
+			tmpPokemon.skill[i].own = tmpPokemon.level >= tmpPokemon.skill[i].level_condition;
 
 	return tmpPokemon;
 }

@@ -48,8 +48,40 @@ extern bool onChat;
 extern pokemon pokemonBook[15];
 void update()
 {
+	// 포켓몬 메뉴
+	if (pokemonMenu_status.pokemonMenuOpen) {
+		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+			if (pokemonMenu_status.currentIndex > 0) {
+				pokemonMenu_status.currentIndex--;
+				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
+					pokemonMenu_status.currentIndex = 0;
+			}
+			else
+				pokemonMenu_status.currentIndex = 6;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			if (pokemonMenu_status.currentIndex < 6) {
+				pokemonMenu_status.currentIndex++;
+				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
+					pokemonMenu_status.currentIndex = 6;
+			}
+			else
+				pokemonMenu_status.currentIndex = 0;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			switch (pokemonMenu_status.currentIndex) {
+			case 6:
+				closePokemonMenu();
+				break;
+			}
+		}
+		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			closePokemonMenu();
+		}
+
+	}
 	// 배틀메뉴 초기화면(4개 메뉴)
-	if (battleUI_status.battleUIOpen) {
+	else if (battleUI_status.battleUIOpen) {
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.battleUIConv = false;
@@ -62,6 +94,19 @@ void update()
 					fadeIn(0.05);
 				}
 				else if (battleUI_status.currentMenu == 6) {
+					if (isDead(&enemy)) {
+						battleUI_status.battleUISkill = false;
+						battleUI_status.currentMenu = 0;
+						battleUI_status.currentIndex = 0;
+					}
+					else {
+						CPUattackProcess();
+						battleUI_status.battleUIConv = true;
+						battleUI_status.currentMenu = 7;
+						battleUI_status.currentIndex = 0;
+					}
+				}
+				else if (battleUI_status.currentMenu == 7) {
 					battleUI_status.battleUISkill = false;
 					battleUI_status.currentMenu = 0;
 					battleUI_status.currentIndex = 0;
@@ -95,7 +140,7 @@ void update()
 
 			// 스킬 선택
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
-				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
+				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, &myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
 				battleUI_status.battleUIConv = true;
 				battleUI_status.currentMenu = 6;
@@ -140,6 +185,8 @@ void update()
 					battleUI_status.battleUIConv = true;
 					break;
 				case 3:
+					pokemonMenu_status.pokemonMenuOpen = true;
+					pokemonMenu_status.currentIndex = 0;
 					battleUI_status.battleUIConv = true;
 					break;
 				case 4:
@@ -152,37 +199,6 @@ void update()
 				battleUI_status.currentMenu = 0;
 				battleUI_status.currentIndex = 0;
 			}
-		}
-	}
-	// 포켓몬 메뉴
-	else if (pokemonMenu_status.pokemonMenuOpen) {
-		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
-			if (pokemonMenu_status.currentIndex > 0) {
-				pokemonMenu_status.currentIndex--;
-				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
-					pokemonMenu_status.currentIndex = 0;
-			}
-			else
-				pokemonMenu_status.currentIndex = 6;
-		}
-		if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
-			if (pokemonMenu_status.currentIndex < 6) {
-				pokemonMenu_status.currentIndex++;
-				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
-					pokemonMenu_status.currentIndex = 6;
-			}
-			else
-				pokemonMenu_status.currentIndex = 0;
-		}
-		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
-			switch (pokemonMenu_status.currentIndex) {
-			case 6:
-				closePokemonMenu();
-				break;
-			}
-		}
-		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
-			closePokemonMenu();
 		}
 	}
 	// 일반 메뉴

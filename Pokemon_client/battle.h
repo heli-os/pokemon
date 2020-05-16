@@ -22,6 +22,8 @@ typedef struct BATTLEUI_STATUS {
 
 ALLEGRO_BITMAP* battleUIBitmap;
 
+bool isDead(pokemon* target);
 void showBattleUI();
-void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill skill);
+void CPUattackProcess();
+void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill);
 #endif
