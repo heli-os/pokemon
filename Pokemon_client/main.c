@@ -70,6 +70,20 @@ void update()
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			switch (pokemonMenu_status.currentIndex) {
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			{
+				pokemon tmp = myPokemonList[0];
+				myPokemonList[0] = myPokemonList[pokemonMenu_status.currentIndex];
+				myPokemonList[pokemonMenu_status.currentIndex] = tmp;
+				if (battleUI_status.battleUIOpen)
+					closePokemonMenu();
+			}
+			break;
 			case 6:
 				closePokemonMenu();
 				break;

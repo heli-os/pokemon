@@ -93,9 +93,9 @@ void showSkillList() {
 		al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName);
 
 	
-	char tmp_crt_pp[4], tmp_max_pp[4];
-	sprintf_s(tmp_crt_pp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].crt_pp);
-	sprintf_s(tmp_max_pp, 4, "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].max_pp);
+	char tmp_crt_pp[255], tmp_max_pp[255];
+	sprintf_s(tmp_crt_pp, sizeof(tmp_crt_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].crt_pp);
+	sprintf_s(tmp_max_pp, sizeof(tmp_max_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].max_pp);
 	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 154 * GAME_SCALE, convsY + -2 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_pp);
 	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 169 * GAME_SCALE, convsY + -2 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_pp);
 

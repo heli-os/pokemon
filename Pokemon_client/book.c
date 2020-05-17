@@ -31,9 +31,9 @@ pokemon pokemonBook[15] = {
 	{ 5,  "Charmeleon", POKEMON_TYPE_FIRE						, 1, 0, 180, 180, 55, 12 ,7},
 	{ 6,  "Charizard",  POKEMON_TYPE_FIRE | POKEMON_TYPE_FLYING , 1, 0, 315, 315, 96, 18 ,10},
 	// 꼬부기, 어니부기, 거북왕
-	{ 7,  "Squirtle",   POKEMON_TYPE_WATER, 1, 0, 95, 95, 22, 9 ,5},
-	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 190, 47, 14 ,7},
-	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 332, 83, 20 ,10},
+	{ 7,  "Squirtle",   POKEMON_TYPE_WATER, 1, 0, 95, 95, 25, 9 ,5},
+	{ 8,  "Wartortle",  POKEMON_TYPE_WATER, 1, 0, 190, 190, 50, 14 ,7},
+	{ 9,  "Blastoise",  POKEMON_TYPE_WATER, 1, 0, 332, 332, 91, 20 ,10},
 	// 구구, 피죤, 피죤투
 	{ 10, "Pidgey",     POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0,  93,  93, 23,  8 ,9},
 	{ 11, "Pidgeotto",  POKEMON_TYPE_NORMAL | POKEMON_TYPE_FLYING, 1, 0, 186, 186, 46, 12 ,13},
