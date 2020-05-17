@@ -73,6 +73,9 @@
     <ClCompile Include="otherUtils.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="bag.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nginx_framework.h">
@@ -130,6 +133,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="otherUtils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="bag.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

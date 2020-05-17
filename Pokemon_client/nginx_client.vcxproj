@@ -172,6 +172,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bag.c" />
     <ClCompile Include="battle.c" />
     <ClCompile Include="book.c" />
     <ClCompile Include="bush.c" />
@@ -193,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\network_protocols.h" />
+    <ClInclude Include="bag.h" />
     <ClInclude Include="battle.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="bush.h" />

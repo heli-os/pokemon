@@ -1,4 +1,4 @@
-﻿#include "book.h"
+﻿#include "otherUtils.h"
 extern pokemon myPokemonList[6];
 bool isDead(pokemon* target) {
 	if (target->no == -1) return true;

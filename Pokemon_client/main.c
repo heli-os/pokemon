@@ -11,6 +11,7 @@
 #include "book.h"
 #include "menu.h"
 #include "battle.h"
+#include "bag.h"
 #include "otherUtils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -486,6 +487,11 @@ int main(int argc, char* argv[])
 	al_convert_mask_to_alpha(battleUIBitmap, al_map_rgb(163, 73, 164));
 	if (battleUIBitmap == NULL)
 		printf("battleUIBitmap not load\n");
+
+	bagUIBitmap = al_load_bitmap("gfx/BagUI.png");
+	al_convert_mask_to_alpha(bagUIBitmap, al_map_rgb(201, 237, 188));
+	if (bagUIBitmap == NULL)
+		printf("bagUIBitmap not load\n");
 
 	// 디버깅용, 스테이지 임의 이동
 	//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
