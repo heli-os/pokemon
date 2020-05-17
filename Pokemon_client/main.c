@@ -11,6 +11,7 @@
 #include "book.h"
 #include "menu.h"
 #include "battle.h"
+#include "otherUtils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -53,8 +54,12 @@ void update()
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 			if (pokemonMenu_status.currentIndex > 0) {
 				pokemonMenu_status.currentIndex--;
-				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
-					pokemonMenu_status.currentIndex = 0;
+				int lastIdx = -1;
+				for (int i = 0; i <= pokemonMenu_status.currentIndex; i++) {
+					if (myPokemonList[i].no != -1)
+						lastIdx = i;
+				}
+				pokemonMenu_status.currentIndex = lastIdx;
 			}
 			else
 				pokemonMenu_status.currentIndex = 6;
@@ -77,28 +82,37 @@ void update()
 			case 4:
 			case 5:
 			{
+				if (myPokemonList[pokemonMenu_status.currentIndex].crt_hp == 0)
+					break;
 				pokemon tmp = myPokemonList[0];
 				myPokemonList[0] = myPokemonList[pokemonMenu_status.currentIndex];
 				myPokemonList[pokemonMenu_status.currentIndex] = tmp;
-				if (battleUI_status.battleUIOpen)
+				if (battleUI_status.battleUIOpen) {
 					closePokemonMenu();
+					battleUI_status.currentIndex = 0;
+				}
 			}
 			break;
 			case 6:
+				if (battleUI_status.battleUISkill)
+					break;
 				closePokemonMenu();
 				break;
 			}
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
-			closePokemonMenu();
+			if (!battleUI_status.battleUISkill)
+				closePokemonMenu();
 		}
 
 	}
 	// 배틀메뉴 초기화면(4개 메뉴)
 	else if (battleUI_status.battleUIOpen) {
+		// Battle Converstation
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.battleUIConv = false;
+				// 게임오버
 				if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
 					fadeOut(0.05);
 					battleUI_status.battleUIOpen = false;
@@ -109,6 +123,7 @@ void update()
 				}
 				else if (battleUI_status.currentMenu == 6) {
 					if (isDead(&enemy)) {
+						battleUI_status.battleUIEnd = true;
 						battleUI_status.battleUISkill = false;
 						battleUI_status.currentMenu = 0;
 						battleUI_status.currentIndex = 0;
@@ -121,9 +136,26 @@ void update()
 					}
 				}
 				else if (battleUI_status.currentMenu == 7) {
-					battleUI_status.battleUISkill = false;
-					battleUI_status.currentMenu = 0;
-					battleUI_status.currentIndex = 0;
+					if (isDead(&myPokemonList[battleUI_status.currentPokemonIdx])) {
+						if (remainPokemon()) {
+							/*battleUI_status.battleUISkill = false;*/
+							pokemonMenu_status.pokemonMenuOpen = true;
+							pokemonMenu_status.currentIndex = 0;
+							battleUI_status.currentMenu = 3;
+						}
+						else {
+							battleUI_status.battleUIEnd = true;
+							battleUI_status.battleUISkill = false;
+							battleUI_status.currentMenu = 0;
+							battleUI_status.currentIndex = 0;
+
+						}
+					}
+					else {
+						battleUI_status.battleUISkill = false;
+						battleUI_status.currentMenu = 0;
+						battleUI_status.currentIndex = 0;
+					}		
 				}
 				else {
 					battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
@@ -192,7 +224,6 @@ void update()
 				switch (battleUI_status.currentMenu) {
 				case 1:
 					battleUI_status.battleUISkill = true;
-					battleUI_status.currentMenu = battleUI_status.currentIndex + 1;
 					battleUI_status.currentIndex = 0;
 					break;
 				case 2:
@@ -207,7 +238,6 @@ void update()
 					battleUI_status.battleUIConv = true;
 					break;
 				}
-
 			}
 			if (battleUI_status.currentMenu != -1 && is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.currentMenu = 0;
@@ -335,6 +365,9 @@ void update()
 				if (bushJoins != -4) {
 					double randItem = ((double)rand() / RAND_MAX * 1.0);
 					if (randItem <= TOTAL_APPEAR_RATE) {
+						// HP 회복 임시
+						//healingPokemon();
+
 						fadeOut(0.02);
 						fadeIn(0.02);
 						fadeOut(0.02);

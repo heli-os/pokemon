@@ -1,5 +1,6 @@
 ﻿#include "battle.h"
 #include "book.h"
+#include "otherUtils.h"
 #include <math.h>
 
 extern battleUIStatus battleUI_status;
@@ -117,7 +118,6 @@ int calculateEXP(int level) {
 
 extern bool is_key_pressed(int keycode);
 void fightHandler() {
-	pokemon user = myPokemonList[battleUI_status.currentPokemonIdx];
 	showSkillList();
 	if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 		if (battleUI_status.currentIndex > 0)
@@ -131,10 +131,6 @@ void fightHandler() {
 		else
 			battleUI_status.currentIndex = 0;
 	}
-}
-
-bool isDead(pokemon* target) {
-	return target->crt_hp <= 0;
 }
 
 void battleOverProcess() {
@@ -160,10 +156,9 @@ void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
 	if (defender->crt_hp < 0) defender->crt_hp = 0;
 
 	if (isDead(defender)) {
-		battleUI_status.battleUIEnd = true;
 		int pokemon_grade = defender->no == 14 ? 3 : ((defender->no == 1) || (defender->no == 4) || (defender->no == 7)) ? 2 : 1;
 		int increase_exp = (pokemon_grade * 40 * defender->level) / 7;
-		int pokemon_next_level_exp = pow((double)myPokemonList[battleUI_status.currentPokemonIdx].level + 1, 3.0);
+		int pokemon_next_level_exp = pow((double)attacker->level + 1, 3.0);
 		if ((attacker->exp + increase_exp) > pokemon_next_level_exp) {
 			attacker->level++;
 		}
@@ -216,7 +211,6 @@ void showBattleUI() {
 	case 3:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 		//al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "POKEMON!");
-
 		showPoekmonMenu();
 		break;
 	case 4:

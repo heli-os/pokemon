@@ -159,4 +159,5 @@ double convertSynergy(int this, int target) {
 		if (target == POKEMON_TYPE_FLYING) return 2.0;
 		return 1.0;
 	}
+	return 1.0;
 }
