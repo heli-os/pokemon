@@ -270,6 +270,7 @@ extern battleUIStatus battleUI_status;
 void closePokemonMenu() {
 	if (battleUI_status.battleUIOpen) {
 		battleUI_status.battleUIConv = false;
+		battleUI_status.battleUISkill = false;
 		battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
 		battleUI_status.currentMenu = 0;
 	}

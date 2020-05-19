@@ -37,6 +37,7 @@ conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
 battleUIStatus battleUI_status = { false, false, false, false, -1, -1, 0 };
+bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -105,7 +106,34 @@ void update()
 			if (!battleUI_status.battleUISkill)
 				closePokemonMenu();
 		}
-
+	}
+	// 가방 메뉴
+	else if (bagUI_status.bagUIOpen) {
+		if (is_key_pressed(ALLEGRO_KEY_UP)) {
+			printf("ALLEGRO_KEY_UP\n");
+			if (bagUI_status.currentIndex > 0)
+				bagUI_status.currentIndex--;
+			else
+				bagUI_status.currentIndex = bagUI_status.lastIndex;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
+			printf("ALLEGRO_KEY_DOWN\n");
+			if (bagUI_status.currentIndex < bagUI_status.lastIndex)
+				bagUI_status.currentIndex++;
+			else
+				bagUI_status.currentIndex = 0;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_LEFT) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			bagUI_status.currentMenu = bagUI_status.currentMenu == 0 ? 1 : 0;
+			bagUI_status.currentIndex = 0;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			printf("ALLEGRO_KEY_Z||ALLEGRO_KEY_ENTER\n");
+		}
+		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			closeBagMenu();
+			printf("ALLEGRO_KEY_ESCAPE||ALLEGRO_KEY_X\n");
+		}
 	}
 	// 배틀메뉴 초기화면(4개 메뉴)
 	else if (battleUI_status.battleUIOpen) {
@@ -156,7 +184,7 @@ void update()
 						battleUI_status.battleUISkill = false;
 						battleUI_status.currentMenu = 0;
 						battleUI_status.currentIndex = 0;
-					}		
+					}
 				}
 				else {
 					battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
@@ -228,12 +256,14 @@ void update()
 					battleUI_status.currentIndex = 0;
 					break;
 				case 2:
-					battleUI_status.battleUIConv = true;
+					bagUI_status.bagUIOpen = true;
+					bagUI_status.currentMenu = 0;
+					bagUI_status.currentIndex = 0;
+					bagUI_status.lastIndex = 5;
 					break;
 				case 3:
 					pokemonMenu_status.pokemonMenuOpen = true;
 					pokemonMenu_status.currentIndex = 0;
-					battleUI_status.battleUIConv = true;
 					break;
 				case 4:
 					battleUI_status.battleUIConv = true;
@@ -453,6 +483,7 @@ void render()
 	showPoekmonMenu();
 
 	showBattleUI();
+	drawBagUI();
 }
 
 int main(int argc, char* argv[])

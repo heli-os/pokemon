@@ -5,6 +5,7 @@
 #include "environment.h"
 #include "object.h"
 #include "map.h"
+#include "bag.h"
 
 // 9구간이 7px 간격으로 나누어져있음
 // -------------------------------
@@ -17,6 +18,7 @@
 extern menuStatus menu_status;
 extern conversationStatus conversation_status;
 extern pokemonMenuStatus pokemonMenu_status;
+extern bagUIStatus bagUI_status;
 extern float camera_position_x;
 extern float camera_position_y;
 
@@ -81,6 +83,10 @@ void menuHandler() {
 			pokemonMenu_status.currentIndex = 0;
 			break;
 		case 1:
+			bagUI_status.bagUIOpen = true;
+			bagUI_status.currentMenu = 0;
+			bagUI_status.currentIndex = 0;
+			bagUI_status.lastIndex = 5;
 			break;
 		case 2:
 			environmentSave();

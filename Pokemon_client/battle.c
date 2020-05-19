@@ -1,5 +1,6 @@
 ﻿#include "battle.h"
 #include "book.h"
+#include "bag.h"
 #include "otherUtils.h"
 #include <math.h>
 
@@ -206,7 +207,8 @@ void showBattleUI() {
 		break;
 	case 2:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
-		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "BAG!");
+		//al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "BAG!");
+		drawBagUI();
 		break;
 	case 3:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
