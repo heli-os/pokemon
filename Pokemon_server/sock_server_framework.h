@@ -9,7 +9,6 @@
 #pragma comment(lib,"wsock32.lib")
 
 #define BUFSIZE 1024
-#define SOCK_PORT 2513
 
 void __cdecl RecvThread(void* p);
 void bind_sock_srv(void);

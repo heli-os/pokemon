@@ -11,8 +11,16 @@ typedef struct BAGUI_STATUS {
 	int lastIndex;
 } bagUIStatus;
 
+typedef struct INVENTORY_ITEM {
+	int itemType;
+	int itemStock;
+	char* itemName;
+	char* itemDesc[3];
+} inventoryItem;
+
 ALLEGRO_BITMAP* bagUIBitmap;
 
+void interactInventory();
 void drawBagUI();
 void closeBagMenu();
 #endif

@@ -64,7 +64,7 @@ void bind_sock_srv(void) {
 	//--------서버(자신)의 소켓 정보 입력------------
 	SOCKADDR_IN serv_addr = { 0 };					// 초기화
 	serv_addr.sin_family = AF_INET;					// IP 사용
-	serv_addr.sin_port = htons(4000);				// 포트 4000번
+	serv_addr.sin_port = htons(23245);				// 포트 23245번
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);	// 주소는 알아서 찾기
 	//------------------------------------------------
 

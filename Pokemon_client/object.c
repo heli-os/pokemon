@@ -17,9 +17,9 @@ int objectPosition[8][3][5] = {
 		{0}
 	},
 	{ // 오박사 연구실
-		{1,LAB_POKEBALL_0, 524,285, 1},
-		{1,LAB_POKEBALL_1, 588,285, 1},
-		{1,LAB_POKEBALL_2, 652,285, 1},
+		{7,LAB_POKEBALL_0, 520,281, 1},
+		{7,LAB_POKEBALL_1, 584,281, 1},
+		{7,LAB_POKEBALL_2, 648,281, 1},
 	},
 	{ // 마을(2)
 		{0}
@@ -60,9 +60,7 @@ void initObject(ALLEGRO_BITMAP* object) {
 
 			createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], objectItem[objectTarget][2] * GAME_SCALE, objectItem[objectTarget][3] * GAME_SCALE);
 
-			ALLEGRO_BITMAP* objectBitmap = al_clone_bitmap(object);
-			al_convert_mask_to_alpha(objectBitmap, al_map_rgb(0, 128, 0));
-			al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, objectItem[objectTarget][0], objectItem[objectTarget][1], objectItem[objectTarget][2], objectItem[objectTarget][3], al_map_rgb(255, 255, 255), 0, 0, objBoxes[i].sx, objBoxes[i].sy, GAME_SCALE, GAME_SCALE, 0, 0);
+			al_draw_tinted_scaled_rotated_bitmap_region(object, objectItem[objectTarget][0], objectItem[objectTarget][1], objectItem[objectTarget][2], objectItem[objectTarget][3], al_map_rgb(255, 255, 255), 0, 0, objBoxes[i].sx, objBoxes[i].sy, GAME_SCALE, GAME_SCALE, 0, 0);
 		}
 	}
 }
@@ -95,7 +93,7 @@ int isObject(const player _player) {
 		}
 
 		if (GAME_MODE == GAME_ENV_DEVELOPMENT)
-			al_draw_rectangle(tx, ty, tx + tw, ty + th, al_map_rgb(255,0,0), 3);
+			al_draw_rectangle(tx, ty, tx + tw, ty + th, al_map_rgb(255, 0, 0), 3);
 
 		int ox = objBoxes[i].sx;
 		int oy = objBoxes[i].sy;
@@ -119,11 +117,11 @@ int isObject(const player _player) {
 }
 
 void interactObject(int objId) {
-	switch(objId) {
+	switch (objId) {
 	case LAB_POKEBALL_0:
 		menu_status.currentMenu = POKEBALL_00_MENU;
 		menu_status.menuOpen = true;
-		
+
 		conversation_status.currentConvs = POKEBALL_00_CONVERSATION;
 		conversation_status.maxIndex = 2;
 		conversation_status.convsOpen = true;

@@ -1,4 +1,9 @@
-﻿#include "nginx_framework.h"
+﻿#include <stdio.h>
+#include <io.h>
+#include <stdlib.h>
+#include <time.h>
+
+#include "nginx_framework.h"
 #include "player.h"
 #include "map.h"
 #include "object.h"
@@ -13,16 +18,13 @@
 #include "battle.h"
 #include "bag.h"
 #include "otherUtils.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "conversation.h"
 #include "environment.h"
 
 int GAME_SPEED = 1;
 int GAME_STAGE = 0;
 
-player user_player = { NULL, "", 0,1,0,0,false,0,0 };
+player user_player = { NULL, "TMP_NAME", 0,1,0,0,false,820, 868 };
 pokemon myPokemonList[6] = {
 	 { -1,"",0,0,0,0,0,0,0,0},
 	 { -1,"",0,0,0,0,0,0,0,0},
@@ -49,8 +51,7 @@ extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
 extern pokemon pokemonBook[15];
-void update()
-{
+void update() {
 	// 포켓몬 메뉴
 	if (pokemonMenu_status.pokemonMenuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
@@ -110,14 +111,12 @@ void update()
 	// 가방 메뉴
 	else if (bagUI_status.bagUIOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
-			printf("ALLEGRO_KEY_UP\n");
 			if (bagUI_status.currentIndex > 0)
 				bagUI_status.currentIndex--;
 			else
 				bagUI_status.currentIndex = bagUI_status.lastIndex;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
-			printf("ALLEGRO_KEY_DOWN\n");
 			if (bagUI_status.currentIndex < bagUI_status.lastIndex)
 				bagUI_status.currentIndex++;
 			else
@@ -125,14 +124,14 @@ void update()
 		}
 		if (is_key_pressed(ALLEGRO_KEY_LEFT) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
 			bagUI_status.currentMenu = bagUI_status.currentMenu == 0 ? 1 : 0;
+			bagUI_status.lastIndex = bagUI_status.currentMenu == 0 ? 5 : 3;
 			bagUI_status.currentIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
-			printf("ALLEGRO_KEY_Z||ALLEGRO_KEY_ENTER\n");
+			interactInventory();
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
 			closeBagMenu();
-			printf("ALLEGRO_KEY_ESCAPE||ALLEGRO_KEY_X\n");
 		}
 	}
 	// 배틀메뉴 초기화면(4개 메뉴)
@@ -465,8 +464,7 @@ void update()
 }
 
 int move_tick = 0;
-void render()
-{
+void render() {
 	al_draw_bitmap(world_map, 0, 0, 0);
 	switch (user_player.iAction_type)
 	{
@@ -484,10 +482,11 @@ void render()
 
 	showBattleUI();
 	drawBagUI();
+
+	//al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, 0, 0, 102, 73, al_map_rgb(255, 255, 255), 0, 0, /*screenWidth/2-88*GAME_SCALE*/500, /*screenHeight / 2 - 72 * GAME_SCALE*/500, GAME_SCALE, GAME_SCALE, 0, 0);
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	srand((unsigned int)time(NULL));
 	//gets_s(user_player.cName, sizeof(user_player.cName));
 	bind_sock_clnt();
@@ -524,6 +523,11 @@ int main(int argc, char* argv[])
 	if (bagUIBitmap == NULL)
 		printf("bagUIBitmap not load\n");
 
+	objectBitmap = al_load_bitmap("gfx/Object.png");
+	al_convert_mask_to_alpha(objectBitmap, al_map_rgb(0, 120, 192));
+	if (objectBitmap == NULL)
+		printf("objectBitmap not load\n");
+
 	// 디버깅용, 스테이지 임의 이동
 	//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
 	//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
@@ -532,6 +536,9 @@ int main(int argc, char* argv[])
 
 	initPokemonThumb();
 	initPokemonSkill();
+
+	if (_access("./profile.pkms", 4) == -1)
+		environmentSave();
 
 	environmentLoad();
 

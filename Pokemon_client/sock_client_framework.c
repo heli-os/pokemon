@@ -89,7 +89,7 @@ void bind_sock_clnt(void) {
 	//---------서버 정보 입력--------------------
 	SOCKADDR_IN serv_addr;
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_port = htons(4000);
+	serv_addr.sin_port = htons(23245);
 
 	char* server_type;
 	server_type = "local";
