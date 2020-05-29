@@ -85,7 +85,7 @@ bool checkPokemonType(const pokemon _pokemon, const int type);
 void showPokemonThumb(int pokemonId);
 void closePokemonThumb();
 
-void showPoekmonMenu();
+void showPokemonMenu();
 void closePokemonMenu();
 
 

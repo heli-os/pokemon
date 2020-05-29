@@ -131,7 +131,7 @@ extern ALLEGRO_FONT* get_pokemonmenuPirnt_font();
 extern ALLEGRO_FONT* get_menuPirnt_font();
 extern ALLEGRO_FONT* get_pokemonmenu_level_Print_font();
 extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
-void showPoekmonMenu() {
+void showPokemonMenu() {
 	if (!pokemonMenu_status.pokemonMenuOpen) return;
 
 

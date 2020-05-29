@@ -24,7 +24,8 @@
 int GAME_SPEED = 1;
 int GAME_STAGE = 0;
 
-player user_player = { NULL, "TMP_NAME", 0,1,0,0,false,820, 868 };
+// player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y
+player user_player = { NULL, "TMP_NAME", 0,1,0,0,false, 820, 868 };
 pokemon myPokemonList[6] = {
 	 { -1,"",0,0,0,0,0,0,0,0},
 	 { -1,"",0,0,0,0,0,0,0,0},
@@ -41,7 +42,6 @@ pokemonMenuStatus pokemonMenu_status = { false, -1 };
 battleUIStatus battleUI_status = { false, false, false, false, -1, -1, 0 };
 bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
-// player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y, hp, armor, buf
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
 ALLEGRO_BITMAP* _object = NULL;
 
@@ -478,7 +478,7 @@ void render() {
 	showMenu(menu_status.currentMenu);
 	showConversation(conversation_status.currentConvs);
 	showPokemonThumb(pokemonThumb_status.currentThumb);
-	showPoekmonMenu();
+	showPokemonMenu();
 
 	showBattleUI();
 	drawBagUI();
