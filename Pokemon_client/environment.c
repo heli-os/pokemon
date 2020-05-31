@@ -120,6 +120,7 @@ void environmentLoad() {
 
 	json_t* pData = json_load_file("./profile.pkms", 0, jerror);
 
+	// PLAYER
 	json_t* playerData = json_object_get(pData, "PLAYER");
 	strcpy_s(user_player.cName, sizeof(user_player.cName), json_string_value(json_object_get(playerData, "cName")));
 
@@ -131,6 +132,7 @@ void environmentLoad() {
 
 	GAME_STAGE = json_integer_value(json_object_get(pData, "GAME_STAGE"));
 
+	// POKEMON_LIST
 	for (int i = 0; i < 6; i++) {
 		json_t* tmpData = json_array_get(json_object_get(pData, "POKEMON_LIST"), i);
 		myPokemonList[i].no = json_integer_value(json_object_get(tmpData, "no"));
@@ -172,6 +174,7 @@ void environmentLoad() {
 		myPokemonList[i].icon[1] = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].icon[1]);
 	}
 
+	// OBJECT_POSITION
 	json_t* tmpObjPosition = json_object_get(pData, "OBJECT_POSITION");
 	for (int i = 0; i < json_array_size(tmpObjPosition); i++) {
 		json_t* tmpObjPosition_depth2 = json_array_get(tmpObjPosition, i);
@@ -183,6 +186,7 @@ void environmentLoad() {
 		}
 	}
 
+	// INVENTORY_SLOTS
 	json_t* tmpInventorySlot = json_object_get(pData, "INVENTORY_SLOTS");
 	for (int i = 0; i < json_array_size(tmpInventorySlot); i++) {
 		json_t* tmpInventorySlot_depth2 = json_array_get(tmpInventorySlot, i);

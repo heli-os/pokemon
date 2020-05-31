@@ -160,7 +160,7 @@
       <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>jansson.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -176,6 +176,7 @@
     <ClCompile Include="battle.c" />
     <ClCompile Include="book.c" />
     <ClCompile Include="bush.c" />
+    <ClCompile Include="catching.c" />
     <ClCompile Include="conversation.c" />
     <ClCompile Include="environment.c" />
     <ClCompile Include="menu.c" />
@@ -198,6 +199,7 @@
     <ClInclude Include="battle.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="bush.h" />
+    <ClInclude Include="catching.h" />
     <ClInclude Include="conversation.h" />
     <ClInclude Include="environment.h" />
     <ClInclude Include="menu.h" />

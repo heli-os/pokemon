@@ -43,27 +43,6 @@ extern bool onChat;
 
 extern player user_player;
 
-
-ALLEGRO_COLOR black_color;
-ALLEGRO_COLOR white_color;
-ALLEGRO_COLOR dark_grey_color;
-ALLEGRO_COLOR grey_color;
-ALLEGRO_COLOR light_grey_color;
-ALLEGRO_COLOR red_color;
-ALLEGRO_COLOR green_color;
-ALLEGRO_COLOR dark_green_color;
-ALLEGRO_COLOR blue_color;
-ALLEGRO_COLOR yellow_color;
-ALLEGRO_COLOR cyan_color;
-ALLEGRO_COLOR magenta_color;
-ALLEGRO_COLOR maroon_color;
-ALLEGRO_COLOR purple_color;
-ALLEGRO_COLOR lime_color;
-ALLEGRO_COLOR olive_color;
-ALLEGRO_COLOR navy_color;
-ALLEGRO_COLOR teal_color;
-ALLEGRO_COLOR brown_color;
-
 void write_logfile(int log_level, const char* format, ...)
 {
 	char buffer[4096];
@@ -126,14 +105,17 @@ void init_framework(const char* title, int window_width, int window_height, bool
 
 	al_init_font_addon();
 	al_init_ttf_addon();	
+
 	default_font = al_load_ttf_font("fonts/NanumGothic.ttf", 50, ALLEGRO_TTF_NO_KERNING);
 	if (!default_font) {
 		log_error("Failed to load ttf font");
 	}
+
 	chatInput_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 20, ALLEGRO_TTF_NO_KERNING);
 	if (!chatInput_font) {
 		log_error("Failed to load ttf font");
 	}
+
 	chatText_font = al_load_ttf_font("fonts/Roboto-Medium.ttf", 20, ALLEGRO_TTF_NO_KERNING);
 	if (!chatText_font) {
 		log_error("Failed to load ttf font");
@@ -164,7 +146,6 @@ void init_framework(const char* title, int window_width, int window_height, bool
 		log_error("Failed to load ttf font");
 	}
 	
-
 	convsPrint_font = al_load_ttf_font("fonts/pkm.ttf", 35, ALLEGRO_TTF_NO_KERNING);
 	if (!convsPrint_font) {
 		log_error("Failed to load ttf font");
@@ -202,27 +183,6 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
 	srand(time(NULL));
-
-	// initialize default colors
-	black_color = al_map_rgb(0, 0, 0);
-	white_color = al_map_rgb(255, 255, 255);
-	dark_grey_color = al_map_rgb(64, 64, 64);
-	grey_color = al_map_rgb(128, 128, 128);
-	light_grey_color = al_map_rgb(192, 192, 192);
-	red_color = al_map_rgb(255, 0, 0);
-	green_color = al_map_rgb(0, 255, 0);
-	dark_green_color = al_map_rgb(0, 100, 0);
-	blue_color = al_map_rgb(0, 0, 255);
-	yellow_color = al_map_rgb(255, 255, 0);
-	cyan_color = al_map_rgb(0, 255, 255);
-	magenta_color = al_map_rgb(255, 0, 255);
-	maroon_color = al_map_rgb(128, 0, 0);
-	purple_color = al_map_rgb(128, 0, 128);
-	lime_color = al_map_rgb(191, 255, 0);
-	olive_color = al_map_rgb(128, 128, 0);
-	navy_color = al_map_rgb(0, 0, 128);
-	teal_color = al_map_rgb(0, 128, 128);
-	brown_color = al_map_rgb(101, 55, 0);
 }
 
 void destroy_framework(void)

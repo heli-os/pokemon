@@ -25,7 +25,7 @@ pokemon pokemonBook[15] = {
 	// 이상해씨, 이상해풀, 이상해꽃
 	{ 1,  "Bulbasaur",  POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 110, 110, 21, 10 ,5},
 	{ 2,  "Ivysaur",    POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 220, 220, 45, 15 ,7},
-	{ 3,  "Venusaur",   POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 385, 385, 78, 22 ,10},
+	{ 3,  "Venusaur",   POKEMON_TYPE_GRASS | POKEMON_TYPE_POISON, 1, 0, 370, 370, 78, 22 ,10},
 	// 파이리, 리자드, 리자몽
 	{ 4,  "Charmander", POKEMON_TYPE_FIRE						, 1, 0,  90,  90, 27,  8 ,5},
 	{ 5,  "Charmeleon", POKEMON_TYPE_FIRE						, 1, 0, 180, 180, 55, 12 ,7},
@@ -293,15 +293,4 @@ pokemon createPokemon(int pokemonId, int level) {
 			tmpPokemon.skill[i].own = tmpPokemon.level >= tmpPokemon.skill[i].level_condition;
 
 	return tmpPokemon;
-}
-void catchingPokemon(int pokemonId, int level) {
-	for (int i = 0; i < 6; i++) {
-		if (myPokemonList[i].no != -1)
-			continue;
-
-		myPokemonList[i] = createPokemon(pokemonId, level);
-		printf("pokemonId:%d[%s]\n", i, myPokemonList[i].displayName);
-		return;
-	}
-	printf("error\n");
 }

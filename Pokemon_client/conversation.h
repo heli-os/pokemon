@@ -26,7 +26,8 @@ static char* mapConversationChar[][2] = {
 	{"So, you're claiming the","GRASS Pokemon Bulbasaur?"},
 	{"So, you're claiming the","FIRE Pokemon Charmander?"},
 	{"So, you're claiming the","WATER Pokemon Squirtle?"},
-	{"Save Success!"}
+	{"Save Success!"},
+	{"You used the item with","Pokemon."}
 };
 
 void showConversation(int convsId);

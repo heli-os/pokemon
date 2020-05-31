@@ -130,7 +130,6 @@ double convertSynergy(int this, int target) {
 	if (this == POKEMON_TYPE_NORMAL) return 1.0;
 	if (this == target) return 0.5;
 
-	double ret = 0.0;
 	switch (this) {
 	case POKEMON_TYPE_GRASS:
 		if (target == POKEMON_TYPE_FIRE) return 0.5;

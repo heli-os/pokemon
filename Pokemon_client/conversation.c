@@ -1,6 +1,8 @@
 ﻿#include "conversation.h"
+#include "book.h"
 
 extern conversationStatus conversation_status;
+extern pokemonMenuStatus pokemonMenu_status;
 extern float camera_position_x;
 extern float camera_position_y;
 extern ALLEGRO_FONT* get_convsPirnt_font();
@@ -47,6 +49,11 @@ void closeConversation() {
 	conversation_status.maxIndex = 0;
 	conversation_status.index = 0;
 	conversation_status.currentConvs = -1;
+
+	if (pokemonMenu_status.pokemonMenuOpen) {
+		pokemonMenu_status.pokemonMenuOpen = false;
+		pokemonMenu_status.currentIndex = 0;
+	}
 }
 void conversationHandler() {
 

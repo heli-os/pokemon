@@ -1,5 +1,7 @@
 ﻿#include "bag.h"
 #include "battle.h"
+#include "catching.h"
+#include "conversation.h"
 #include "object.h"
 
 extern float camera_position_x;
@@ -7,7 +9,12 @@ extern float camera_position_y;
 
 extern ALLEGRO_FONT* get_menuPirnt_font();
 
+
+extern battleUIStatus battleUI_status;
 extern bagUIStatus bagUI_status;
+extern pokemonMenuStatus pokemonMenu_status;
+extern conversationStatus conversation_status;
+
 
 inventoryItem inventorySlots[2][6] = {
 	// 일반 아이템
@@ -28,11 +35,83 @@ inventoryItem inventorySlots[2][6] = {
 	}
 };
 
-void interactInventory() {
+void interactItem(int itemNo, pokemon* target) {
 	inventoryItem item = inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex];
-
 	printf("CLICK:%s\n", item.itemName);
+	// 가방 메뉴 인덱스가 0일 때(회복아이템)
+	if (bagUI_status.currentMenu == 0) {
+		switch (itemNo) {
+		case COMMON_POTION:
+			target->crt_hp += 20;
+			break;
+		case COMMON_SUPER_POTION:
+			target->crt_hp += 50;
+			break;
+		case COMMON_HYPER_POTION:
+			target->crt_hp += 200;
+			break;
+		case COMMON_MAX_POTION:
+			target->crt_hp = target->max_hp;
+			break;
+		case COMMON_ETHER:
+			break;
+		case COMMON_REVIVE:
+			break;
+		}
+		if (target->crt_hp > target->max_hp)
+			target->crt_hp = target->max_hp;
+
+		inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock -= 1;
+		conversation_status.currentConvs = 4;
+		conversation_status.maxIndex = 2;
+		conversation_status.convsOpen = true;
+	}
+	// 가방 메뉴 인덱스가 1일 때(포켓볼)
+	else {
+		double catchingRate = 0.0;
+		int pokemon_grade_rate = target->no == 14 ? 30 : ((target->no == 1) || (target->no == 4) || (target->no == 7)) ? 70 : 100;
+		switch (itemNo) {
+		case COMMON_POKEBALL:
+			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_POKEBALL + 1) * 255.0 / 256.0;
+			break;
+		case COMMON_GREATBALL:
+			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_GREATBALL + 1) * 255.0 / 256.0;
+			break;
+		case COMMON_ULTRABALL:
+			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_ULTRABALL + 1) * 255.0 / 256.0;
+			break;
+		case COMMON_MASTERBALL:
+			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_MASTERBALL + 1) * 255.0 / 256.0;
+			break;
+		}
+		battleUI_status.battleUICatching = true;
+		bagUI_status.currentIndex = itemNo - 9;
+		bagUI_status.bagUIOpen = false;
+		bagUI_status.currentMenu = 0;
+		printf("%d, %lf\n", itemNo, catchingRate);
+	}
 }
+extern pokemon enemy;
+
+void interactInventory() {
+	if (!battleUI_status.battleUIOpen && bagUI_status.currentMenu != 0)
+		return;
+
+	if (inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock <= 0)
+		return;
+
+	// 가방 메뉴 인덱스 0일 때(회복)
+	if (bagUI_status.currentMenu == 0) {
+		pokemonMenu_status.pokemonMenuOpen = true;
+		pokemonMenu_status.currentIndex = 0;
+	}
+	// 가방 메뉴 인덱스 1일 때(포켓볼)
+	else {
+		interactItem(bagUI_status.currentIndex + 9, &enemy);
+	}
+}
+
+
 
 void drawBagUI() {
 	if (!bagUI_status.bagUIOpen) return;
@@ -130,12 +209,11 @@ void drawBagUI() {
 		item_posY = i * 15.5 + 13;
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + item_posX * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, item.itemName);
 		char stockMSG[255] = { 0 };
-		item.itemStock = 99;
+		inventorySlots[bagUI_status.currentMenu][i].itemStock = 99;
 		sprintf_s(stockMSG, sizeof(stockMSG), "X %d", item.itemStock);
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + (item_posX + 84) * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, stockMSG);
 	}
 }
-extern battleUIStatus battleUI_status;
 void closeBagMenu() {
 	if (battleUI_status.battleUIOpen) {
 		battleUI_status.battleUIConv = false;

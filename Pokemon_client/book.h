@@ -55,10 +55,10 @@ enum {
 // 공격 상승량 4/8/12
 // 방어 상승량 2/4/6
 // 속도 상승량 3/6/9
-#define POKEMON_HP_PER_LEVELUP	0.08
-#define POKEMON_DMG_PER_LEVELUP	0.04
-#define POKEMON_DEF_PER_LEVELUP	0.02
-#define POKEMON_SPD_PER_LEVELUP	0.03
+#define POKEMON_HP_PER_LEVELUP	0.005
+#define POKEMON_DMG_PER_LEVELUP	0.015
+#define POKEMON_DEF_PER_LEVELUP	0.00125
+#define POKEMON_SPD_PER_LEVELUP	0.003
 
 
 enum POKEMONBOOK {
@@ -90,6 +90,5 @@ void closePokemonMenu();
 
 
 pokemon createPokemon(int pokemonId, int level);
-void catchingPokemon(int pokemonId, int level);
 
 #endif

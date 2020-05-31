@@ -1,5 +1,6 @@
 ﻿#include "nginx_framework.h"
 #include "menu.h"
+#include "catching.h"
 #include "conversation.h"
 #include "book.h"
 #include "environment.h"

@@ -4,11 +4,12 @@
 #include <time.h>
 
 #include "nginx_framework.h"
+#include "sock_client_framework.h"
 #include "player.h"
 #include "map.h"
+#include "catching.h"
 #include "object.h"
 #include "screen.h"
-#include "sock_client_framework.h"
 #include "collision.h"
 #include "portal.h"
 #include "bush.h"
@@ -39,7 +40,7 @@ menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
-battleUIStatus battleUI_status = { false, false, false, false, -1, -1, 0 };
+battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1 };
 bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -52,8 +53,39 @@ extern bool onChat;
 
 extern pokemon pokemonBook[15];
 void update() {
+	// 일반 메뉴
+	if (!bagUI_status.bagUIOpen && !pokemonMenu_status.pokemonMenuOpen && menu_status.menuOpen) {
+
+		if (is_key_pressed(ALLEGRO_KEY_UP)) {
+			if (menu_status.menuIndex > 0)
+				menu_status.menuIndex--;
+			else
+				menu_status.menuIndex = menu_status.maxMenuIndex - 1;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
+			if (menu_status.menuIndex < menu_status.maxMenuIndex - 1)
+				menu_status.menuIndex++;
+			else
+				menu_status.menuIndex = 0;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			menuHandler();
+		}
+
+		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			closeMenu();
+			closeConversation();
+			closePokemonThumb();
+		}
+	}
+	// 대화창
+	else if (conversation_status.convsOpen) {
+		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			closeConversation();
+		}
+	}
 	// 포켓몬 메뉴
-	if (pokemonMenu_status.pokemonMenuOpen) {
+	else if (pokemonMenu_status.pokemonMenuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
 			if (pokemonMenu_status.currentIndex > 0) {
 				pokemonMenu_status.currentIndex--;
@@ -85,6 +117,11 @@ void update() {
 			case 4:
 			case 5:
 			{
+				// 아이템 사용
+				if (bagUI_status.bagUIOpen) {
+					interactItem(bagUI_status.currentIndex + 3, &myPokemonList[pokemonMenu_status.currentIndex]);
+				}
+				// 배틀, 일반
 				if (myPokemonList[pokemonMenu_status.currentIndex].crt_hp == 0)
 					break;
 				pokemon tmp = myPokemonList[0];
@@ -275,36 +312,6 @@ void update() {
 			}
 		}
 	}
-	// 일반 메뉴
-	else if (menu_status.menuOpen) {
-		if (is_key_pressed(ALLEGRO_KEY_UP)) {
-			if (menu_status.menuIndex > 0)
-				menu_status.menuIndex--;
-			else
-				menu_status.menuIndex = menu_status.maxMenuIndex - 1;
-		}
-		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
-			if (menu_status.menuIndex < menu_status.maxMenuIndex - 1)
-				menu_status.menuIndex++;
-			else
-				menu_status.menuIndex = 0;
-		}
-		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
-			menuHandler();
-		}
-
-		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
-			closeMenu();
-			closeConversation();
-			closePokemonThumb();
-		}
-	}
-	// 대화창
-	else if (conversation_status.convsOpen) {
-		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
-			closeConversation();
-		}
-	}
 	// 기타(아무것도 안함)
 	else {
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
@@ -476,12 +483,13 @@ void render() {
 		break;
 	}
 	showMenu(menu_status.currentMenu);
-	showConversation(conversation_status.currentConvs);
-	showPokemonThumb(pokemonThumb_status.currentThumb);
-	showPokemonMenu();
-
 	showBattleUI();
 	drawBagUI();
+
+	showPokemonMenu();
+
+	showConversation(conversation_status.currentConvs);
+	showPokemonThumb(pokemonThumb_status.currentThumb);
 
 	//al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, 0, 0, 102, 73, al_map_rgb(255, 255, 255), 0, 0, /*screenWidth/2-88*GAME_SCALE*/500, /*screenHeight / 2 - 72 * GAME_SCALE*/500, GAME_SCALE, GAME_SCALE, 0, 0);
 }
@@ -537,14 +545,28 @@ int main(int argc, char* argv[]) {
 	initPokemonThumb();
 	initPokemonSkill();
 
+	// 세이브 파일 존재 여부 확인
+	// 존재하지 않으면(-1) 초기 정보로 세이브 파일을 생성
 	if (_access("./profile.pkms", 4) == -1)
 		environmentSave();
 
+	// 세이브 파일 로드
 	environmentLoad();
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 	initCollision();
 
+	/*
+	포켓몬 6마리 임시 생성
+	*/
+	//for (int i = 0; i < 6; i++)
+	//	myPokemonList[i].no = -1;
+	//catchingPokemon(2, 99);
+	//catchingPokemon(5, 99);
+	//catchingPokemon(8, 99);
+	//catchingPokemon(11, 99);
+	//catchingPokemon(13, 99);
+	//catchingPokemon(14, 99);
 
 
 	sendPlayerStatus("JOIN_GAME", user_player);

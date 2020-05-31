@@ -1,10 +1,12 @@
 ﻿#include "battle.h"
+#include "object.h"
 #include "book.h"
 #include "bag.h"
 #include "otherUtils.h"
 #include <math.h>
 
 extern battleUIStatus battleUI_status;
+extern bagUIStatus bagUI_status;
 extern float camera_position_x;
 extern float camera_position_y;
 
@@ -16,13 +18,32 @@ extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
 extern pokemon myPokemonList[6];
 extern pokemon pokemonBook[15];
 extern pokemon enemy;
+
 void drawBasicUI() {
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 0, 107, 240, 112, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.3333333, GAME_SCALE, 0, 0);
 
 	char tmp_crt_hp[255], tmp_max_hp[255], tmp_level[255];
 	// enemy
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 246, 107, 100, 29, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 6 * GAME_SCALE, camera_position_y + 8 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
-	al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 15 * GAME_SCALE, 0);
+
+	if (battleUI_status.battleUICatching) {
+		static int ballAngle = -30;
+		static int ballAngleOffset = 3;
+		int tmpIdx = 1+ battleUI_status.catchingIdx++ / 64;
+		int ball_offset_x = bagUI_status.currentIndex * 16;
+		int ball_offset_y = tmpIdx == 1 ? 23 : tmpIdx == 2 ? 40 : 57;
+		al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, ballAngle, 0);
+
+		// ballAngle 로직 수정 필요
+		if (ballAngle == 30) ballAngleOffset = -3;
+		if (ballAngle == -30) ballAngleOffset = 3;
+		ballAngle += ballAngleOffset;
+		printf("ballAngle(%d), ballAngleOffset(%d)\n", ballAngle, ballAngleOffset);
+	}
+	else {
+		al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 15 * GAME_SCALE, 0);
+	}
+
 	sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", enemy.crt_hp);
 	sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", enemy.max_hp);
 	sprintf_s(tmp_level, sizeof(tmp_level), "%d", enemy.level);
@@ -152,6 +173,8 @@ void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
 	double synergy = convertSynergy(skill->type, defender->type);
 	double randRate = (((double)rand() / RAND_MAX) * 0.6) + 1.0;
 	int dmg = (skill->dmg_cf * attacker->dmg - defender->def) * synergy * randRate;
+
+	if (dmg < 0) dmg = 1;
 	printf("SKILL-DAMAGE: %lf, %d / %lf\n", randRate, dmg, synergy);
 	defender->crt_hp -= dmg;
 	if (defender->crt_hp < 0) defender->crt_hp = 0;
@@ -213,7 +236,7 @@ void showBattleUI() {
 	case 3:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 		//al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "POKEMON!");
-		showPoekmonMenu();
+		showPokemonMenu();
 		break;
 	case 4:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);

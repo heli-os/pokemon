@@ -1,6 +1,7 @@
 ﻿#pragma once
 #ifndef _NGINX_BAG_HEADER_
 #define _NGINX_BAG_HEADER_
+#include "book.h"
 #include "nginx_common.h"
 
 typedef struct BAGUI_STATUS {
@@ -21,6 +22,7 @@ typedef struct INVENTORY_ITEM {
 ALLEGRO_BITMAP* bagUIBitmap;
 
 void interactInventory();
+void interactItem(int itemNo, pokemon* target);
 void drawBagUI();
 void closeBagMenu();
 #endif
