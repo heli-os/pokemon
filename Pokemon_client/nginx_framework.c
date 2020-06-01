@@ -103,6 +103,13 @@ void init_framework(const char* title, int window_width, int window_height, bool
 		log_error("Failed to init image addon");
 	}
 
+	if (!al_install_audio()) {
+		log_error("Failed to init install audio");
+	}
+	if (!al_init_acodec_addon()) {
+		log_error("Failed to init init acodec");
+	}
+
 	al_init_font_addon();
 	al_init_ttf_addon();	
 

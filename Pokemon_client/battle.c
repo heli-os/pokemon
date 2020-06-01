@@ -5,6 +5,7 @@
 #include "otherUtils.h"
 #include <math.h>
 #include "conversation.h"
+#include "sound.h"
 
 extern battleUIStatus battleUI_status;
 extern bagUIStatus bagUI_status;
@@ -38,8 +39,17 @@ void drawBasicUI() {
 			ball_offset_y = 23;
 			al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
 			if ((tmpIdx / 6) < 4) {
+				if (tmpIdx % 6 == 1) {
+					// 202: SFX_BALL_BOUNCE
+					soundHandler(202);
+				}
+				if (tmpIdx == 19) {
+					// 203: SFX_CATCH_SUCCESS
+					soundHandler(203);
+				}
 				battleUI_status.battleUIConv = true;
 				battleUI_status.currentMenu = 8 + tmpIdx / 6;
+	
 			}
 		}
 		else {
@@ -47,14 +57,23 @@ void drawBasicUI() {
 			ball_offset_y = 23;
 			al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
 			if ((tmpIdx / 6) < 3) {
+				if (tmpIdx % 6 == 1) {
+					// 202: SFX_BALL_BOUNCE
+					soundHandler(202);
+				}
 				battleUI_status.battleUIConv = true;
 				battleUI_status.currentMenu = 8 + tmpIdx / 6;
 			}
 			else if (tmpIdx < 21) {
 				ball_offset_y = (tmpIdx) == 18 ? 23 : (tmpIdx) == 19 ? 40 : 57;
 				al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
+				if (ball_offset_y == 57){
+					// 204: SFX_CATCH_FAIL
+					soundHandler(204);
+				}
 			}
 			else {
+				soundHandler(101);
 				battleUI_status.battleUICatching = false;
 				battleUI_status.battleUIConv = false;
 				battleUI_status.currentMenu = 0;

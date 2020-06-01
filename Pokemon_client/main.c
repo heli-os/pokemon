@@ -21,6 +21,7 @@
 #include "otherUtils.h"
 #include "conversation.h"
 #include "environment.h"
+#include "sound.h"
 
 int GAME_SPEED = 1;
 int GAME_STAGE = 0;
@@ -179,6 +180,7 @@ void update() {
 				battleUI_status.battleUIConv = false;
 				// 포켓몬 포획
 				if (battleUI_status.currentMenu == 11) {
+					soundHandler(GAME_STAGE);
 					catchingPokemon(enemy);
 					fadeOut(0.05);
 					battleUI_status.battleUIOpen = false;
@@ -192,6 +194,7 @@ void update() {
 				}
 				// 게임오버
 				else if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
+					soundHandler(GAME_STAGE);
 					fadeOut(0.05);
 					battleUI_status.battleUIOpen = false;
 					battleUI_status.currentMenu = -1;
@@ -225,6 +228,7 @@ void update() {
 							battleUI_status.currentMenu = 3;
 						}
 						else {
+							soundHandler(GAME_STAGE);
 							battleUI_status.battleUIEnd = true;
 							battleUI_status.battleUISkill = false;
 							battleUI_status.currentMenu = 0;
@@ -403,6 +407,9 @@ void update() {
 			if (stageChanges != -4) {
 				GAME_STAGE = stageChanges;
 				printf("main.c->GAME_STAGE%d\n", GAME_STAGE);
+
+				soundHandler(GAME_STAGE);
+
 				fadeOut(0.05);
 				init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 				user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
@@ -416,6 +423,8 @@ void update() {
 			if (GAME_STAGE == 2 || GAME_STAGE == 5 || GAME_STAGE == 7) {
 				int bushJoins = isBush(user_player);
 				if (bushJoins != -4) {
+					// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
+					soundHandler(101);
 					double randItem = ((double)rand() / RAND_MAX * 1.0);
 					if (randItem <= TOTAL_APPEAR_RATE) {
 						// HP 회복 임시
@@ -569,8 +578,12 @@ int main(int argc, char* argv[]) {
 	// 세이브 파일 로드
 	environmentLoad();
 
+	initSound();
+	soundHandler(GAME_STAGE);
+
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 	initCollision();
+
 
 	/*
 	포켓몬 6마리 임시 생성
@@ -583,7 +596,6 @@ int main(int argc, char* argv[]) {
 	//catchingPokemon(11, 99);
 	//catchingPokemon(13, 99);
 	//catchingPokemon(14, 99);
-
 
 	sendPlayerStatus("JOIN_GAME", user_player);
 
