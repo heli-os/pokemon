@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_SKILL_HEADER_
-#define _NGINX_SKILL_HEADER_
+﻿#ifndef _POKEMON_SKILL_HEADER_
+#define _POKEMON_SKILL_HEADER_
 #include "nginx_common.h"
 
 typedef struct _SKILL_STATUS {

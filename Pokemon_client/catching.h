@@ -1,6 +1,6 @@
 ﻿#pragma once
-#ifndef _NGINX_CATCHING_HEADER_
-#define _NGINX_CATCHING_HEADER_
+#ifndef _POKEMON_CATCHING_HEADER_
+#define _POKEMON_CATCHING_HEADER_
 #include "nginx_common.h"
 #include "book.h"
 

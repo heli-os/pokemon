@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_BUSH_HEADER_
-#define _NGINX_BUSH_HEADER_
+﻿#ifndef _POKEMON_BUSH_HEADER_
+#define _POKEMON_BUSH_HEADER_
 #include "nginx_common.h"
 #include "player.h"
 static int mapBush[][5] = {

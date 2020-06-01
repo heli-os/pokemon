@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_CAMERA_HEADER_
-#define _NGINX_CAMERA_HEADER_
+﻿#ifndef _POKEMON_CAMERA_HEADER_
+#define _POKEMON_CAMERA_HEADER_
 #include "nginx_common.h"
 #include "map.h"
 #include "player.h"

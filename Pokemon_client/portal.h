@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_PORTAL_HEADER_
-#define _NGINX_PORTAL_HEADER_
+﻿#ifndef _POKEMON_PORTAL_HEADER_
+#define _POKEMON_PORTAL_HEADER_
 #include "nginx_common.h"
 #include "player.h"
 static int mapPortal[][3][5] = {

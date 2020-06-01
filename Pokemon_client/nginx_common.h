@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_COMMON_HEADER_
-#define _NGINX_COMMON_HEADER_
+﻿#ifndef _POKEMON_COMMON_HEADER_
+#define _POKEMON_COMMON_HEADER_
 //==============================================================================
 // Includes.
 //==============================================================================

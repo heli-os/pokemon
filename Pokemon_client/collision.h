@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_COLLISION_HEADER_
-#define _NGINX_COLLISION_HEADER_
+﻿#ifndef _POKEMON_COLLISION_HEADER_
+#define _POKEMON_COLLISION_HEADER_
 #include "nginx_common.h"
 #include "player.h"
 

@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_MENU_HEADER_
-#define _NGINX_MENU_HEADER_
+﻿#ifndef _POKEMON_MENU_HEADER_
+#define _POKEMON_MENU_HEADER_
 #include "nginx_common.h"
 
 ALLEGRO_BITMAP* menuFrame;

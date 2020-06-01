@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_CONVERSATION_HEADER_
-#define _NGINX_CONVERSATION_HEADER_
+﻿#ifndef _POKEMON_CONVERSATION_HEADER_
+#define _POKEMON_CONVERSATION_HEADER_
 #include "nginx_common.h"
 
 extern ALLEGRO_BITMAP* menuFrame;

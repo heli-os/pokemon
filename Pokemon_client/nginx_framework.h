@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_FRAMEWORK_HEADER_
-#define _NGINX_FRAMEWORK_HEADER_
+﻿#ifndef _POKEMON_FRAMEWORK_HEADER_
+#define _POKEMON_FRAMEWORK_HEADER_
 #include "nginx_common.h"
 
 //==============================================================================

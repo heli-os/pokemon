@@ -1,6 +1,6 @@
 ﻿#pragma once
-#ifndef _NGINX_OTHERUTILS_HEADER_
-#define _NGINX_OTHERUTILS_HEADER_
+#ifndef _POKEMON_OTHERUTILS_HEADER_
+#define _POKEMON_OTHERUTILS_HEADER_
 
 #include "book.h"
 bool isDead(pokemon* target);

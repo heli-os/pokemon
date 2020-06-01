@@ -1,6 +1,6 @@
 ﻿#pragma once
-#ifndef _NGINX_BAG_HEADER_
-#define _NGINX_BAG_HEADER_
+#ifndef _POKEMON_BAG_HEADER_
+#define _POKEMON_BAG_HEADER_
 #include "book.h"
 #include "nginx_common.h"
 

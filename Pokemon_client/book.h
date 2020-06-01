@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_BOOK_HEADER_
-#define _NGINX_BOOK_HEADER_
+﻿#ifndef _POKEMON_BOOK_HEADER_
+#define _POKEMON_BOOK_HEADER_
 #include "nginx_common.h"
 #include "skill.h"
 

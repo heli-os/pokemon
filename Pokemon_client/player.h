@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_PLAYER_HEADER_
-#define _NGINX_PLAYER_HEADER_
+﻿#ifndef _POKEMON_PLAYER_HEADER_
+#define _POKEMON_PLAYER_HEADER_
 
 #include "nginx_common.h"
 

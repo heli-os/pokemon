@@ -1,6 +1,6 @@
 ﻿#pragma once
-#ifndef _NGINX_BATTLE_HEADER_
-#define _NGINX_BATTLE_HEADER_
+#ifndef _POKEMON_BATTLE_HEADER_
+#define _POKEMON_BATTLE_HEADER_
 #include "nginx_common.h"
 #include "book.h"
 

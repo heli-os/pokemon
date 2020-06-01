@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_MAP_HEADER_
-#define _NGINX_MAP_HEADER_
+﻿#ifndef _POKEMON_MAP_HEADER_
+#define _POKEMON_MAP_HEADER_
 #include "nginx_common.h"
 
 void init_terrain(ALLEGRO_BITMAP* bitmap);

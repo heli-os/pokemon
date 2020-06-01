@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_OBJECT_HEADER_
-#define _NGINX_OBJECT_HEADER_
+﻿#ifndef _POKEMON_OBJECT_HEADER_
+#define _POKEMON_OBJECT_HEADER_
 #include "nginx_common.h"
 #include "player.h"
 static int objectItem[][4] = {

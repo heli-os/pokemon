@@ -1,5 +1,5 @@
-﻿#ifndef _NGINX_ENVIRONMENT_HEADER_
-#define _NGINX_ENVIRONMENT_HEADER_
+﻿#ifndef _POKEMON_ENVIRONMENT_HEADER_
+#define _POKEMON_ENVIRONMENT_HEADER_
 #include "nginx_common.h"
 
 void environmentSave();
