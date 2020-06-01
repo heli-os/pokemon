@@ -69,7 +69,6 @@ void interactItem(int itemNo, pokemon* target) {
 	}
 	// 가방 메뉴 인덱스가 1일 때(포켓볼)
 	else {
-		al_stop_samples();
 		double catchingRate = 0.0;
 		double pokemon_grade_rate = target->no == 14 ? 30.0 : ((target->no == 1) || (target->no == 4) || (target->no == 7)) ? 50.0 : 70.0;
 		switch (itemNo) {

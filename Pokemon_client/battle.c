@@ -201,7 +201,7 @@ void battleOverProcess() {
 
 }
 
-void CPUattackProcess() {
+void CPUattackProcess() {	
 	int skillCnt = 0;
 	int i = 0;
 	for (i = 0; i < 4; i++)
@@ -212,6 +212,8 @@ void CPUattackProcess() {
 }
 
 void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
+	// SFX_DAMAGE
+	soundHandler(400);
 	double synergy = convertSynergy(skill->type, defender->type);
 	double randRate = (((double)rand() / RAND_MAX) * 0.6) + 1.0;
 	int dmg = (skill->dmg_cf * attacker->dmg - defender->def) * synergy * randRate;

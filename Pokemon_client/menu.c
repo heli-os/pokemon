@@ -7,6 +7,7 @@
 #include "object.h"
 #include "map.h"
 #include "bag.h"
+#include "sound.h"
 
 // 9구간이 7px 간격으로 나누어져있음
 // -------------------------------
@@ -90,6 +91,8 @@ void menuHandler() {
 			bagUI_status.lastIndex = 5;
 			break;
 		case 2:
+			// SFX_SAVE
+			soundHandler(302);
 			environmentSave();
 			closeMenu();
 			conversation_status.currentConvs = SAVE_SUCCESS_CONVERSATION;

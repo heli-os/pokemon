@@ -2,12 +2,13 @@
 #define _POKEMON_SOUND_HEADER_
 #include "nginx_common.h"
 
-ALLEGRO_SAMPLE_INSTANCE* sounds[15];
+ALLEGRO_SAMPLE_INSTANCE* sounds[16];
 
-static char* soundPath[15] = {
+static char* soundPath[16] = {
 	"sounds/bgm_town.ogg",
 	"sounds/bgm_oak.ogg",
 	"sounds/bgm_battle(wild).ogg",
+	"sounds/bgm_gym.ogg",
 	"sounds/bgm_battle(gym).ogg",
 	"sounds/bgm_victory(gym).ogg",
 	"sounds/bgm_evolution.ogg",
@@ -26,6 +27,7 @@ enum SOUNDLIST {
 	BGM_TOWN,
 	BGM_OAK_LAB,
 	BGM_BATTLE_WILD,
+	BGM_BATTLE,
 	BGM_BATTLE_GYM,
 	BGM_BATTLE_GYM_WIN,
 	BGM_EVOLUTION,

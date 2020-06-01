@@ -58,22 +58,30 @@ void update() {
 	if (!bagUI_status.bagUIOpen && !pokemonMenu_status.pokemonMenuOpen && menu_status.menuOpen) {
 
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (menu_status.menuIndex > 0)
 				menu_status.menuIndex--;
 			else
 				menu_status.menuIndex = menu_status.maxMenuIndex - 1;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (menu_status.menuIndex < menu_status.maxMenuIndex - 1)
 				menu_status.menuIndex++;
 			else
 				menu_status.menuIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			// SFX_TALK
+			soundHandler(1000);
 			menuHandler();
 		}
 
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			// SFX_TALK
+			soundHandler(1000);
 			closeMenu();
 			closeConversation();
 			closePokemonThumb();
@@ -88,6 +96,8 @@ void update() {
 	// 포켓몬 메뉴
 	else if (pokemonMenu_status.pokemonMenuOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (pokemonMenu_status.currentIndex > 0) {
 				pokemonMenu_status.currentIndex--;
 				int lastIdx = -1;
@@ -101,6 +111,8 @@ void update() {
 				pokemonMenu_status.currentIndex = 6;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (pokemonMenu_status.currentIndex < 6) {
 				pokemonMenu_status.currentIndex++;
 				if (myPokemonList[pokemonMenu_status.currentIndex].no == -1)
@@ -110,6 +122,8 @@ void update() {
 				pokemonMenu_status.currentIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			// SFX_TALK
+			soundHandler(1000);
 			switch (pokemonMenu_status.currentIndex) {
 			case 0:
 			case 1:
@@ -120,17 +134,21 @@ void update() {
 			{
 				// 아이템 사용
 				if (bagUI_status.bagUIOpen) {
+					// SFX_USE_ITEM
+					soundHandler(303);
 					interactItem(bagUI_status.currentIndex + 3, &myPokemonList[pokemonMenu_status.currentIndex]);
 				}
-				// 배틀, 일반
-				if (myPokemonList[pokemonMenu_status.currentIndex].crt_hp == 0)
-					break;
-				pokemon tmp = myPokemonList[0];
-				myPokemonList[0] = myPokemonList[pokemonMenu_status.currentIndex];
-				myPokemonList[pokemonMenu_status.currentIndex] = tmp;
-				if (battleUI_status.battleUIOpen) {
-					closePokemonMenu();
-					battleUI_status.currentIndex = 0;
+				else {
+					// 배틀, 일반
+					if (myPokemonList[pokemonMenu_status.currentIndex].crt_hp == 0)
+						break;
+					pokemon tmp = myPokemonList[0];
+					myPokemonList[0] = myPokemonList[pokemonMenu_status.currentIndex];
+					myPokemonList[pokemonMenu_status.currentIndex] = tmp;
+					if (battleUI_status.battleUIOpen) {
+						closePokemonMenu();
+						battleUI_status.currentIndex = 0;
+					}
 				}
 			}
 			break;
@@ -142,6 +160,8 @@ void update() {
 			}
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (!battleUI_status.battleUISkill)
 				closePokemonMenu();
 		}
@@ -149,26 +169,36 @@ void update() {
 	// 가방 메뉴
 	else if (bagUI_status.bagUIOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (bagUI_status.currentIndex > 0)
 				bagUI_status.currentIndex--;
 			else
 				bagUI_status.currentIndex = bagUI_status.lastIndex;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
+			// SFX_TALK
+			soundHandler(1000);
 			if (bagUI_status.currentIndex < bagUI_status.lastIndex)
 				bagUI_status.currentIndex++;
 			else
 				bagUI_status.currentIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_LEFT) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			// SFX_TALK
+			soundHandler(1000);
 			bagUI_status.currentMenu = bagUI_status.currentMenu == 0 ? 1 : 0;
 			bagUI_status.lastIndex = bagUI_status.currentMenu == 0 ? 5 : 3;
 			bagUI_status.currentIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			// SFX_TALK
+			soundHandler(1000);
 			interactInventory();
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+			// SFX_TALK
+			soundHandler(1000);
 			closeBagMenu();
 		}
 	}
@@ -177,6 +207,8 @@ void update() {
 		// Battle Converstation
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
+				// SFX_TALK
+				soundHandler(1000);
 				battleUI_status.battleUIConv = false;
 				// 포켓몬 포획
 				if (battleUI_status.currentMenu == 11) {
@@ -251,6 +283,8 @@ void update() {
 		// 스킬 선택 메뉴
 		else if (battleUI_status.battleUISkill) {
 			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+				// SFX_TALK
+				soundHandler(1000);
 				if (battleUI_status.currentIndex > 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex - 1].own == true)
 					battleUI_status.currentIndex--;
 				else {
@@ -263,6 +297,8 @@ void update() {
 				}
 			}
 			if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+				// SFX_TALK
+				soundHandler(1000);
 				if (battleUI_status.currentIndex < 3 && myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex + 1].own == true)
 					battleUI_status.currentIndex++;
 				else
@@ -271,6 +307,8 @@ void update() {
 
 			// 스킬 선택
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+				// SFX_TALK
+				soundHandler(1000);
 				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, &myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
 				battleUI_status.battleUIConv = true;
@@ -279,6 +317,8 @@ void update() {
 			}
 
 			if (is_key_pressed(ALLEGRO_KEY_X) || is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
+				// SFX_TALK
+				soundHandler(1000);
 				battleUI_status.battleUISkill = false;
 				battleUI_status.currentMenu = 0;
 				battleUI_status.currentIndex = 0;
@@ -293,18 +333,24 @@ void update() {
 		// 그 외
 		else {
 			if (is_key_pressed(ALLEGRO_KEY_UP) || is_key_pressed(ALLEGRO_KEY_LEFT)) {
+				// SFX_TALK
+				soundHandler(1000);
 				if (battleUI_status.currentIndex > 0)
 					battleUI_status.currentIndex--;
 				else
 					battleUI_status.currentIndex = 3;
 			}
 			if (is_key_pressed(ALLEGRO_KEY_DOWN) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+				// SFX_TALK
+				soundHandler(1000);
 				if (battleUI_status.currentIndex < 3)
 					battleUI_status.currentIndex++;
 				else
 					battleUI_status.currentIndex = 0;
 			}
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+				// SFX_TALK
+				soundHandler(1000);
 				battleUI_status.currentMenu = battleUI_status.currentIndex + 1;
 				switch (battleUI_status.currentMenu) {
 				case 1:
@@ -327,6 +373,8 @@ void update() {
 				}
 			}
 			if (battleUI_status.currentMenu != -1 && is_key_pressed(ALLEGRO_KEY_X)) {
+				// SFX_TALK
+				soundHandler(1000);
 				battleUI_status.currentMenu = 0;
 				battleUI_status.currentIndex = 0;
 			}
@@ -365,6 +413,8 @@ void update() {
 			}
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ENTER)) {
+			// SFX_OPEN_MENU
+			soundHandler(301);
 			menu_status.currentMenu = GLOBAL_MENU;
 			menu_status.menuOpen = true;
 		}
