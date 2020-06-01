@@ -26,12 +26,15 @@ void stopAllSound() {
 void soundHandler(int GAME_STAGE) {
 	// 마을
 	if (GAME_STAGE == 2 || GAME_STAGE == 5 || GAME_STAGE == 7) {
-		stopAllSound();
-		al_set_sample_instance_playing(sounds[BGM_TOWN], true);
+		al_set_sample_instance_playing(sounds[BGM_BATTLE_WILD], false);
+		al_set_sample_instance_playing(sounds[BGM_OAK_LAB], false);
+		if (!al_get_sample_instance_playing(sounds[BGM_TOWN]))
+			al_set_sample_instance_playing(sounds[BGM_TOWN], true);
 	}
 	// 집
 	else if (GAME_STAGE == 0 || GAME_STAGE == 1 || GAME_STAGE == 3) {
-		stopAllSound();
+		if (!al_get_sample_instance_playing(sounds[BGM_TOWN]))
+			al_set_sample_instance_playing(sounds[BGM_TOWN], true);
 	}
 	// 체육관
 	else if (GAME_STAGE == 6) {
