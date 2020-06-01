@@ -40,7 +40,7 @@ menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
-battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1 };
+battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1, false };
 bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -177,13 +177,29 @@ void update() {
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
 				battleUI_status.battleUIConv = false;
-				// 게임오버
-				if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
+				// 포켓몬 포획
+				if (battleUI_status.currentMenu == 11) {
+					catchingPokemon(enemy);
 					fadeOut(0.05);
 					battleUI_status.battleUIOpen = false;
 					battleUI_status.currentMenu = -1;
 					battleUI_status.currentIndex = -1;
 					battleUI_status.currentPokemonIdx = -1;
+					battleUI_status.battleUICatching = false;
+					battleUI_status.catchingResult = false;
+					battleUI_status.catchingIdx = 1;
+					fadeIn(0.05);
+				}
+				// 게임오버
+				else if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
+					fadeOut(0.05);
+					battleUI_status.battleUIOpen = false;
+					battleUI_status.currentMenu = -1;
+					battleUI_status.currentIndex = -1;
+					battleUI_status.currentPokemonIdx = -1;
+					battleUI_status.battleUICatching = false;
+					battleUI_status.catchingResult = false;
+					battleUI_status.catchingIdx = 1;
 					fadeIn(0.05);
 				}
 				else if (battleUI_status.currentMenu == 6) {

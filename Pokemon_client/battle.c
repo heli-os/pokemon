@@ -4,6 +4,7 @@
 #include "bag.h"
 #include "otherUtils.h"
 #include <math.h>
+#include "conversation.h"
 
 extern battleUIStatus battleUI_status;
 extern bagUIStatus bagUI_status;
@@ -11,6 +12,7 @@ extern float camera_position_x;
 extern float camera_position_y;
 
 extern pokemonMenuStatus pokemonMenu_status;
+extern conversationStatus conversation_status;
 
 extern ALLEGRO_FONT* get_convsPirnt_font();
 extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
@@ -27,18 +29,39 @@ void drawBasicUI() {
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 246, 107, 100, 29, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 6 * GAME_SCALE, camera_position_y + 8 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 
 	if (battleUI_status.battleUICatching) {
-		static int ballAngle = -30;
-		static int ballAngleOffset = 3;
-		int tmpIdx = 1+ battleUI_status.catchingIdx++ / 64;
+		int tmpIdx = 1 + battleUI_status.catchingIdx++ / 12;
 		int ball_offset_x = bagUI_status.currentIndex * 16;
-		int ball_offset_y = tmpIdx == 1 ? 23 : tmpIdx == 2 ? 40 : 57;
-		al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, ballAngle, 0);
+		int ball_offset_y = -1;
 
-		// ballAngle 로직 수정 필요
-		if (ballAngle == 30) ballAngleOffset = -3;
-		if (ballAngle == -30) ballAngleOffset = 3;
-		ballAngle += ballAngleOffset;
-		printf("ballAngle(%d), ballAngleOffset(%d)\n", ballAngle, ballAngleOffset);
+		if (battleUI_status.catchingResult) {
+			printf("CATCHING SUCCESS!\n");
+			ball_offset_y = 23;
+			al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
+			if ((tmpIdx / 6) < 4) {
+				battleUI_status.battleUIConv = true;
+				battleUI_status.currentMenu = 8 + tmpIdx / 6;
+			}
+		}
+		else {
+			printf("CATCHING FAIL!\n");
+			ball_offset_y = 23;
+			al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
+			if ((tmpIdx / 6) < 3) {
+				battleUI_status.battleUIConv = true;
+				battleUI_status.currentMenu = 8 + tmpIdx / 6;
+			}
+			else if (tmpIdx < 21) {
+				ball_offset_y = (tmpIdx) == 18 ? 23 : (tmpIdx) == 19 ? 40 : 57;
+				al_draw_tinted_scaled_rotated_bitmap_region(objectBitmap, ball_offset_x, ball_offset_y, 12, 16, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 141.5 * GAME_SCALE, camera_position_y + 56 * GAME_SCALE, 3.33333333, GAME_SCALE, 0, 0);
+			}
+			else {
+				battleUI_status.battleUICatching = false;
+				battleUI_status.battleUIConv = false;
+				battleUI_status.currentMenu = 0;
+				battleUI_status.catchingIdx = 1;
+			}
+		}
+		//printf("%s\n", battleUI_status.catchingResult ? "TRUE" : "FALSE");
 	}
 	else {
 		al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 15 * GAME_SCALE, 0);
@@ -253,6 +276,22 @@ void showBattleUI() {
 	case 7:
 		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "The enemy's attack hit you!");
+		break;
+	case 8:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "Catching .");
+		break;
+	case 9:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "Catching . .");
+		break;
+	case 10:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "Catching . . .");
+		break;
+	case 11:
+		al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 132, 52, 240, 48, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y + 112 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
+		al_draw_text(get_convsPirnt_font(), al_map_rgb(255, 255, 255), convsX, convsY, ALLEGRO_ALIGN_LEFT, "You have successfully catched!");
 		break;
 	}
 }

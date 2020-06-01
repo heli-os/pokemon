@@ -1,11 +1,17 @@
 ﻿#include "conversation.h"
 #include "book.h"
+#include "screen.h"
+#include "battle.h"
+#include "catching.h"
 
 extern conversationStatus conversation_status;
 extern pokemonMenuStatus pokemonMenu_status;
+extern battleUIStatus battleUI_status;
 extern float camera_position_x;
 extern float camera_position_y;
 extern ALLEGRO_FONT* get_convsPirnt_font();
+
+extern pokemon enemy;
 
 void showConversation(int convsId) {
 	if (convsId == -1) return;
@@ -45,6 +51,9 @@ void showConversation(int convsId) {
 
 }
 void closeConversation() {
+	if (conversation_status.currentConvs == 5 || conversation_status.currentConvs == 6 || conversation_status.currentConvs == 7)
+		return;
+
 	conversation_status.convsOpen = false;
 	conversation_status.maxIndex = 0;
 	conversation_status.index = 0;

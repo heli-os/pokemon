@@ -69,7 +69,7 @@ void interactItem(int itemNo, pokemon* target) {
 	// 가방 메뉴 인덱스가 1일 때(포켓볼)
 	else {
 		double catchingRate = 0.0;
-		int pokemon_grade_rate = target->no == 14 ? 30 : ((target->no == 1) || (target->no == 4) || (target->no == 7)) ? 70 : 100;
+		double pokemon_grade_rate = target->no == 14 ? 30.0 : ((target->no == 1) || (target->no == 4) || (target->no == 7)) ? 50.0 : 70.0;
 		switch (itemNo) {
 		case COMMON_POKEBALL:
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_POKEBALL + 1) * 255.0 / 256.0;
@@ -84,11 +84,16 @@ void interactItem(int itemNo, pokemon* target) {
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_MASTERBALL + 1) * 255.0 / 256.0;
 			break;
 		}
+		if (catchingRate >= rand() % 100)
+			battleUI_status.catchingResult = true;
+		else
+			battleUI_status.catchingResult = false;
+
 		battleUI_status.battleUICatching = true;
+		inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock -= 1;
 		bagUI_status.currentIndex = itemNo - 9;
 		bagUI_status.bagUIOpen = false;
 		bagUI_status.currentMenu = 0;
-		printf("%d, %lf\n", itemNo, catchingRate);
 	}
 }
 extern pokemon enemy;
