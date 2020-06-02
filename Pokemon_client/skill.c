@@ -80,19 +80,23 @@ void showSkillList() {
 	int convsX = camera_position_x + 14 * GAME_SCALE;
 	int convsY = camera_position_y + (GAME_HEIGHT - 48 * GAME_SCALE) + 14 * GAME_SCALE;
 
-	if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[0].own)
-		al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName);
+	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[0].no != 0)
+		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[0].own)
+			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName);
 
-	if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[1].own)
-		al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY , ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName);
+	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[1].no != 0)
+		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[1].own)
+			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName);
 
-	if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[2].own)
-		al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName);
+	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[2].no != 0)
+		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[2].own)
+			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName);
 
-	if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[3].own)
-		al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName);
+	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[3].no != 0)
+		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[3].own)
+			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName);
 
-	
+
 	char tmp_crt_pp[255], tmp_max_pp[255];
 	sprintf_s(tmp_crt_pp, sizeof(tmp_crt_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].crt_pp);
 	sprintf_s(tmp_max_pp, sizeof(tmp_max_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].max_pp);
