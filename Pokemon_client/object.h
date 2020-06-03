@@ -23,7 +23,9 @@ static int objectItem[][4] = {
 	// 울트라볼
 	{32,23,12,12},
 	// 마스터볼
-	{48,23,12,12}
+	{48,23,12,12},
+	// 체육관 관장
+	{68, 24, 14, 20}
 };
 
 enum OBJECT_ID {
@@ -39,7 +41,8 @@ enum OBJECT_ID {
 	COMMON_POKEBALL,		// 포켓몬볼
 	COMMON_GREATBALL,		// 그레이트볼
 	COMMON_ULTRABALL,		// 울트라볼
-	COMMON_MASTERBALL		// 마스터볼
+	COMMON_MASTERBALL,		// 마스터볼
+	GYM_LEADER				// 체육관 관장
 };
 
 

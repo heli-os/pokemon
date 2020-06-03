@@ -41,7 +41,7 @@ menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
-battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1, false };
+battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1, false , false};
 bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -260,7 +260,6 @@ void update() {
 							battleUI_status.currentMenu = 3;
 						}
 						else {
-							soundHandler(GAME_STAGE);
 							battleUI_status.battleUIEnd = true;
 							battleUI_status.battleUISkill = false;
 							battleUI_status.currentMenu = 0;

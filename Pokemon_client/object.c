@@ -2,6 +2,9 @@
 #include "menu.h"
 #include "conversation.h"
 #include "book.h"
+#include "battle.h"
+#include "sound.h"
+#include "screen.h"
 
 int objectPosition[8][3][5] = {
 	{ // 집 2층
@@ -25,7 +28,7 @@ int objectPosition[8][3][5] = {
 		{0}
 	},
 	{ // 체육관
-		{0}
+		{11, GYM_LEADER, 452, 316, 1}
 	},
 	{ // 마을(3)
 		{0}
@@ -36,6 +39,9 @@ int objectPosition[8][3][5] = {
 extern menuStatus menu_status;
 extern conversationStatus conversation_status;
 extern pokemonThumbStatus pokemonThumb_status;
+extern battleUIStatus battleUI_status;
+extern pokemon enemy;
+
 void createObject(objectBox* objBox, int objId, int iPosX, int iPosY, int iWidth, int iHeight) {
 	objBox->type = objId;
 	objBox->sx = iPosX;
@@ -150,6 +156,27 @@ void interactObject(int objId) {
 
 		pokemonThumb_status.currentThumb = POKEMON_Squirtle;
 		pokemonThumb_status.thumbOpen = true;
+		break;
+	case GYM_LEADER:
+		printf("GYM_LEADER\n");
+		soundHandler(101);
+		// HP 회복 임시
+		//healingPokemon();
+
+		fadeOut(0.02);
+		fadeIn(0.02);
+		fadeOut(0.02);
+		fadeIn(0.02);
+		fadeOut(0.02);
+
+		battleUI_status.battleUIOpen = true;
+		battleUI_status.currentMenu = 0;
+		battleUI_status.currentIndex = 0;
+		battleUI_status.currentPokemonIdx = 0;
+		battleUI_status.battleIsGym = true;
+
+		battleUI_status.enemyPokemonIdx = 1;
+		enemy = createPokemon(battleUI_status.enemyPokemonIdx, 5);
 		break;
 	}
 }

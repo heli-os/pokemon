@@ -12,7 +12,7 @@ void initSound() {
 
 void stopAllSound() {
 	for (int i = 0; i < 16; i++) {
-		al_stop_sample_instance(sounds[i]);
+		al_set_sample_instance_playing(sounds[i], false);
 	}
 }
 
@@ -63,6 +63,7 @@ void soundHandler(int GAME_STAGE) {
 	// 야생 배틀
 	else if (GAME_STAGE == 101) {
 		al_set_sample_instance_playing(sounds[BGM_TOWN], false);
+		al_set_sample_instance_playing(sounds[BGM_BATTLE_GYM], false);
 		al_set_sample_instance_playing(sounds[BGM_BATTLE_WILD], true);
 		al_set_sample_instance_gain(sounds[BGM_BATTLE_WILD], 0.5);
 		al_set_sample_instance_playmode(sounds[BGM_BATTLE_WILD], ALLEGRO_PLAYMODE_LOOP);
