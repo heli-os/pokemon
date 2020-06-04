@@ -41,6 +41,7 @@ extern conversationStatus conversation_status;
 extern pokemonThumbStatus pokemonThumb_status;
 extern battleUIStatus battleUI_status;
 extern pokemon enemy;
+extern pokemon gymLeaderPokemonList[6];
 
 void createObject(objectBox* objBox, int objId, int iPosX, int iPosY, int iWidth, int iHeight) {
 	objBox->type = objId;
@@ -173,10 +174,11 @@ void interactObject(int objId) {
 		battleUI_status.currentMenu = 0;
 		battleUI_status.currentIndex = 0;
 		battleUI_status.currentPokemonIdx = 0;
-		battleUI_status.battleIsGym = true;
 
-		battleUI_status.enemyPokemonIdx = 1;
-		enemy = createPokemon(battleUI_status.enemyPokemonIdx, 5);
+		battleUI_status.battleIsGym = true;
+		battleUI_status.enemyPokemonIdx = gymLeaderPokemonList[0].no - 1;
+
+		enemy = gymLeaderPokemonList[0];
 		break;
 	}
 }

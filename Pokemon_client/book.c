@@ -294,3 +294,27 @@ pokemon createPokemon(int pokemonId, int level) {
 
 	return tmpPokemon;
 }
+
+extern pokemon gymLeaderPokemonList[6];
+void initGymLeaderPokemon() {
+	gymLeaderPokemonList[0] = createPokemon(2, 65);
+	gymLeaderPokemonList[1] = createPokemon(5, 55);
+	gymLeaderPokemonList[2] = createPokemon(8, 58);
+	gymLeaderPokemonList[3] = createPokemon(11, 51);
+	gymLeaderPokemonList[4] = createPokemon(12, 48);
+	gymLeaderPokemonList[5] = createPokemon(14, 62);
+}
+
+void isEvolution(pokemon* target) {
+	int evolutionLevel = 100;
+	
+	if (target->no == 1 || target->no == 4 || target->no == 7 || target->no == 10)
+		evolutionLevel = 15;
+	else if (target->no == 2 || target->no == 5 || target->no == 8 || target->no == 11 || target->no == 14)
+		evolutionLevel = 30;
+
+	if (target->level >= evolutionLevel)
+		*target = createPokemon(target->no + 1, target->level);
+		
+
+}

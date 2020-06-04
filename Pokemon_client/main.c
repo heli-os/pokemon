@@ -37,11 +37,20 @@ pokemon myPokemonList[6] = {
 	 { -1,"",0,0,0,0,0,0,0,0}
 };
 
+pokemon gymLeaderPokemonList[6] = {
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0},
+	 { -1,"",0,0,0,0,0,0,0,0}
+};
+
 menuStatus menu_status = { false, -1, 0 ,0 };
 conversationStatus conversation_status = { false, -1, 0,0 };
 pokemonThumbStatus pokemonThumb_status = { false, -1 };
 pokemonMenuStatus pokemonMenu_status = { false, -1 };
-battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1, false , false};
+battleUIStatus battleUI_status = { false, false, false, false, false, -1, -1, 0, 0, 1, false , false };
 bagUIStatus bagUI_status = { false, false, -1, -1, -1 };
 
 extern ALLEGRO_BITMAP* _map[3] = { NULL };
@@ -506,7 +515,18 @@ void update() {
 							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
 							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
 						}
-						enemy = createPokemon(battleUI_status.enemyPokemonIdx, 5);
+						int levelRange = 0;
+						int myPokemonCnt = 0;
+						for (int i = 0; i < 6; i++) {
+							if (myPokemonList[i].no != -1) {
+								levelRange += myPokemonList[i].level;
+								myPokemonCnt++;
+							}
+						}
+						levelRange /= myPokemonCnt;
+						levelRange = rand() % 5 + levelRange - 3;
+						if (levelRange < 5) levelRange = 5;
+						enemy = createPokemon(battleUI_status.enemyPokemonIdx, levelRange);
 						showBattleUI();
 						fadeIn(0.03);
 						clear_key_buffered();
@@ -632,6 +652,7 @@ int main(int argc, char* argv[]) {
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 	initCollision();
+	initGymLeaderPokemon();
 
 
 	/*
@@ -645,6 +666,8 @@ int main(int argc, char* argv[]) {
 	//catchingPokemon(11, 99);
 	//catchingPokemon(13, 99);
 	//catchingPokemon(14, 99);
+
+	//myPokemonList[0] = createPokemon(4, 29);
 
 	sendPlayerStatus("JOIN_GAME", user_player);
 

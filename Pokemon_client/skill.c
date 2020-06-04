@@ -9,17 +9,17 @@ extern ALLEGRO_FONT* get_pokemonSkill_list_font();
 pokemonSkill pokemonSkillRef[20] = {
 	{1,		"Tackle",			POKEMON_TYPE_NORMAL,	1.1,	0.95,	35,	35, 1,	true},
 	{2,		"Vine Whip",		POKEMON_TYPE_GRASS,		1.1,	1.0,	10,	10, 13,	false},
-	{3,		"Razor Leaf",		POKEMON_TYPE_GRASS,		1.3,	0.95,	25,	25, 30,	false},
+	{3,		"Razor Leaf",		POKEMON_TYPE_GRASS,		1.3,	0.95,	25,	25, 26,	false},
 	{4,		"SolarBeam",		POKEMON_TYPE_GRASS,		2.0,	1.0,	10,	10, 65,	false},
 
 	{5,		"Scratch",			POKEMON_TYPE_NORMAL,	1.15,	1.0,	35,	35, 1,	true},
-	{6,		"Ember",			POKEMON_TYPE_FIRE,		1.15,	1.0,	25,	25, 9,	false},
-	{7,		"Slash",			POKEMON_TYPE_NORMAL,	1.7,	1.0,	20,	20, 36,	false},
+	{6,		"Ember",			POKEMON_TYPE_FIRE,		1.50,	1.0,	25,	25, 9,	false},
+	{7,		"Slash",			POKEMON_TYPE_NORMAL,	1.7,	1.0,	20,	20, 26,	false},
 	{8,		"Flamethrower",		POKEMON_TYPE_FIRE,		1.8,	1.0,	15,	15, 46,	false},
 
 	{9,		"Tackle",			POKEMON_TYPE_NORMAL,	1.1,	0.95,	35,	35, 1,	true},
 	{10,	"Bubble",			POKEMON_TYPE_WATER,		0.9,	1.0,	30,	30, 8,	false},
-	{11,	"Water Gun",		POKEMON_TYPE_WATER,		1.15,	1.0,	25,	25, 15,	false},
+	{11,	"Water Gun",		POKEMON_TYPE_WATER,		1.15,	1.0,	25,	25, 18,	false},
 	{12,	"Hydro Pump",		POKEMON_TYPE_WATER,		2.0,	0.8,	5,	5,	52,	false},
 
 	{13,	"Gust",				POKEMON_TYPE_FLYING,	1.1,	1.0,	35,	35, 1,	true},
@@ -27,7 +27,7 @@ pokemonSkill pokemonSkillRef[20] = {
 	{15,	"Wing Attack",		POKEMON_TYPE_FLYING,	1.2,	1.0,	35,	35, 31,	false},
 
 	{16,	"Hyper Fang",		POKEMON_TYPE_NORMAL,	1.7,	0.9,	15,	15, 14,	false},
-	{17,	"Super Fang",		POKEMON_TYPE_NORMAL,	2.0,	0.9,	10,	10, 34,	false},
+	{17,	"Super Fang",		POKEMON_TYPE_NORMAL,	2.0,	0.9,	10,	10, 27,	false},
 
 	{18,	"ThunderShock",		POKEMON_TYPE_ELECTRIC,	1.1,	1.0,	30,	30, 1,	true},
 	{19,	"Thunderbolt",		POKEMON_TYPE_ELECTRIC,	1.8,	1.0,	15,	15, 26,	false},

@@ -90,5 +90,7 @@ void closePokemonMenu();
 
 
 pokemon createPokemon(int pokemonId, int level);
+void initGymLeaderPokemon();
+void isEvolution(pokemon* target);
 
 #endif
