@@ -667,7 +667,7 @@ int main(int argc, char* argv[]) {
 	//catchingPokemon(13, 99);
 	//catchingPokemon(14, 99);
 
-	//myPokemonList[0] = createPokemon(4, 29);
+	myPokemonList[0] = createPokemon(5, 65);
 
 	sendPlayerStatus("JOIN_GAME", user_player);
 

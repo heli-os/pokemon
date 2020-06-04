@@ -213,7 +213,7 @@ void CPUattackProcess() {
 
 void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
 	// SFX_DAMAGE
-	soundHandler(400);
+	soundHandler(400); 
 	double synergy = convertSynergy(skill->type, defender->type);
 	double randRate = (((double)rand() / RAND_MAX) * 0.6) + 1.0;
 	int dmg = (skill->dmg_cf * attacker->dmg - defender->def) * synergy * randRate;
@@ -234,6 +234,7 @@ void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
 			isEvolution(attacker);
 		}
 		attacker->exp += increase_exp;
+		if (attacker->level == 99) attacker->exp = pow(99.0, 3.0);
 	}
 }
 

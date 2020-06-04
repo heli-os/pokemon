@@ -91,27 +91,13 @@ void bind_sock_clnt(void) {
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(23245);
 
-	char* server_type;
-	server_type = "local";
-	if (server_type == "remote") {
-		struct addrinfo hints;
-		struct addrinfo* servinfo; // 결과를 저장할 변수
-		memset(&hints, 0, sizeof(hints));
-		hints.ai_family = AF_INET; // IPv4만 받겠다.
-		hints.ai_socktype = SOCK_STREAM; // TCP stream sockets
-		int status = getaddrinfo("foretion.codns.com", "http", &hints, &servinfo);
-
-		struct sockaddr_in* saddr = (struct sockaddr_in*)servinfo->ai_addr;
-		char* ip_addr = inet_ntoa(saddr->sin_addr);
-		serv_addr.sin_addr = saddr->sin_addr; //SOCKADDR_IN::sin_addr에 할당
-		freeaddrinfo(servinfo);
-	}
-	else if (server_type == "local") {
-		serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	}
+	serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	//serv_addr.sin_addr.s_addr = inet_addr("15.165.97.230");
 
 
-	retval = connect(serv_sock, (SOCKADDR*)& serv_addr, sizeof(SOCKADDR));
+
+
+	retval = connect(serv_sock, (SOCKADDR*)&serv_addr, sizeof(SOCKADDR));
 	if (retval == SOCKET_ERROR)
 	{
 		printf("connect() Error\n");

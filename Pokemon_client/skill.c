@@ -132,34 +132,43 @@ void showSkillList() {
 
 double convertSynergy(int this, int target) {
 	if (this == POKEMON_TYPE_NORMAL) return 1.0;
-	if (this == target) return 0.5;
 
-	switch (this) {
-	case POKEMON_TYPE_GRASS:
-		if (target == POKEMON_TYPE_FIRE) return 0.5;
-		if (target == POKEMON_TYPE_POISON) return 0.5;
-		if (target == POKEMON_TYPE_FLYING) return 0.5;
-		if (target == POKEMON_TYPE_WATER) return 2.0;
+	if (this & POKEMON_TYPE_GRASS) {
+		if (target & POKEMON_TYPE_GRASS) return 0.5;
+		if (target & POKEMON_TYPE_FIRE) return 0.5;
+		if (target & POKEMON_TYPE_POISON) return 0.5;
+		if (target & POKEMON_TYPE_FLYING) return 0.5;
+		if (target & POKEMON_TYPE_WATER) return 2.0;
 		return 1.0;
-	case POKEMON_TYPE_POISON:
-		if (target == POKEMON_TYPE_GRASS) return 2.0;
+	}
+	if (this & POKEMON_TYPE_POISON) {
+		if (target & POKEMON_TYPE_POISON) return 0.5;
+		if (target & POKEMON_TYPE_GRASS) return 2.0;
 		return 1.0;
-	case POKEMON_TYPE_FIRE:
-		if (target == POKEMON_TYPE_WATER) return 0.5;
-		if (target == POKEMON_TYPE_GRASS) return 2.0;
+	}
+	if (this & POKEMON_TYPE_FIRE) {
+		if (target & POKEMON_TYPE_FIRE) return 0.5;
+		if (target & POKEMON_TYPE_WATER) return 0.5;
+		if (target & POKEMON_TYPE_GRASS) return 2.0;
 		return 1.0;
-	case POKEMON_TYPE_FLYING:
-		if (target == POKEMON_TYPE_ELECTRIC) return 0.5;
-		if (target == POKEMON_TYPE_GRASS) return 2.0;
+	}
+	if (this & POKEMON_TYPE_FLYING) {
+		if (target & POKEMON_TYPE_FLYING) return 0.5;
+		if (target & POKEMON_TYPE_ELECTRIC) return 0.5;
+		if (target & POKEMON_TYPE_GRASS) return 2.0;
 		return 1.0;
-	case POKEMON_TYPE_WATER:
-		if (target == POKEMON_TYPE_GRASS) return 0.5;
-		if (target == POKEMON_TYPE_FIRE) return 2.0;
+	}
+	if (this & POKEMON_TYPE_WATER) {
+		if (target & POKEMON_TYPE_WATER) return 0.5;
+		if (target & POKEMON_TYPE_GRASS) return 0.5;
+		if (target & POKEMON_TYPE_FIRE) return 2.0;
 		return 1.0;
-	case POKEMON_TYPE_ELECTRIC:
-		if (target == POKEMON_TYPE_GRASS) return 0.5;
-		if (target == POKEMON_TYPE_WATER) return 2.0;
-		if (target == POKEMON_TYPE_FLYING) return 2.0;
+	}
+	if (this & POKEMON_TYPE_ELECTRIC) {
+		if (target & POKEMON_TYPE_ELECTRIC) return 0.5;
+		if (target & POKEMON_TYPE_GRASS) return 0.5;
+		if (target & POKEMON_TYPE_WATER) return 2.0;
+		if (target & POKEMON_TYPE_FLYING) return 2.0;
 		return 1.0;
 	}
 	return 1.0;
