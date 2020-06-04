@@ -216,6 +216,7 @@ void update() {
 		// Battle Converstation
 		if (battleUI_status.battleUIConv) {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_X)) {
+				static int gymLeaderPokemonIdx = 0;
 				// SFX_TALK
 				soundHandler(1000);
 				battleUI_status.battleUIConv = false;
@@ -244,14 +245,33 @@ void update() {
 					battleUI_status.battleUICatching = false;
 					battleUI_status.catchingResult = false;
 					battleUI_status.catchingIdx = 1;
+					gymLeaderPokemonIdx = 0;
 					fadeIn(0.05);
 				}
+				// 적 포켓몬 사망 확인
 				else if (battleUI_status.currentMenu == 6) {
 					if (isDead(&enemy)) {
-						battleUI_status.battleUIEnd = true;
 						battleUI_status.battleUISkill = false;
 						battleUI_status.currentMenu = 0;
 						battleUI_status.currentIndex = 0;
+						if (battleUI_status.battleIsGym) {
+							gymLeaderPokemonList[gymLeaderPokemonIdx++].crt_hp = 0;
+							for (int i = 0; i < 6; i++) {
+								printf("HP: %d\n", gymLeaderPokemonList[i].crt_hp);
+								if (!isDead(&gymLeaderPokemonList[i])) {
+									enemy = gymLeaderPokemonList[i];
+									battleUI_status.enemyPokemonIdx = enemy.no - 1;
+									break;
+								}
+							}
+							if (!gymLeaderRemainPokemon()) {
+								printf("WINN!!!!!\n");
+								battleUI_status.battleUIEnd = true;
+							}
+						}
+						else {
+							battleUI_status.battleUIEnd = true;
+						}
 					}
 					else {
 						CPUattackProcess();
@@ -260,6 +280,7 @@ void update() {
 						battleUI_status.currentIndex = 0;
 					}
 				}
+				// 플레이어 포켓몬 사망 확인
 				else if (battleUI_status.currentMenu == 7) {
 					if (isDead(&myPokemonList[battleUI_status.currentPokemonIdx])) {
 						if (remainPokemon()) {
@@ -318,6 +339,7 @@ void update() {
 				// SFX_TALK
 				soundHandler(1000);
 				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, &myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
+				printf("AFTER ATTACK PROCESS:: ENEMY HP:%d\n", enemy.crt_hp);
 				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
 				battleUI_status.battleUIConv = true;
 				battleUI_status.currentMenu = 6;
@@ -652,22 +674,18 @@ int main(int argc, char* argv[]) {
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);
 	initCollision();
-	initGymLeaderPokemon();
-
 
 	/*
 	포켓몬 6마리 임시 생성
 	*/
-	//for (int i = 0; i < 6; i++)
-	//	myPokemonList[i].no = -1;
-	//catchingPokemon(2, 99);
-	//catchingPokemon(5, 99);
-	//catchingPokemon(8, 99);
-	//catchingPokemon(11, 99);
-	//catchingPokemon(13, 99);
-	//catchingPokemon(14, 99);
-
+	for (int i = 0; i < 6; i++)
+		myPokemonList[i].no = -1;
 	myPokemonList[0] = createPokemon(5, 65);
+	myPokemonList[1] = createPokemon(2, 65);
+	myPokemonList[2] = createPokemon(8, 65);
+	myPokemonList[3] = createPokemon(11, 65);
+	myPokemonList[4] = createPokemon(12, 65);
+	myPokemonList[5] = createPokemon(14,65);
 
 	sendPlayerStatus("JOIN_GAME", user_player);
 

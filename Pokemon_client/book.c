@@ -297,12 +297,21 @@ pokemon createPokemon(int pokemonId, int level) {
 
 extern pokemon gymLeaderPokemonList[6];
 void initGymLeaderPokemon() {
-	gymLeaderPokemonList[0] = createPokemon(2, 65);
-	gymLeaderPokemonList[1] = createPokemon(5, 55);
-	gymLeaderPokemonList[2] = createPokemon(8, 58);
-	gymLeaderPokemonList[3] = createPokemon(11, 51);
-	gymLeaderPokemonList[4] = createPokemon(12, 48);
-	gymLeaderPokemonList[5] = createPokemon(14, 62);
+	gymLeaderPokemonList[0] = createPokemon(2, 76);
+	gymLeaderPokemonList[1] = createPokemon(5, 75);
+	gymLeaderPokemonList[2] = createPokemon(8, 62);
+	gymLeaderPokemonList[3] = createPokemon(11, 66);
+	gymLeaderPokemonList[4] = createPokemon(12, 71);
+	gymLeaderPokemonList[5] = createPokemon(14, 81);
+	int rn = 0;
+	pokemon temp;
+	for (int i = 0; i < 5; i++) {
+		rn = rand() % (6 - i) + i;
+		temp = gymLeaderPokemonList[i];
+		gymLeaderPokemonList[i] = gymLeaderPokemonList[rn];
+		gymLeaderPokemonList[rn] = temp;
+	}
+
 }
 
 void isEvolution(pokemon* target) {

@@ -83,7 +83,7 @@ void drawBasicUI() {
 		//printf("%s\n", battleUI_status.catchingResult ? "TRUE" : "FALSE");
 	}
 	else {
-		al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 15 * GAME_SCALE, 0);
+		al_draw_bitmap(enemy.front, camera_position_x + 115 * GAME_SCALE, camera_position_y + 13 * GAME_SCALE, 0);
 	}
 
 	sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", enemy.crt_hp);

@@ -74,6 +74,19 @@ void initPokemonSkill() {
 		pokemonBook[i].skill[3] = pokemonSkillRef[19];
 	}
 }
+
+const char* skillTypeIntToChar(int type) {
+	switch (type) {
+	case POKEMON_TYPE_NORMAL:	return "NORMAL";
+	case POKEMON_TYPE_GRASS:	return "GRASS";
+	case POKEMON_TYPE_POISON:	return "POISION";
+	case POKEMON_TYPE_FIRE:		return "FIRE";
+	case POKEMON_TYPE_FLYING:	return "FLYING";
+	case POKEMON_TYPE_WATER:	return "WATER";
+	case POKEMON_TYPE_ELECTRIC:	return "ELECTRO";
+	}
+}
+
 extern float camera_position_x;
 extern float camera_position_y;
 void showSkillList() {
@@ -103,7 +116,7 @@ void showSkillList() {
 	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 154 * GAME_SCALE, convsY + -2 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_pp);
 	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 169 * GAME_SCALE, convsY + -2 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_crt_pp);
 
-	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 145 * GAME_SCALE, convsY + 16 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, SkillType[myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].type]);
+	al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 145 * GAME_SCALE, convsY + 16 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, skillTypeIntToChar(myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].type));
 
 	int arrowOffset_x = 0;
 	int arrowOffset_y = 0;

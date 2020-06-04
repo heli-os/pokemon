@@ -14,15 +14,7 @@ typedef struct _SKILL_STATUS {
 	bool own;
 } pokemonSkill;
 
-static char* SkillType[] = {
-	"NORMAL",
-	"GRASS",
-	"POISION",
-	"FIRE",
-	"FLYING",
-	"WATER",
-	"ELECTRO"
-};
+
 
 void initPokemonSkill();
 void showSkillList();

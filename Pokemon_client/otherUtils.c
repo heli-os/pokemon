@@ -1,5 +1,6 @@
 ﻿#include "otherUtils.h"
 extern pokemon myPokemonList[6];
+extern pokemon gymLeaderPokemonList[6];
 bool isDead(pokemon* target) {
 	if (target->no == -1) return true;
 
@@ -13,6 +14,13 @@ void healingPokemon() {
 bool remainPokemon() {
 	for (int i = 0; i < 6; i++)
 		if (!isDead(&myPokemonList[i]))
+			return true;
+	return false;
+}
+
+bool gymLeaderRemainPokemon() {
+	for (int i = 0; i < 6; i++)
+		if (!isDead(&gymLeaderPokemonList[i]))
 			return true;
 	return false;
 }

@@ -161,6 +161,7 @@ void interactObject(int objId) {
 	case GYM_LEADER:
 		printf("GYM_LEADER\n");
 		soundHandler(101);
+		initGymLeaderPokemon();
 		// HP 회복 임시
 		//healingPokemon();
 

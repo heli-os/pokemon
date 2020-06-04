@@ -6,5 +6,6 @@
 bool isDead(pokemon* target);
 bool remainPokemon();
 void healingPokemon();
+bool gymLeaderRemainPokemon();
 
 #endif
