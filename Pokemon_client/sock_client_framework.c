@@ -41,6 +41,7 @@ void __cdecl RecvThread(void* p)
 		json_t* pMessage = json_loads(buf, JSON_ENCODE_ANY, &error);
 		json_t* pHeader = json_array_get(pMessage, 0);
 		json_t* pData = json_array_get(pMessage, 1);
+		printf("%s\n", buf);
 
 		const char* ContentType = json_string_value(json_array_get(pHeader, 0));
 		if (ContentType == NULL) continue;
@@ -91,8 +92,8 @@ void bind_sock_clnt(void) {
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(23245);
 
-	serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	//serv_addr.sin_addr.s_addr = inet_addr("15.165.97.230");
+	//serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	serv_addr.sin_addr.s_addr = inet_addr("15.165.97.230");
 
 
 

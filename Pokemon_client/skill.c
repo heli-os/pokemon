@@ -174,6 +174,7 @@ double convertSynergy(int this, int target) {
 	if (this & POKEMON_TYPE_WATER) {
 		if (target & POKEMON_TYPE_WATER) return 0.5;
 		if (target & POKEMON_TYPE_GRASS) return 0.5;
+		if (target & POKEMON_TYPE_ELECTRIC) return 0.5;
 		if (target & POKEMON_TYPE_FIRE) return 2.0;
 		return 1.0;
 	}
