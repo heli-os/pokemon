@@ -85,6 +85,7 @@ const char* skillTypeIntToChar(int type) {
 	case POKEMON_TYPE_WATER:	return "WATER";
 	case POKEMON_TYPE_ELECTRIC:	return "ELECTRO";
 	}
+	return "";
 }
 
 extern float camera_position_x;

@@ -666,6 +666,9 @@ int main(int argc, char* argv[]) {
 	if (_access("./profile.pkms", 4) == -1)
 		environmentSave();
 
+
+	sendPlayerStatus("JOIN_GAME", user_player);
+
 	// 세이브 파일 로드
 	environmentLoad();
 
@@ -687,7 +690,6 @@ int main(int argc, char* argv[]) {
 	myPokemonList[4] = createPokemon(12, 65);
 	myPokemonList[5] = createPokemon(14,65);
 
-	sendPlayerStatus("JOIN_GAME", user_player);
 
 	// the game loop runs until we call quit()
 	run_game_loop(update, render);

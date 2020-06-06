@@ -3,6 +3,7 @@
 #include "nginx_common.h"
 
 void environmentSave();
+void environmentParse(const json_t* pData);
 void environmentLoad();
 
 #endif

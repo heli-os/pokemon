@@ -1,4 +1,5 @@
-﻿#include "environment.h"
+﻿#include "sock_client_framework.h"
+#include "environment.h"
 #include "player.h"
 #include "book.h"
 #include "bag.h"
@@ -9,6 +10,7 @@ extern pokemon myPokemonList[6];
 extern int objectPosition[8][3][5];
 extern pokemon pokemonBook[15];
 extern inventoryItem inventorySlots[2][6];
+
 /*
 JSON 형태로 저장
 저장되어야할 데이터
@@ -111,15 +113,23 @@ void environmentSave() {
 	// inventorySlots 저장
 	json_object_set_new(pMessage, "INVENTORY_SLOTS", inventorySlotsDataArray);
 
+	// 서버에 메시지 전송
+	json_t* pHeader = json_array();
+	json_t* pData = json_array();
+
+	json_array_append_new(pHeader, json_string("SAVE"));
+	json_array_append_new(pData, json_integer(1));
+	json_array_append_new(pData, json_string(json_dumps(pMessage, JSON_ENCODE_ANY)));
+	json_t* pPacket = htonJson(pHeader, pData);
+
+	sendMessage(pPacket);
+
 	int rc = json_dump_file(pMessage, "./profile.pkms", 0);
 	if (rc)
 		fprintf(stderr, "cannot save json to file\n");
 }
-void environmentLoad() {
-	json_error_t* jerror = NULL;
 
-	json_t* pData = json_load_file("./profile.pkms", 0, jerror);
-
+void environmentParse(const json_t* pData) {
 	// PLAYER
 	json_t* playerData = json_object_get(pData, "PLAYER");
 	strcpy_s(user_player.cName, sizeof(user_player.cName), json_string_value(json_object_get(playerData, "cName")));
@@ -202,4 +212,19 @@ void environmentLoad() {
 			}
 		}
 	}
+}
+void environmentLoad() {
+	json_error_t* jerror = NULL;
+
+	//json_t* pData = json_load_file("./profile.pkms", 0, jerror);
+
+	// 서버에 메시지 전송
+	json_t* pHeader = json_array();
+	json_t* pData = json_array();
+
+	json_array_append_new(pHeader, json_string("LOAD"));
+	json_array_append_new(pData, json_integer(1));
+	json_t* pPacket = htonJson(pHeader, pData);
+
+	sendMessage(pPacket);
 }

@@ -1,9 +1,8 @@
 ﻿#include "sock_client_framework.h"
 #include "player.h"
+#include "environment.h"
 
 SOCKET serv_sock;
-
-extern char messages[5][256];
 
 extern player user_player;
 
@@ -23,9 +22,7 @@ json_t* htonJson(json_t* header, json_t* data) {
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
-	char buf[256];
-	int i;
-	for (i = 0; i < 5; i++) messages[i][0] = 0;
+	char buf[9182];
 	while (1)
 	{
 		memset(buf, 0, sizeof(buf));
@@ -41,19 +38,11 @@ void __cdecl RecvThread(void* p)
 		json_t* pMessage = json_loads(buf, JSON_ENCODE_ANY, &error);
 		json_t* pHeader = json_array_get(pMessage, 0);
 		json_t* pData = json_array_get(pMessage, 1);
-		printf("%s\n", buf);
-
+		
 		const char* ContentType = json_string_value(json_array_get(pHeader, 0));
 		if (ContentType == NULL) continue;
-		if (strcmp(ContentType, "CHAT") == 0)
-		{
-			const char* UserName = json_string_value(json_array_get(pData, 0));
-			const char* ChatData = json_string_value(json_array_get(pData, 1));
-
-			int i;
-			for (i = 0; i < 4; i++) strcpy_s(&messages[i][0], 256, &messages[i + 1][0]);
-
-			sprintf_s(&messages[4][0], 256, "[%s] %s", UserName, ChatData);
+		if (strcmp(ContentType, "LOAD_COMPLETE") == 0) {
+			environmentParse(json_loads(json_string_value(json_array_get(pData, 0)), JSON_ENCODE_ANY, &error));
 		}
 		free(pMessage);
 		free(pHeader);
