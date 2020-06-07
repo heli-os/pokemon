@@ -443,6 +443,7 @@ void update() {
 				if (objId != -1)
 					interactObject(objId);
 			}
+			printf("X:%d, Y:%d\n", user_player.iPos_x, user_player.iPos_y);
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			// SFX_OPEN_MENU
