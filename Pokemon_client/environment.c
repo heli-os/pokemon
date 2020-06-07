@@ -20,7 +20,7 @@ JSON 형태로 저장
 	4. 오브젝트 포지션
 	5. 인벤토리 슬롯
 */
-void environmentSave() {
+void environmentSave(int userNo) {
 	// 플레이어 정보 추출
 	json_t* playerData = json_object();
 	json_object_set_new(playerData, "cName", json_string(user_player.cName));
@@ -118,21 +118,33 @@ void environmentSave() {
 	json_t* pData = json_array();
 
 	json_array_append_new(pHeader, json_string("SAVE"));
-	json_array_append_new(pData, json_integer(1));
+	json_array_append_new(pData, json_integer(userNo));
 	json_array_append_new(pData, json_string(json_dumps(pMessage, JSON_ENCODE_ANY)));
+
 	json_t* pPacket = htonJson(pHeader, pData);
+
+	int sendSize = (int)strlen(json_dumps(pPacket, JSON_ENCODE_ANY));
+	json_t* sHeader = json_array();
+	json_t* sData = json_array();
+
+	json_array_append_new(sHeader, json_string("SAVE_SIZE"));
+	json_array_append_new(sData, json_integer(sendSize));
+	json_t* sPacket = htonJson(sHeader, sData);
+	sendMessage(sPacket);
+	
 
 	sendMessage(pPacket);
 
-	int rc = json_dump_file(pMessage, "./profile.pkms", 0);
-	if (rc)
-		fprintf(stderr, "cannot save json to file\n");
+	//int rc = json_dump_file(pMessage, "./profile.pkms", 0);
+	//if (rc)
+	//	fprintf(stderr, "cannot save json to file\n");
 }
 
 void environmentParse(const json_t* pData) {
 	// PLAYER
 	json_t* playerData = json_object_get(pData, "PLAYER");
 	strcpy_s(user_player.cName, sizeof(user_player.cName), json_string_value(json_object_get(playerData, "cName")));
+	printf("NAME:%s\n", user_player.cName);
 
 	user_player.iAction_type = json_integer_value(json_object_get(playerData, "iAction_type"));
 	user_player.iPlayer_direction = json_integer_value(json_object_get(playerData, "iPlayer_direction"));
@@ -213,7 +225,7 @@ void environmentParse(const json_t* pData) {
 		}
 	}
 }
-void environmentLoad() {
+void environmentLoad(int userNo) {
 	json_error_t* jerror = NULL;
 
 	//json_t* pData = json_load_file("./profile.pkms", 0, jerror);
@@ -223,7 +235,7 @@ void environmentLoad() {
 	json_t* pData = json_array();
 
 	json_array_append_new(pHeader, json_string("LOAD"));
-	json_array_append_new(pData, json_integer(1));
+	json_array_append_new(pData, json_integer(userNo));
 	json_t* pPacket = htonJson(pHeader, pData);
 
 	sendMessage(pPacket);

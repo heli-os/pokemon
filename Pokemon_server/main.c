@@ -10,7 +10,7 @@
 #include <jansson.h>
 #include <mysql.h>
 
-#define BUF_SIZE 9182
+#define BUF_SIZE 16384
 #define MAX_CLNT 100
 #define NAME_SIZE 512
 
@@ -82,22 +82,12 @@ int main(int argc, char* argv[])
 		pthread_mutex_lock(&mutx);
 
 		clnt_socks[clnt_cnt] = clnt_sock;
-		read(clnt_sock, clnt_name, NAME_SIZE);
 
-		json_error_t error;
-		json_t* pMessage = json_loads(clnt_name, JSON_ENCODE_ANY, &error);
-		json_t* pHeader = json_array_get(pMessage, 0);
-		json_t* pData = json_array_get(pMessage, 1);
-
-		strcpy(clnt_name, json_string_value(json_array_get(pData, 0)));
-
-		strcpy(clnt_names[clnt_cnt++], clnt_name);
-		// ㄴ 클라이언트로부터 받은 접속자 이름입력
 		pthread_mutex_unlock(&mutx);
 
 		pthread_create(&t_id, NULL, handle_clnt, (void*)&clnt_sock);
 		pthread_detach(t_id);
-		printf("Connected client IP: %s, Name : %s \n", inet_ntoa(clnt_adr.sin_addr), clnt_name);
+		printf("Connected client IP: %s\n", inet_ntoa(clnt_adr.sin_addr));
 	}
 	close(serv_sock);
 	return 0;
@@ -114,8 +104,18 @@ void* handle_clnt(void* arg)
 {
 	int n;
 	printf("%s\n", cSend_msg);
+	int saveDataSize = -1;
 	while ((n = read(*(int*)arg, cLatLng, BUF_SIZE)) > 0)
 	{
+		if (saveDataSize != -1) {
+			while (strlen(cLatLng) < saveDataSize) {
+				n = read(*(int*)arg, &cLatLng[strlen(cLatLng)], BUF_SIZE - strlen(cLatLng));
+				printf("strlen(cLatLng):%d\nsaveDataSize:%d\nn:%d\n", strlen(cLatLng), saveDataSize, n);
+				if (n == 0) break;
+			}
+			saveDataSize = -1;
+		}
+
 		json_error_t error;
 		json_t* pMessage = json_loads(cLatLng, JSON_ENCODE_ANY, &error);
 		json_t* pHeader = json_array_get(pMessage, 0);
@@ -131,6 +131,10 @@ void* handle_clnt(void* arg)
 			const int userPosY = json_integer_value(json_array_get(pData, 5));
 
 			printf("userName:%s, posX:%d, posY:%d\n", userName, userPosX, userPosY);
+			memset(cLatLng, 0, sizeof(cLatLng));
+		}
+		else if (strcmp(ContentType, "SAVE_SIZE") == 0) {
+			saveDataSize = json_integer_value(json_array_get(pData, 0));
 		}
 		else if (strcmp(ContentType, "SAVE") == 0) {
 			//printf("ContentType is SAVE\n");
@@ -140,9 +144,11 @@ void* handle_clnt(void* arg)
 			char query[BUF_SIZE] = { 0 };
 			sprintf(query, "update data set pkms=%s where userNo=%d", pkms, userNo);
 			mysql_query(connection, query);
+			saveDataSize = -1;
+			memset(cLatLng, 0, sizeof(cLatLng));
 		}
 		else if (strcmp(ContentType, "LOAD") == 0) {
-			printf("%s\n", cLatLng);
+			//printf("%s\n", cLatLng);
 			const int userNo = json_integer_value(json_array_get(pData, 0));
 
 			MYSQL_RES* result = NULL;
@@ -170,15 +176,14 @@ void* handle_clnt(void* arg)
 
 				char sendBuf[BUF_SIZE] = { 0 };
 				sprintf(sendBuf, "%s", json_dumps(jsonArray, JSON_ENCODE_ANY));
+				//printf("%s\n", sendBuf);
 				write(*(int*)arg, sendBuf, sizeof(sendBuf));
 			}
+			memset(cLatLng, 0, sizeof(cLatLng));
 		}
 		else {
 			printf("arg: %d, LatLng: %s ,size:  %d, n: %d\n", *(int*)arg, cLatLng, (int)sizeof(cLatLng), n);
+			memset(cLatLng, 0, sizeof(cLatLng));
 		}
-
-		//if (write(*(int*)arg, cLatLng, n) == -1)
-		//    printf("full error\n");
-		memset(cLatLng, 0, sizeof(cLatLng));
 	}
 }

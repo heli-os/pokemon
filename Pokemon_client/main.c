@@ -1,5 +1,4 @@
 ﻿#include <stdio.h>
-#include <io.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -27,7 +26,7 @@ int GAME_SPEED = 1;
 int GAME_STAGE = 0;
 
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y
-player user_player = { NULL, "TMP_NAME", 0,1,0,0,false, 820, 868 };
+player user_player = { NULL, "PLAYER", 0,1,0,0,false, 820, 868 };
 pokemon myPokemonList[6] = {
 	 { -1,"",0,0,0,0,0,0,0,0},
 	 { -1,"",0,0,0,0,0,0,0,0},
@@ -62,6 +61,8 @@ extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
 extern pokemon pokemonBook[15];
+
+int userNo = -1;
 void update() {
 	// 일반 메뉴
 	if (!bagUI_status.bagUIOpen && !pokemonMenu_status.pokemonMenuOpen && menu_status.menuOpen) {
@@ -245,6 +246,7 @@ void update() {
 					battleUI_status.battleUICatching = false;
 					battleUI_status.catchingResult = false;
 					battleUI_status.catchingIdx = 1;
+					battleUI_status.battleIsGym = false;
 					gymLeaderPokemonIdx = 0;
 					fadeIn(0.05);
 				}
@@ -503,6 +505,7 @@ void update() {
 			if (GAME_STAGE == 2 || GAME_STAGE == 5 || GAME_STAGE == 7) {
 				int bushJoins = isBush(user_player);
 				if (bushJoins != -4) {
+					printf("Bush IN\n");
 					// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
 					soundHandler(101);
 					double randItem = ((double)rand() / RAND_MAX * 1.0);
@@ -611,6 +614,11 @@ void render() {
 }
 
 int main(int argc, char* argv[]) {
+	if (argc != 2) {
+		exit(1);
+	}
+
+	userNo = atoi(argv[1]);
 	srand((unsigned int)time(NULL));
 	//gets_s(user_player.cName, sizeof(user_player.cName));
 	bind_sock_clnt();
@@ -661,16 +669,8 @@ int main(int argc, char* argv[]) {
 	initPokemonThumb();
 	initPokemonSkill();
 
-	// 세이브 파일 존재 여부 확인
-	// 존재하지 않으면(-1) 초기 정보로 세이브 파일을 생성
-	if (_access("./profile.pkms", 4) == -1)
-		environmentSave();
-
-
-	sendPlayerStatus("JOIN_GAME", user_player);
-
 	// 세이브 파일 로드
-	environmentLoad();
+	environmentLoad(userNo);
 
 	initSound();
 	soundHandler(GAME_STAGE);
@@ -681,14 +681,14 @@ int main(int argc, char* argv[]) {
 	/*
 	포켓몬 6마리 임시 생성
 	*/
-	for (int i = 0; i < 6; i++)
-		myPokemonList[i].no = -1;
-	myPokemonList[0] = createPokemon(5, 65);
-	myPokemonList[1] = createPokemon(2, 65);
-	myPokemonList[2] = createPokemon(8, 65);
-	myPokemonList[3] = createPokemon(11, 65);
-	myPokemonList[4] = createPokemon(12, 65);
-	myPokemonList[5] = createPokemon(14,65);
+	//for (int i = 0; i < 6; i++)
+	//	myPokemonList[i].no = -1;
+	//myPokemonList[0] = createPokemon(5, 65);
+	//myPokemonList[1] = createPokemon(2, 65);
+	//myPokemonList[2] = createPokemon(8, 65);
+	//myPokemonList[3] = createPokemon(11, 65);
+	//myPokemonList[4] = createPokemon(12, 65);
+	//myPokemonList[5] = createPokemon(14,65);
 
 
 	// the game loop runs until we call quit()

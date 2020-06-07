@@ -30,6 +30,7 @@ extern ALLEGRO_FONT* get_menuPirnt_font();
 
 extern int objectPosition[][3][5];
 
+extern int userNo;
 void showMenu(int menuId) {
 	if (menuId == -1) return;
 	int col = 0, row = 0;
@@ -93,7 +94,7 @@ void menuHandler() {
 		case 2:
 			// SFX_SAVE
 			soundHandler(302);
-			environmentSave();
+			environmentSave(userNo);
 			closeMenu();
 			conversation_status.currentConvs = SAVE_SUCCESS_CONVERSATION;
 			conversation_status.maxIndex = 1;

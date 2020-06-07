@@ -1,4 +1,4 @@
-#include "bush.h"
+﻿#include "bush.h"
 // bounding box(bb) algorithm
 int isBush(player _player)
 {

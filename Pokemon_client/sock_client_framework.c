@@ -22,7 +22,7 @@ json_t* htonJson(json_t* header, json_t* data) {
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
-	char buf[9182];
+	char buf[16384];
 	while (1)
 	{
 		memset(buf, 0, sizeof(buf));
@@ -38,7 +38,7 @@ void __cdecl RecvThread(void* p)
 		json_t* pMessage = json_loads(buf, JSON_ENCODE_ANY, &error);
 		json_t* pHeader = json_array_get(pMessage, 0);
 		json_t* pData = json_array_get(pMessage, 1);
-		
+		printf("receiveMessage, size = %d\n", (int)strlen(buf));
 		const char* ContentType = json_string_value(json_array_get(pHeader, 0));
 		if (ContentType == NULL) continue;
 		if (strcmp(ContentType, "LOAD_COMPLETE") == 0) {
@@ -54,6 +54,7 @@ void __cdecl sendMessage(const json_t* message) {
 
 	char* buf = json_dumps(message, JSON_ENCODE_ANY);
 	//sprintf_s(buf, sizeof(buf), "[%s] %s",nick, message);
+	printf("sendMessage, size = %d\n", (int)strlen(buf));
 
 	//send Packet Data (Client To Server)
 	int sendsize = send(serv_sock, buf, (int)strlen(buf), 0);
