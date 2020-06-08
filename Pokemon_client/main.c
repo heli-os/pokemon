@@ -340,12 +340,15 @@ void update() {
 			if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
 				// SFX_TALK
 				soundHandler(1000);
-				attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, &myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex]);
-				printf("AFTER ATTACK PROCESS:: ENEMY HP:%d\n", enemy.crt_hp);
-				printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
-				battleUI_status.battleUIConv = true;
-				battleUI_status.currentMenu = 6;
-				battleUI_status.currentIndex = 0;
+				pokemonSkill* attackerSkill = &myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex];
+				if (attackerSkill->crt_pp > 0) {
+					attackProcess(&myPokemonList[battleUI_status.currentPokemonIdx], &enemy, attackerSkill);
+					printf("AFTER ATTACK PROCESS:: ENEMY HP:%d\n", enemy.crt_hp);
+					printf("select Skill's displayName : %s\n", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].displayName);
+					battleUI_status.battleUIConv = true;
+					battleUI_status.currentMenu = 6;
+					battleUI_status.currentIndex = 0;
+				}
 			}
 
 			if (is_key_pressed(ALLEGRO_KEY_X) || is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
@@ -443,7 +446,7 @@ void update() {
 				if (objId != -1)
 					interactObject(objId);
 			}
-			printf("X:%d, Y:%d\n", user_player.iPos_x, user_player.iPos_y);
+			//printf("X:%d, Y:%d\n", user_player.iPos_x, user_player.iPos_y);
 		}
 		if (is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			// SFX_OPEN_MENU

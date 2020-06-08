@@ -42,7 +42,8 @@ enum OBJECT_ID {
 	COMMON_GREATBALL,		// 그레이트볼
 	COMMON_ULTRABALL,		// 울트라볼
 	COMMON_MASTERBALL,		// 마스터볼
-	GYM_LEADER				// 체육관 관장
+	GYM_LEADER,				// 체육관 관장
+	HEALNG_MACHINE			// 힐링 머신
 };
 
 

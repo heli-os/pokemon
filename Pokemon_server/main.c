@@ -46,8 +46,6 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
-	mysql_init(&conn);
-	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 
 	pthread_mutex_init(&mutx, NULL);
 	serv_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -143,13 +141,23 @@ void* handle_clnt(void* arg)
 
 			char query[BUF_SIZE] = { 0 };
 			sprintf(query, "update data set pkms=%s where userNo=%d", pkms, userNo);
+
+			mysql_init(&conn);
+			connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+
 			mysql_query(connection, query);
+
+			mysql_close(&conn);
+
 			saveDataSize = -1;
 			memset(cLatLng, 0, sizeof(cLatLng));
 		}
 		else if (strcmp(ContentType, "LOAD") == 0) {
 			//printf("%s\n", cLatLng);
 			const int userNo = json_integer_value(json_array_get(pData, 0));
+
+			mysql_init(&conn);
+			connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 
 			MYSQL_RES* result = NULL;
 			MYSQL_ROW row = { 0 };
@@ -179,6 +187,7 @@ void* handle_clnt(void* arg)
 				//printf("%s\n", sendBuf);
 				write(*(int*)arg, sendBuf, sizeof(sendBuf));
 			}
+			mysql_close(&conn);
 			memset(cLatLng, 0, sizeof(cLatLng));
 		}
 		else {

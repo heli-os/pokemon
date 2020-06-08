@@ -5,6 +5,7 @@
 SOCKET serv_sock;
 
 extern player user_player;
+extern int userNo;
 
 void ErrorHandling(char* message) {
 	WSACleanup();
@@ -40,9 +41,12 @@ void __cdecl RecvThread(void* p)
 		json_t* pData = json_array_get(pMessage, 1);
 		printf("receiveMessage, size = %d\n", (int)strlen(buf));
 		const char* ContentType = json_string_value(json_array_get(pHeader, 0));
-		if (ContentType == NULL) continue;
+		if (ContentType == NULL) continue; 
 		if (strcmp(ContentType, "LOAD_COMPLETE") == 0) {
 			environmentParse(json_loads(json_string_value(json_array_get(pData, 0)), JSON_ENCODE_ANY, &error));
+		}
+		else if (strcmp(ContentType, "SAVE_COMPLETE") == 0) {
+			environmentSave(userNo, 1);
 		}
 		free(pMessage);
 		free(pHeader);

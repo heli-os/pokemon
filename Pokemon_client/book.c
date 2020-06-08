@@ -317,11 +317,13 @@ void initGymLeaderPokemon() {
 void isEvolution(pokemon* target) {
 	int evolutionLevel = 100;
 	
+	printf("targetNo:%d\n", target->no);
 	if (target->no == 1 || target->no == 4 || target->no == 7 || target->no == 10)
 		evolutionLevel = 15;
 	else if (target->no == 2 || target->no == 5 || target->no == 8 || target->no == 11 || target->no == 14)
 		evolutionLevel = 30;
 
+	printf("targetLevel: %d\nevolutionLevel:%d\n", target->level, evolutionLevel);
 	if (target->level >= evolutionLevel)
 		*target = createPokemon(target->no + 1, target->level);
 		

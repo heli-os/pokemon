@@ -4,6 +4,7 @@
 #include "conversation.h"
 #include "sound.h"
 #include "object.h"
+#include "otherUtils.h"
 
 extern float camera_position_x;
 extern float camera_position_y;
@@ -24,7 +25,7 @@ inventoryItem inventorySlots[2][6] = {
 		{2, 0, "SUPER POTION", {"It restores the HP of one Pokemon","by 50 points."}},
 		{3, 0, "HYPER POTION", {"It restores the HP of one Pokemon","by 200 points."}},
 		{4, 0, "MAX POTION", {"It fully restores the HP of one Poke", "mon."}},
-		{5, 0, "ETHER", {"Restores a select skill's PP by 10", "points for one Pokemon"}},
+		{5, 0, "ETHER", {"Restores All skills's PP by 10", "points for one Pokemon"}},
 		{6, 0, "REVIVE", {"Revives a fainted Pokemon, restoring", "HP by half the maximum amount."}},
 	},
 	// 회복제
@@ -37,32 +38,57 @@ inventoryItem inventorySlots[2][6] = {
 };
 
 void interactItem(int itemNo, pokemon* target) {
-	inventoryItem item = inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex];
-	printf("CLICK:%s\n", item.itemName);
+	inventoryItem* item = &inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex];
+	printf("CLICK:%s\n", item->itemName);
 	// 가방 메뉴 인덱스가 0일 때(회복아이템)
+	if (item->itemStock <= 0) return;
 	if (bagUI_status.currentMenu == 0) {
 		switch (itemNo) {
 		case COMMON_POTION:
-			target->crt_hp += 20;
+			if (!isDead(target)) {
+				target->crt_hp += 20;
+				item->itemStock -= 1;
+			}
 			break;
 		case COMMON_SUPER_POTION:
-			target->crt_hp += 50;
+			if (!isDead(target)) {
+				target->crt_hp += 50;
+				item->itemStock -= 1;
+			}
 			break;
 		case COMMON_HYPER_POTION:
-			target->crt_hp += 200;
+			if (!isDead(target)) {
+				target->crt_hp += 200;
+				item->itemStock -= 1;
+			}
 			break;
 		case COMMON_MAX_POTION:
-			target->crt_hp = target->max_hp;
+			if (!isDead(target)) {
+				target->crt_hp = target->max_hp;
+				item->itemStock -= 1;
+			}
 			break;
 		case COMMON_ETHER:
+			for (int i = 0; i < 4; i++) {
+				if (target->skill[i].own) {
+					target->skill[i].crt_pp += 10;
+					if (target->skill[i].crt_pp > target->skill[i].max_pp)
+						target->skill[i].crt_pp = target->skill[i].max_pp;
+				}
+			}
+			item->itemStock -= 1;
 			break;
 		case COMMON_REVIVE:
+			if (isDead(target)) {
+				target->crt_hp = target->max_hp / 2;
+				item->itemStock -= 1;
+			}
 			break;
 		}
 		if (target->crt_hp > target->max_hp)
 			target->crt_hp = target->max_hp;
 
-		inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock -= 1;
+
 		conversation_status.currentConvs = 4;
 		conversation_status.maxIndex = 2;
 		conversation_status.convsOpen = true;
@@ -215,7 +241,7 @@ void drawBagUI() {
 		item_posY = i * 15.5 + 13;
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + item_posX * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, item.itemName);
 		char stockMSG[255] = { 0 };
-		inventorySlots[bagUI_status.currentMenu][i].itemStock = 99;
+		//inventorySlots[bagUI_status.currentMenu][i].itemStock = 99;
 		sprintf_s(stockMSG, sizeof(stockMSG), "X %d", item.itemStock);
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + (item_posX + 84) * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, stockMSG);
 	}

@@ -5,8 +5,9 @@
 #include "battle.h"
 #include "sound.h"
 #include "screen.h"
+#include "otherUtils.h"
 
-int objectPosition[8][3][5] = {
+int objectPosition[8][4][5] = {
 	{ // 집 2층
 		{0}
 	},
@@ -20,9 +21,10 @@ int objectPosition[8][3][5] = {
 		{0}
 	},
 	{ // 오박사 연구실
-		{7,LAB_POKEBALL_0, 520,281, 1},
-		{7,LAB_POKEBALL_1, 584,281, 1},
-		{7,LAB_POKEBALL_2, 648,281, 1},
+		{7,LAB_POKEBALL_0, 520, 281, 1},
+		{7,LAB_POKEBALL_1, 584, 281, 1},
+		{7,LAB_POKEBALL_2, 648, 281, 1},
+		{99,HEALNG_MACHINE, 0, 0, 1}
 	},
 	{ // 마을(2)
 		{0}
@@ -60,14 +62,20 @@ void initObject(ALLEGRO_BITMAP* object) {
 		return;
 
 	for (int i = 0; i < objBoxLength; i++) {
+		printf("STATUS:%d\n", objectPosition[GAME_STAGE][i][4]);
 		if (objectPosition[GAME_STAGE][i][4] == 1) {
 			int objectTarget = objectPosition[GAME_STAGE][i][0];
+
 			if (objectTarget == 0)
 				continue;
 
-			createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], objectItem[objectTarget][2] * GAME_SCALE, objectItem[objectTarget][3] * GAME_SCALE);
-
-			al_draw_tinted_scaled_rotated_bitmap_region(object, objectItem[objectTarget][0], objectItem[objectTarget][1], objectItem[objectTarget][2], objectItem[objectTarget][3], al_map_rgb(255, 255, 255), 0, 0, objBoxes[i].sx, objBoxes[i].sy, GAME_SCALE, GAME_SCALE, 0, 0);
+			if (objectPosition[GAME_STAGE][i][0] == 99) {
+				createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], 16 * GAME_SCALE, 32 * GAME_SCALE);
+			}
+			else {
+				createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], objectItem[objectTarget][2] * GAME_SCALE, objectItem[objectTarget][3] * GAME_SCALE);
+				al_draw_tinted_scaled_rotated_bitmap_region(object, objectItem[objectTarget][0], objectItem[objectTarget][1], objectItem[objectTarget][2], objectItem[objectTarget][3], al_map_rgb(255, 255, 255), 0, 0, objBoxes[i].sx, objBoxes[i].sy, GAME_SCALE, GAME_SCALE, 0, 0);
+			}			
 		}
 	}
 }
@@ -181,5 +189,11 @@ void interactObject(int objId) {
 
 		enemy = gymLeaderPokemonList[0];
 		break;
+	case HEALNG_MACHINE:
+		printf("HEALNG_MACHINE\n");
+		healingPokemon();
+		conversation_status.currentConvs = POKEMON_HEALING_CONVERSATION;
+		conversation_status.maxIndex = 2;
+		conversation_status.convsOpen = true;
 	}
 }

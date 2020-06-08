@@ -24,6 +24,7 @@ void stopAllSound() {
 // 302: SFX_SAVE
 // 303: SFX_USE_ITEM
 // 400: SFX_DAMAGE
+// 500: SFX_HEAL
 // 1000: SFX_TALK
 
 void soundHandler(int GAME_STAGE) {
@@ -103,5 +104,11 @@ void soundHandler(int GAME_STAGE) {
 		if (al_get_sample_instance_playing(sounds[SFX_TALK]))
 			al_set_sample_instance_playing(sounds[SFX_TALK], false);
 		al_set_sample_instance_playing(sounds[SFX_TALK], true);
+	}
+	// 회복
+	else if (GAME_STAGE == 500) {
+		if (al_get_sample_instance_playing(sounds[SFX_HEAL]))
+			al_set_sample_instance_playing(sounds[SFX_HEAL], false);
+		al_set_sample_instance_playing(sounds[SFX_HEAL], true);
 	}
 }

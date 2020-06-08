@@ -20,120 +20,223 @@ JSON 형태로 저장
 	4. 오브젝트 포지션
 	5. 인벤토리 슬롯
 */
-void environmentSave(int userNo) {
-	// 플레이어 정보 추출
-	json_t* playerData = json_object();
-	json_object_set_new(playerData, "cName", json_string(user_player.cName));
-	json_object_set_new(playerData, "iAction_type", json_integer(user_player.iAction_type));
-	json_object_set_new(playerData, "iPlayer_direction", json_integer(user_player.iPlayer_direction));
-	json_object_set_new(playerData, "iAction_idx", json_integer(user_player.iAction_idx));
-	json_object_set_new(playerData, "iPos_x", json_integer(user_player.iPos_x));
-	json_object_set_new(playerData, "iPos_y", json_integer(user_player.iPos_y));
+void environmentSave(int userNo, int flags) {
+	if (flags == 0) {
+		// 플레이어 정보 추출
+		json_t* playerData = json_object();
+		json_object_set_new(playerData, "cName", json_string(user_player.cName));
+		json_object_set_new(playerData, "iAction_type", json_integer(user_player.iAction_type));
+		json_object_set_new(playerData, "iPlayer_direction", json_integer(user_player.iPlayer_direction));
+		json_object_set_new(playerData, "iAction_idx", json_integer(user_player.iAction_idx));
+		json_object_set_new(playerData, "iPos_x", json_integer(user_player.iPos_x));
+		json_object_set_new(playerData, "iPos_y", json_integer(user_player.iPos_y));
 
-	// myPokemonList 추출
-	json_t* pokemonListDataArray = json_array();
-	for (int i = 0; i < 6; i++) {
-		json_t* pokemonListData = json_object();
-		json_object_set_new(pokemonListData, "no", json_integer(myPokemonList[i].no));
-		json_object_set_new(pokemonListData, "displayName", json_string(myPokemonList[i].displayName));
-		json_object_set_new(pokemonListData, "type", json_integer((long long)myPokemonList[i].type));
-		json_object_set_new(pokemonListData, "level", json_integer(myPokemonList[i].level));
-		json_object_set_new(pokemonListData, "exp", json_integer(myPokemonList[i].exp));
-		json_object_set_new(pokemonListData, "crt_hp", json_integer(myPokemonList[i].crt_hp));
-		json_object_set_new(pokemonListData, "max_hp", json_integer(myPokemonList[i].max_hp));
-		json_object_set_new(pokemonListData, "dmg", json_integer(myPokemonList[i].dmg));
-		json_object_set_new(pokemonListData, "def", json_integer(myPokemonList[i].def));
-		json_object_set_new(pokemonListData, "spd", json_integer(myPokemonList[i].spd));
+		// myPokemonList 추출
+		json_t* pokemonListDataArray = json_array();
+		for (int i = 0; i < 6; i++) {
+			json_t* pokemonListData = json_object();
+			json_object_set_new(pokemonListData, "no", json_integer(myPokemonList[i].no));
+			json_object_set_new(pokemonListData, "displayName", json_string(myPokemonList[i].displayName));
+			json_object_set_new(pokemonListData, "type", json_integer((long long)myPokemonList[i].type));
+			json_object_set_new(pokemonListData, "level", json_integer(myPokemonList[i].level));
+			json_object_set_new(pokemonListData, "exp", json_integer(myPokemonList[i].exp));
+			json_object_set_new(pokemonListData, "crt_hp", json_integer(myPokemonList[i].crt_hp));
+			json_object_set_new(pokemonListData, "max_hp", json_integer(myPokemonList[i].max_hp));
+			json_object_set_new(pokemonListData, "dmg", json_integer(myPokemonList[i].dmg));
+			json_object_set_new(pokemonListData, "def", json_integer(myPokemonList[i].def));
+			json_object_set_new(pokemonListData, "spd", json_integer(myPokemonList[i].spd));
 
-		json_t* pokemonSkillDataArray = json_array();
-		for (int j = 0; j < 4; j++) {
-			json_t* pokemonSkillData = json_object();
-			json_object_set_new(pokemonSkillData, "no", json_integer(myPokemonList[i].skill[j].no));
-			json_object_set_new(pokemonSkillData, "displayName", json_string(myPokemonList[i].skill[j].displayName));
-			json_object_set_new(pokemonSkillData, "type", json_integer((long long)myPokemonList[i].skill[j].type));
-			json_object_set_new(pokemonSkillData, "dmg_cf", json_real(myPokemonList[i].skill[j].dmg_cf));
-			json_object_set_new(pokemonSkillData, "acc", json_real(myPokemonList[i].skill[j].acc));
-			json_object_set_new(pokemonSkillData, "crt_pp", json_integer(myPokemonList[i].skill[j].crt_pp));
-			json_object_set_new(pokemonSkillData, "max_pp", json_integer(myPokemonList[i].skill[j].max_pp));
-			json_object_set_new(pokemonSkillData, "level_condition", json_integer(myPokemonList[i].skill[j].level_condition));
-			json_object_set_new(pokemonSkillData, "own", json_boolean(myPokemonList[i].skill[j].own));
+			json_t* pokemonSkillDataArray = json_array();
+			for (int j = 0; j < 4; j++) {
+				json_t* pokemonSkillData = json_object();
+				json_object_set_new(pokemonSkillData, "no", json_integer(myPokemonList[i].skill[j].no));
+				json_object_set_new(pokemonSkillData, "displayName", json_string(myPokemonList[i].skill[j].displayName));
+				json_object_set_new(pokemonSkillData, "type", json_integer((long long)myPokemonList[i].skill[j].type));
+				json_object_set_new(pokemonSkillData, "dmg_cf", json_real(myPokemonList[i].skill[j].dmg_cf));
+				json_object_set_new(pokemonSkillData, "acc", json_real(myPokemonList[i].skill[j].acc));
+				json_object_set_new(pokemonSkillData, "crt_pp", json_integer(myPokemonList[i].skill[j].crt_pp));
+				json_object_set_new(pokemonSkillData, "max_pp", json_integer(myPokemonList[i].skill[j].max_pp));
+				json_object_set_new(pokemonSkillData, "level_condition", json_integer(myPokemonList[i].skill[j].level_condition));
+				json_object_set_new(pokemonSkillData, "own", json_boolean(myPokemonList[i].skill[j].own));
 
-			json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
-		}
-		json_object_set_new(pokemonListData, "skill", pokemonSkillDataArray);
-
-		json_array_append_new(pokemonListDataArray, pokemonListData);
-	}
-
-	// objectPosition 추출
-	int depth_1_index = sizeof(objectPosition) / sizeof(objectPosition[0]);
-	int depth_2_index = sizeof(objectPosition[0]) / sizeof(objectPosition[0][0]);
-	int depth_3_index = sizeof(objectPosition[0][0]) / sizeof(int);
-	json_t* objectPositionDataArray = json_array();
-	for (int i = 0; i < depth_1_index; i++) {
-		json_t* dept2_DataArray = json_array();
-		for (int j = 0; j < depth_2_index; j++) {
-			json_t* dept3_DataArray = json_array();
-			for (int k = 0; k < depth_3_index; k++) {
-				json_array_append_new(dept3_DataArray, json_integer(objectPosition[i][j][k]));
+				json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
 			}
-			json_array_append_new(dept2_DataArray, dept3_DataArray);
+			json_object_set_new(pokemonListData, "skill", pokemonSkillDataArray);
+
+			json_array_append_new(pokemonListDataArray, pokemonListData);
 		}
-		json_array_append_new(objectPositionDataArray, dept2_DataArray);
-	}
 
-	// inventorySlots 추출
-	json_t* inventorySlotsDataArray = json_array();
-	for (int i = 0; i < 2; i++) {
-		json_t* depth2_DataArray = json_array();
-		for (int j = 0; j < 6; j++) {
-			json_t* inventorySlotsData = json_object();
-			json_object_set_new(inventorySlotsData, "itemType", json_integer(inventorySlots[i][j].itemType));
-			json_object_set_new(inventorySlotsData, "itemStock", json_integer(inventorySlots[i][j].itemStock));
-			json_object_set_new(inventorySlotsData, "itemName", json_string(inventorySlots[i][j].itemName));
-			json_t* itemDescArray = json_array();
-			for (int k = 0; k < 3; k++)
-				json_array_append_new(itemDescArray, json_string(inventorySlots[i][j].itemDesc[k]));
-			json_object_set_new(inventorySlotsData, "itemDesc", itemDescArray);
-			json_array_append_new(depth2_DataArray, inventorySlotsData);
+		// objectPosition 추출
+		int depth_1_index = sizeof(objectPosition) / sizeof(objectPosition[0]);
+		int depth_2_index = sizeof(objectPosition[0]) / sizeof(objectPosition[0][0]);
+		int depth_3_index = sizeof(objectPosition[0][0]) / sizeof(int);
+		json_t* objectPositionDataArray = json_array();
+		for (int i = 0; i < depth_1_index; i++) {
+			json_t* dept2_DataArray = json_array();
+			for (int j = 0; j < depth_2_index; j++) {
+				json_t* dept3_DataArray = json_array();
+				for (int k = 0; k < depth_3_index; k++) {
+					json_array_append_new(dept3_DataArray, json_integer(objectPosition[i][j][k]));
+				}
+				json_array_append_new(dept2_DataArray, dept3_DataArray);
+			}
+			json_array_append_new(objectPositionDataArray, dept2_DataArray);
 		}
-		json_array_append_new(inventorySlotsDataArray, depth2_DataArray);
+
+		// inventorySlots 추출
+		json_t* inventorySlotsDataArray = json_array();
+		for (int i = 0; i < 2; i++) {
+			json_t* depth2_DataArray = json_array();
+			for (int j = 0; j < 6; j++) {
+				json_t* inventorySlotsData = json_object();
+				json_object_set_new(inventorySlotsData, "itemType", json_integer(inventorySlots[i][j].itemType));
+				json_object_set_new(inventorySlotsData, "itemStock", json_integer(inventorySlots[i][j].itemStock));
+				json_object_set_new(inventorySlotsData, "itemName", json_string(inventorySlots[i][j].itemName));
+				json_t* itemDescArray = json_array();
+				for (int k = 0; k < 3; k++)
+					json_array_append_new(itemDescArray, json_string(inventorySlots[i][j].itemDesc[k]));
+				json_object_set_new(inventorySlotsData, "itemDesc", itemDescArray);
+				json_array_append_new(depth2_DataArray, inventorySlotsData);
+			}
+			json_array_append_new(inventorySlotsDataArray, depth2_DataArray);
+		}
+
+		json_t* pMessage = json_object();
+		// 플레이어 정보 저장
+		json_object_set_new(pMessage, "PLAYER", playerData);
+		// 게임 스테이지 저장
+		json_object_set_new(pMessage, "GAME_STAGE", json_integer(GAME_STAGE));
+		// pokemonList 저장
+		json_object_set_new(pMessage, "POKEMON_LIST", pokemonListDataArray);
+		// objectPosition 저장
+		json_object_set_new(pMessage, "OBJECT_POSITION", objectPositionDataArray);
+
+		// inventorySlots 저장
+		json_object_set_new(pMessage, "INVENTORY_SLOTS", inventorySlotsDataArray);
+
+		// 서버에 메시지 전송
+		json_t* pHeader = json_array();
+		json_t* pData = json_array();
+
+		json_array_append_new(pHeader, json_string("SAVE"));
+		json_array_append_new(pData, json_integer(userNo));
+		json_array_append_new(pData, json_string(json_dumps(pMessage, JSON_ENCODE_ANY)));
+
+		json_t* pPacket = htonJson(pHeader, pData);
+
+		int sendSize = (int)strlen(json_dumps(pPacket, JSON_ENCODE_ANY));
+		json_t* sHeader = json_array();
+		json_t* sData = json_array();
+
+		json_array_append_new(sHeader, json_string("SAVE_SIZE"));
+		json_array_append_new(sData, json_integer(sendSize));
+		json_t* sPacket = htonJson(sHeader, sData);
+		sendMessage(sPacket);
 	}
+	else {
+		// 플레이어 정보 추출
+		json_t* playerData = json_object();
+		json_object_set_new(playerData, "cName", json_string(user_player.cName));
+		json_object_set_new(playerData, "iAction_type", json_integer(user_player.iAction_type));
+		json_object_set_new(playerData, "iPlayer_direction", json_integer(user_player.iPlayer_direction));
+		json_object_set_new(playerData, "iAction_idx", json_integer(user_player.iAction_idx));
+		json_object_set_new(playerData, "iPos_x", json_integer(user_player.iPos_x));
+		json_object_set_new(playerData, "iPos_y", json_integer(user_player.iPos_y));
 
-	json_t* pMessage = json_object();
-	// 플레이어 정보 저장
-	json_object_set_new(pMessage, "PLAYER", playerData);
-	// 게임 스테이지 저장
-	json_object_set_new(pMessage, "GAME_STAGE", json_integer(GAME_STAGE));
-	// pokemonList 저장
-	json_object_set_new(pMessage, "POKEMON_LIST", pokemonListDataArray);
-	// objectPosition 저장
-	json_object_set_new(pMessage, "OBJECT_POSITION", objectPositionDataArray);
+		// myPokemonList 추출
+		json_t* pokemonListDataArray = json_array();
+		for (int i = 0; i < 6; i++) {
+			json_t* pokemonListData = json_object();
+			json_object_set_new(pokemonListData, "no", json_integer(myPokemonList[i].no));
+			json_object_set_new(pokemonListData, "displayName", json_string(myPokemonList[i].displayName));
+			json_object_set_new(pokemonListData, "type", json_integer((long long)myPokemonList[i].type));
+			json_object_set_new(pokemonListData, "level", json_integer(myPokemonList[i].level));
+			json_object_set_new(pokemonListData, "exp", json_integer(myPokemonList[i].exp));
+			json_object_set_new(pokemonListData, "crt_hp", json_integer(myPokemonList[i].crt_hp));
+			json_object_set_new(pokemonListData, "max_hp", json_integer(myPokemonList[i].max_hp));
+			json_object_set_new(pokemonListData, "dmg", json_integer(myPokemonList[i].dmg));
+			json_object_set_new(pokemonListData, "def", json_integer(myPokemonList[i].def));
+			json_object_set_new(pokemonListData, "spd", json_integer(myPokemonList[i].spd));
 
-	// inventorySlots 저장
-	json_object_set_new(pMessage, "INVENTORY_SLOTS", inventorySlotsDataArray);
+			json_t* pokemonSkillDataArray = json_array();
+			for (int j = 0; j < 4; j++) {
+				json_t* pokemonSkillData = json_object();
+				json_object_set_new(pokemonSkillData, "no", json_integer(myPokemonList[i].skill[j].no));
+				json_object_set_new(pokemonSkillData, "displayName", json_string(myPokemonList[i].skill[j].displayName));
+				json_object_set_new(pokemonSkillData, "type", json_integer((long long)myPokemonList[i].skill[j].type));
+				json_object_set_new(pokemonSkillData, "dmg_cf", json_real(myPokemonList[i].skill[j].dmg_cf));
+				json_object_set_new(pokemonSkillData, "acc", json_real(myPokemonList[i].skill[j].acc));
+				json_object_set_new(pokemonSkillData, "crt_pp", json_integer(myPokemonList[i].skill[j].crt_pp));
+				json_object_set_new(pokemonSkillData, "max_pp", json_integer(myPokemonList[i].skill[j].max_pp));
+				json_object_set_new(pokemonSkillData, "level_condition", json_integer(myPokemonList[i].skill[j].level_condition));
+				json_object_set_new(pokemonSkillData, "own", json_boolean(myPokemonList[i].skill[j].own));
 
-	// 서버에 메시지 전송
-	json_t* pHeader = json_array();
-	json_t* pData = json_array();
+				json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
+			}
+			json_object_set_new(pokemonListData, "skill", pokemonSkillDataArray);
 
-	json_array_append_new(pHeader, json_string("SAVE"));
-	json_array_append_new(pData, json_integer(userNo));
-	json_array_append_new(pData, json_string(json_dumps(pMessage, JSON_ENCODE_ANY)));
+			json_array_append_new(pokemonListDataArray, pokemonListData);
+		}
 
-	json_t* pPacket = htonJson(pHeader, pData);
+		// objectPosition 추출
+		int depth_1_index = sizeof(objectPosition) / sizeof(objectPosition[0]);
+		int depth_2_index = sizeof(objectPosition[0]) / sizeof(objectPosition[0][0]);
+		int depth_3_index = sizeof(objectPosition[0][0]) / sizeof(int);
+		json_t* objectPositionDataArray = json_array();
+		for (int i = 0; i < depth_1_index; i++) {
+			json_t* dept2_DataArray = json_array();
+			for (int j = 0; j < depth_2_index; j++) {
+				json_t* dept3_DataArray = json_array();
+				for (int k = 0; k < depth_3_index; k++) {
+					json_array_append_new(dept3_DataArray, json_integer(objectPosition[i][j][k]));
+				}
+				json_array_append_new(dept2_DataArray, dept3_DataArray);
+			}
+			json_array_append_new(objectPositionDataArray, dept2_DataArray);
+		}
 
-	int sendSize = (int)strlen(json_dumps(pPacket, JSON_ENCODE_ANY));
-	json_t* sHeader = json_array();
-	json_t* sData = json_array();
+		// inventorySlots 추출
+		json_t* inventorySlotsDataArray = json_array();
+		for (int i = 0; i < 2; i++) {
+			json_t* depth2_DataArray = json_array();
+			for (int j = 0; j < 6; j++) {
+				json_t* inventorySlotsData = json_object();
+				json_object_set_new(inventorySlotsData, "itemType", json_integer(inventorySlots[i][j].itemType));
+				json_object_set_new(inventorySlotsData, "itemStock", json_integer(inventorySlots[i][j].itemStock));
+				json_object_set_new(inventorySlotsData, "itemName", json_string(inventorySlots[i][j].itemName));
+				json_t* itemDescArray = json_array();
+				for (int k = 0; k < 3; k++)
+					json_array_append_new(itemDescArray, json_string(inventorySlots[i][j].itemDesc[k]));
+				json_object_set_new(inventorySlotsData, "itemDesc", itemDescArray);
+				json_array_append_new(depth2_DataArray, inventorySlotsData);
+			}
+			json_array_append_new(inventorySlotsDataArray, depth2_DataArray);
+		}
 
-	json_array_append_new(sHeader, json_string("SAVE_SIZE"));
-	json_array_append_new(sData, json_integer(sendSize));
-	json_t* sPacket = htonJson(sHeader, sData);
-	sendMessage(sPacket);
-	
+		json_t* pMessage = json_object();
+		// 플레이어 정보 저장
+		json_object_set_new(pMessage, "PLAYER", playerData);
+		// 게임 스테이지 저장
+		json_object_set_new(pMessage, "GAME_STAGE", json_integer(GAME_STAGE));
+		// pokemonList 저장
+		json_object_set_new(pMessage, "POKEMON_LIST", pokemonListDataArray);
+		// objectPosition 저장
+		json_object_set_new(pMessage, "OBJECT_POSITION", objectPositionDataArray);
 
-	sendMessage(pPacket);
+		// inventorySlots 저장
+		json_object_set_new(pMessage, "INVENTORY_SLOTS", inventorySlotsDataArray);
+
+		// 서버에 메시지 전송
+		json_t* pHeader = json_array();
+		json_t* pData = json_array();
+
+		json_array_append_new(pHeader, json_string("SAVE"));
+		json_array_append_new(pData, json_integer(userNo));
+		json_array_append_new(pData, json_string(json_dumps(pMessage, JSON_ENCODE_ANY)));
+
+		json_t* pPacket = htonJson(pHeader, pData);
+		sendMessage(pPacket);
+	}
 
 	//int rc = json_dump_file(pMessage, "./profile.pkms", 0);
 	//if (rc)

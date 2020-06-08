@@ -28,7 +28,7 @@ extern ALLEGRO_BITMAP* _map[3];
 
 extern ALLEGRO_FONT* get_menuPirnt_font();
 
-extern int objectPosition[][3][5];
+extern int objectPosition[][4][5];
 
 extern int userNo;
 void showMenu(int menuId) {
@@ -94,7 +94,7 @@ void menuHandler() {
 		case 2:
 			// SFX_SAVE
 			soundHandler(302);
-			environmentSave(userNo);
+			environmentSave(userNo, 0);
 			closeMenu();
 			conversation_status.currentConvs = SAVE_SUCCESS_CONVERSATION;
 			conversation_status.maxIndex = 1;

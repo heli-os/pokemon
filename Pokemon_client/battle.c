@@ -223,13 +223,15 @@ void attackProcess(pokemon* attacker, pokemon* defender, pokemonSkill* skill) {
 	defender->crt_hp -= dmg;
 	if (defender->crt_hp < 0) defender->crt_hp = 0;
 
+	skill->crt_pp -= 1;
+
 	if (isDead(defender)) {
 		int pokemon_grade = defender->no == 14 ? 3 : ((defender->no == 1) || (defender->no == 4) || (defender->no == 7)) ? 2 : 1;
 		int increase_exp = (pokemon_grade * 40 * defender->level) / 7;
 		int pokemon_next_level_exp = pow((double)attacker->level + 1, 3.0);
 
 		if ((attacker->exp + increase_exp) > pokemon_next_level_exp) {
-			pokemon tmpPokemon = createPokemon(attacker->no, attacker->level + 1);
+			pokemon tmpPokemon = createPokemon(attacker->no - 1, attacker->level + 1);
 			*attacker = tmpPokemon;
 			isEvolution(attacker);
 		}
