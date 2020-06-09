@@ -235,10 +235,8 @@ void update() {
 					battleUI_status.catchingIdx = 1;
 					fadeIn(0.05);
 				}
-				// 게임오버
-				else if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
-					soundHandler(GAME_STAGE);
-					fadeOut(0.05);
+				// 배틀 종료
+				else if (battleUI_status.currentMenu == 5){
 					battleUI_status.battleUIOpen = false;
 					battleUI_status.currentMenu = -1;
 					battleUI_status.currentIndex = -1;
@@ -248,7 +246,26 @@ void update() {
 					battleUI_status.catchingIdx = 1;
 					battleUI_status.battleIsGym = false;
 					gymLeaderPokemonIdx = 0;
-					fadeIn(0.05);
+					if (remainPokemon()) {
+						soundHandler(GAME_STAGE);
+						fadeOut(0.05);
+						fadeIn(0.05);
+					}
+					else {
+						GAME_STAGE = 4;
+
+						soundHandler(GAME_STAGE);
+
+						fadeOut(0.05);
+						init_terrain(_map[mapOffset[GAME_STAGE][0]]);
+						user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
+						user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
+						updateCamera(user_player);
+						fadeIn(0.05);
+						clear_key_buffered();
+						initCollision();
+					}
+
 				}
 				// 적 포켓몬 사망 확인
 				else if (battleUI_status.currentMenu == 6) {
@@ -510,55 +527,71 @@ void update() {
 				int bushJoins = isBush(user_player);
 				if (bushJoins != -4) {
 					printf("Bush IN\n");
-					// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
-					soundHandler(101);
-					double randItem = ((double)rand() / RAND_MAX * 1.0);
-					if (randItem <= TOTAL_APPEAR_RATE) {
-						// HP 회복 임시
-						//healingPokemon();
+					if (!remainPokemon()) {
+						GAME_STAGE = 4;
 
-						fadeOut(0.02);
-						fadeIn(0.02);
-						fadeOut(0.02);
-						fadeIn(0.02);
-						fadeOut(0.02);
+						soundHandler(GAME_STAGE);
 
-						battleUI_status.battleUIOpen = true;
-						battleUI_status.currentMenu = 0;
-						battleUI_status.currentIndex = 0;
-						battleUI_status.currentPokemonIdx = 0;
-
-						randItem = ((double)rand() / RAND_MAX * 1.0);
-						if (randItem <= GRADE_3_APPEAR_RATE) {
-							int idxArr[] = { 13 };
-							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
-							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
-						}
-						else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE) {
-							int idxArr[] = { 0,3,6 };
-							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
-							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
-						}
-						else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE + GRADE_1_APPEAR_RATE) {
-							int idxArr[] = { 9, 12 };
-							int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
-							battleUI_status.enemyPokemonIdx = idxArr[randIdx];
-						}
-						int levelRange = 0;
-						int myPokemonCnt = 0;
-						for (int i = 0; i < 6; i++) {
-							if (myPokemonList[i].no != -1) {
-								levelRange += myPokemonList[i].level;
-								myPokemonCnt++;
-							}
-						}
-						levelRange /= myPokemonCnt;
-						levelRange = rand() % 5 + levelRange - 3;
-						if (levelRange < 5) levelRange = 5;
-						enemy = createPokemon(battleUI_status.enemyPokemonIdx, levelRange);
-						showBattleUI();
-						fadeIn(0.03);
+						fadeOut(0.05);
+						init_terrain(_map[mapOffset[GAME_STAGE][0]]);
+						user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
+						user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
+						updateCamera(user_player);
+						fadeIn(0.05);
 						clear_key_buffered();
+						initCollision();
+					}
+					else {
+						// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
+						soundHandler(101);
+						double randItem = ((double)rand() / RAND_MAX * 1.0);
+						if (randItem <= TOTAL_APPEAR_RATE) {
+							// HP 회복 임시
+							//healingPokemon();
+
+							fadeOut(0.02);
+							fadeIn(0.02);
+							fadeOut(0.02);
+							fadeIn(0.02);
+							fadeOut(0.02);
+
+							battleUI_status.battleUIOpen = true;
+							battleUI_status.currentMenu = 0;
+							battleUI_status.currentIndex = 0;
+							battleUI_status.currentPokemonIdx = 0;
+
+							randItem = ((double)rand() / RAND_MAX * 1.0);
+							if (randItem <= GRADE_3_APPEAR_RATE) {
+								int idxArr[] = { 13 };
+								int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+								battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+							}
+							else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE) {
+								int idxArr[] = { 0,3,6 };
+								int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+								battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+							}
+							else if (randItem <= GRADE_3_APPEAR_RATE + GRADE_2_APPEAR_RATE + GRADE_1_APPEAR_RATE) {
+								int idxArr[] = { 9, 12 };
+								int randIdx = rand() % (sizeof(idxArr) / sizeof(int));
+								battleUI_status.enemyPokemonIdx = idxArr[randIdx];
+							}
+							int levelRange = 0;
+							int myPokemonCnt = 0;
+							for (int i = 0; i < 6; i++) {
+								if (myPokemonList[i].no != -1) {
+									levelRange += myPokemonList[i].level;
+									myPokemonCnt++;
+								}
+							}
+							levelRange /= myPokemonCnt;
+							levelRange = rand() % 5 + levelRange - 3;
+							if (levelRange < 5) levelRange = 5;
+							enemy = createPokemon(battleUI_status.enemyPokemonIdx, levelRange);
+							showBattleUI();
+							fadeIn(0.03);
+							clear_key_buffered();
+						}
 					}
 				}
 			}
