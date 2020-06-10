@@ -235,8 +235,9 @@ void update() {
 					battleUI_status.catchingIdx = 1;
 					fadeIn(0.05);
 				}
-				// 배틀 종료
-				else if (battleUI_status.currentMenu == 5){
+				// 4 : RUN
+				// 5 : 배틀 종료
+				else if (battleUI_status.currentMenu == 4 || battleUI_status.currentMenu == 5) {
 					battleUI_status.battleUIOpen = false;
 					battleUI_status.currentMenu = -1;
 					battleUI_status.currentIndex = -1;
@@ -265,7 +266,6 @@ void update() {
 						clear_key_buffered();
 						initCollision();
 					}
-
 				}
 				// 적 포켓몬 사망 확인
 				else if (battleUI_status.currentMenu == 6) {
