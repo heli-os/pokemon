@@ -17,7 +17,9 @@ enum CONVERSATION_ID {
 	POKEBALL_01_CONVERSATION,
 	POKEBALL_02_CONVERSATION,
 	SAVE_SUCCESS_CONVERSATION,
-	POKEMON_HEALING_CONVERSATION
+	POKEMON_HEALING_CONVERSATION,
+	ITEM_MARKET_CONVERSATION,
+	ITEM_BUY_FAIL_CONVERSATION
 };
 
 
@@ -26,7 +28,9 @@ static char* mapConversationChar[][2] = {
 	{"So, you're claiming the","FIRE Pokemon Charmander?"},
 	{"So, you're claiming the","WATER Pokemon Squirtle?"},
 	{"Save Success!"},
-	{"All of your Pokemon have","been restored"}
+	{"All of your Pokemon have","been restored"},
+	{"You can purchase items"," here"},
+	{"You don't have enough gold","to buy the item"}
 };
 
 void showConversation(int convsId);

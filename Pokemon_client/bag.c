@@ -19,21 +19,21 @@ extern conversationStatus conversation_status;
 
 
 inventoryItem inventorySlots[2][6] = {
-	// 일반 아이템
-	{
-		{1, 0, "POTION", {"It restores the HP of one Pokemon","by 20 points."}},
-		{2, 0, "SUPER POTION", {"It restores the HP of one Pokemon","by 50 points."}},
-		{3, 0, "HYPER POTION", {"It restores the HP of one Pokemon","by 200 points."}},
-		{4, 0, "MAX POTION", {"It fully restores the HP of one Poke", "mon."}},
-		{5, 0, "ETHER", {"Restores All skills's PP by 10", "points for one Pokemon"}},
-		{6, 0, "REVIVE", {"Revives a fainted Pokemon, restoring", "HP by half the maximum amount."}},
-	},
 	// 회복제
 	{
-		{7, 0, "Poke BALL", {"A BALL thrown to catch a wild Poke", "mon. It is designed in a capsule style."}},
-		{8, 0, "GREAT BALL", {"A good, quality BALL that offers", "a higher Pokemon catch rate than", "a standard Poke BALL."}},
-		{9, 0, "ULTRA BALL", {"A very high-grade BALL that offers", "a higher Pokemon catch rate", "a GREAT BALL."}},
-		{10, 0, "MASTER BALL", {"The best BALL with the ultimate", "performance. It will catch any wild","Pokemon without fail."}}
+		{1, 0, 200, "POTION", {"It restores the HP of one Pokemon","by 20 points."}},
+		{2, 0, 500, "SUPER POTION", {"It restores the HP of one Pokemon","by 50 points."}},
+		{3, 0, 1500,"HYPER POTION", {"It restores the HP of one Pokemon","by 200 points."}},
+		{4, 0, 2500, "MAX POTION", {"It fully restores the HP of one Poke", "mon."}},
+		{5, 0, 2000, "ETHER", {"Restores All skills's PP by 10", "points for one Pokemon"}},
+		{6, 0, 3000, "REVIVE", {"Revives a fainted Pokemon, restoring", "HP by half the maximum amount."}},
+	},
+	// 포켓볼
+	{
+		{7, 0, 1000, "Poke BALL", {"A BALL thrown to catch a wild Poke", "mon. It is designed in a capsule style."}},
+		{8, 0, 1500, "GREAT BALL", {"A good, quality BALL that offers", "a higher Pokemon catch rate than", "a standard Poke BALL."}},
+		{9, 0, 2500, "ULTRA BALL", {"A very high-grade BALL that offers", "a higher Pokemon catch rate", "a GREAT BALL."}},
+		{10, 0, 50000, "MASTER BALL", {"The best BALL with the ultimate", "performance. It will catch any wild","Pokemon without fail."}}
 	}
 };
 

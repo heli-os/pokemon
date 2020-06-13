@@ -21,6 +21,8 @@ typedef struct _player {
 	int iPos_x;
 	int iPos_y;
 
+	int iGold;
+
 } player;
 
 

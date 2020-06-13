@@ -46,13 +46,14 @@ void showConversation(int convsId) {
 		al_draw_tinted_scaled_rotated_bitmap_region(convBitmap, 7, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, convsX + (col + 1) * 7 * GAME_SCALE, convsY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 	al_draw_tinted_scaled_rotated_bitmap_region(convBitmap, 14, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, convsX + (col + 1) * 7 * GAME_SCALE, convsY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 
+	// 메시지
 	for (int mChar = 0; mChar < conversation_status.maxIndex; mChar++)
 		al_draw_text(get_convsPirnt_font(), al_map_rgb(90, 90, 90), convsX + 15 * GAME_SCALE, convsY + 9 * GAME_SCALE + (52 * mChar), ALLEGRO_ALIGN_LEFT, mapConversationChar[convsId][mChar]);
 
 }
 void closeConversation() {
-	if (conversation_status.currentConvs == 5 || conversation_status.currentConvs == 6 || conversation_status.currentConvs == 7)
-		return;
+	//if (conversation_status.currentConvs == 5 || conversation_status.currentConvs == 6 || conversation_status.currentConvs == 7)
+	//	return;
 
 	conversation_status.convsOpen = false;
 	conversation_status.maxIndex = 0;

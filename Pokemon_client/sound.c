@@ -69,7 +69,7 @@ void soundHandler(int GAME_STAGE) {
 		al_set_sample_instance_gain(sounds[BGM_BATTLE_WILD], 0.5);
 		al_set_sample_instance_playmode(sounds[BGM_BATTLE_WILD], ALLEGRO_PLAYMODE_LOOP);
 	}
-	// 볼 바운스
+	// 포켓볼 바운스
 	else if (GAME_STAGE == 202) {
 		al_set_sample_instance_playing(sounds[SFX_BALL_BOUNCE], true);
 	}
@@ -110,5 +110,6 @@ void soundHandler(int GAME_STAGE) {
 		if (al_get_sample_instance_playing(sounds[SFX_HEAL]))
 			al_set_sample_instance_playing(sounds[SFX_HEAL], false);
 		al_set_sample_instance_playing(sounds[SFX_HEAL], true);
+		al_set_sample_instance_playing(sounds[BGM_OAK_LAB], false);
 	}
 }

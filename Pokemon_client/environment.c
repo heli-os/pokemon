@@ -142,6 +142,7 @@ void environmentSave(int userNo, int flags) {
 		json_object_set_new(playerData, "iAction_idx", json_integer(user_player.iAction_idx));
 		json_object_set_new(playerData, "iPos_x", json_integer(user_player.iPos_x));
 		json_object_set_new(playerData, "iPos_y", json_integer(user_player.iPos_y));
+		json_object_set_new(playerData, "iGold", json_integer(user_player.iGold));
 
 		// myPokemonList 추출
 		json_t* pokemonListDataArray = json_array();
@@ -254,6 +255,7 @@ void environmentParse(const json_t* pData) {
 	user_player.iAction_idx = json_integer_value(json_object_get(playerData, "iAction_idx"));
 	user_player.iPos_x = json_integer_value(json_object_get(playerData, "iPos_x"));
 	user_player.iPos_y = json_integer_value(json_object_get(playerData, "iPos_y"));
+	user_player.iGold = json_integer_value(json_object_get(playerData, "iGold"));
 
 	GAME_STAGE = json_integer_value(json_object_get(pData, "GAME_STAGE"));
 

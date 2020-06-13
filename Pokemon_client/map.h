@@ -20,7 +20,5 @@ static int mapOffset[][9] = {
 	{1,500,500,0,0,384,735,96,364}		// 마을(3)
 };
 
-
-
 ALLEGRO_BITMAP* world_map;
 #endif

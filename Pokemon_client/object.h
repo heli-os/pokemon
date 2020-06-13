@@ -29,9 +29,9 @@ static int objectItem[][4] = {
 };
 
 enum OBJECT_ID {
-	LAB_POKEBALL_0,
-	LAB_POKEBALL_1,
-	LAB_POKEBALL_2,
+	LAB_POKEBALL_0,			// 연구실 포켓볼_0
+	LAB_POKEBALL_1,			// 연구실 포켓볼_1
+	LAB_POKEBALL_2,			// 연구실 포켓볼_2
 	COMMON_POTION,			// 상처약
 	COMMON_SUPER_POTION,	// 좋은 상처약
 	COMMON_HYPER_POTION,	// 고급상처약
@@ -43,7 +43,8 @@ enum OBJECT_ID {
 	COMMON_ULTRABALL,		// 울트라볼
 	COMMON_MASTERBALL,		// 마스터볼
 	GYM_LEADER,				// 체육관 관장
-	HEALNG_MACHINE			// 힐링 머신
+	HEALNG_MACHINE,			// 힐링 머신
+	ITEM_MARKET				// 아이템 마켓
 };
 
 

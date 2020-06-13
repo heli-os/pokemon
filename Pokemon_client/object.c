@@ -7,7 +7,7 @@
 #include "screen.h"
 #include "otherUtils.h"
 
-int objectPosition[8][4][5] = {
+int objectPosition[8][5][5] = {
 	{ // 집 2층
 		{0}
 	},
@@ -24,7 +24,8 @@ int objectPosition[8][4][5] = {
 		{7,LAB_POKEBALL_0, 520, 281, 1},
 		{7,LAB_POKEBALL_1, 584, 281, 1},
 		{7,LAB_POKEBALL_2, 648, 281, 1},
-		{99,HEALNG_MACHINE, 0, 0, 1}
+		{99,HEALNG_MACHINE, 0, 0, 1},
+		{98,ITEM_MARKET,64,0,1}
 	},
 	{ // 마을(2)
 		{0}
@@ -69,7 +70,7 @@ void initObject(ALLEGRO_BITMAP* object) {
 			if (objectTarget == 0)
 				continue;
 
-			if (objectPosition[GAME_STAGE][i][0] == 99) {
+			if (objectTarget == 99 || objectTarget == 98) {
 				createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], 16 * GAME_SCALE, 32 * GAME_SCALE);
 			}
 			else {
@@ -195,5 +196,15 @@ void interactObject(int objId) {
 		conversation_status.currentConvs = POKEMON_HEALING_CONVERSATION;
 		conversation_status.maxIndex = 2;
 		conversation_status.convsOpen = true;
+		break;
+	case ITEM_MARKET:
+		printf("ITEM_MARKET\n");
+		menu_status.currentMenu = ITEM_MARKET_LIST_00;
+		menu_status.menuOpen = true;
+
+		conversation_status.currentConvs = ITEM_MARKET_CONVERSATION;
+		conversation_status.maxIndex = 2;
+		conversation_status.convsOpen = true;
+		break;
 	}
 }

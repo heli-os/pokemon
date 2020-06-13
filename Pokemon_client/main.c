@@ -26,7 +26,7 @@ int GAME_SPEED = 1;
 int GAME_STAGE = 0;
 
 // player_bitmap*, action_bitmap*, name, action_type, player_direction, action_idx, pos_x, pos_y
-player user_player = { NULL, "PLAYER", 0,1,0,0,false, 820, 868 };
+player user_player = { NULL, "PLAYER", 0,1,0,0,false, 820, 868, 0 };
 pokemon myPokemonList[6] = {
 	 { -1,"",0,0,0,0,0,0,0,0},
 	 { -1,"",0,0,0,0,0,0,0,0},
@@ -65,8 +65,7 @@ extern pokemon pokemonBook[15];
 int userNo = -1;
 void update() {
 	// 일반 메뉴
-	if (!bagUI_status.bagUIOpen && !pokemonMenu_status.pokemonMenuOpen && menu_status.menuOpen) {
-
+	if (!bagUI_status.bagUIOpen && !pokemonMenu_status.pokemonMenuOpen && menu_status.menuOpen && conversation_status.currentConvs != ITEM_BUY_FAIL_CONVERSATION) {
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
 			// SFX_TALK
 			soundHandler(1000);
@@ -82,6 +81,15 @@ void update() {
 				menu_status.menuIndex++;
 			else
 				menu_status.menuIndex = 0;
+		}
+		if (is_key_pressed(ALLEGRO_KEY_LEFT) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			if (menu_status.currentMenu == ITEM_MARKET_LIST_00) {
+				menu_status.currentMenu = ITEM_MARKET_LIST_01;
+			}
+			else if (menu_status.currentMenu == ITEM_MARKET_LIST_01) {
+				menu_status.currentMenu = ITEM_MARKET_LIST_00;
+			}
+			menu_status.menuIndex = 0;
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			// SFX_TALK
@@ -100,7 +108,15 @@ void update() {
 	// 대화창
 	else if (conversation_status.convsOpen) {
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER) || is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
-			closeConversation();
+			if (conversation_status.currentConvs == ITEM_BUY_FAIL_CONVERSATION) {
+				conversation_status.currentConvs = ITEM_MARKET_CONVERSATION;
+			}
+			else {
+				if (conversation_status.currentConvs == POKEMON_HEALING_CONVERSATION) {
+					soundHandler(GAME_STAGE);
+				}
+				closeConversation();
+			}
 		}
 	}
 	// 포켓몬 메뉴
@@ -267,7 +283,7 @@ void update() {
 						initCollision();
 					}
 				}
-				// 적 포켓몬 사망 확인
+				// 플레이어 공격 종료 및 적 포켓몬 사망 확인
 				else if (battleUI_status.currentMenu == 6) {
 					if (isDead(&enemy)) {
 						battleUI_status.battleUISkill = false;
@@ -285,10 +301,18 @@ void update() {
 							}
 							if (!gymLeaderRemainPokemon()) {
 								printf("WINN!!!!!\n");
+								user_player.iGold += 7500;
+								if (user_player.iGold > 1000000) user_player.iGold = 1000000;
+								printf("GOLD:%d\n", user_player.iGold);
 								battleUI_status.battleUIEnd = true;
 							}
 						}
 						else {
+							int pokemon_grade = enemy.no == 14 ? 3 : ((enemy.no == 1) || (enemy.no == 4) || (enemy.no == 7)) ? 2 : 1;
+							user_player.iGold += 500 * pokemon_grade;
+							if (user_player.iGold > 1000000) user_player.iGold = 1000000;
+							printf("GOLD:%d\n", user_player.iGold);
+							
 							battleUI_status.battleUIEnd = true;
 						}
 					}

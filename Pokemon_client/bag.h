@@ -15,6 +15,7 @@ typedef struct BAGUI_STATUS {
 typedef struct INVENTORY_ITEM {
 	int itemType;
 	int itemStock;
+	int itemPrice;
 	char* itemName;
 	char* itemDesc[3];
 } inventoryItem;
