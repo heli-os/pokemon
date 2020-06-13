@@ -241,6 +241,7 @@ void drawBagUI() {
 		item_posY = i * 15.5 + 13;
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + item_posX * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, item.itemName);
 		char stockMSG[255] = { 0 };
+		// 디버그용 아이템 개수 99개 설정
 		//inventorySlots[bagUI_status.currentMenu][i].itemStock = 99;
 		sprintf_s(stockMSG, sizeof(stockMSG), "X %d", item.itemStock);
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + (item_posX + 84) * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, stockMSG);

@@ -82,6 +82,9 @@
     <ClCompile Include="sound.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="computer.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nginx_framework.h">
@@ -148,6 +151,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="computer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

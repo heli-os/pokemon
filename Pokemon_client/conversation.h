@@ -30,7 +30,7 @@ static char* mapConversationChar[][2] = {
 	{"Save Success!"},
 	{"All of your Pokemon have","been restored"},
 	{"You can purchase items"," here"},
-	{"You don't have enough gold","to buy the item"}
+	{"You don't have enough gold","to purchase the item"}
 };
 
 void showConversation(int convsId);

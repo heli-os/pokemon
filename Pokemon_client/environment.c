@@ -7,7 +7,8 @@
 extern player user_player;
 extern int GAME_STAGE;
 extern pokemon myPokemonList[6];
-extern int objectPosition[8][3][5];
+extern pokemon computerSystemList[35];
+extern int objectPosition[8][6][5];
 extern pokemon pokemonBook[15];
 extern inventoryItem inventorySlots[2][6];
 
@@ -66,6 +67,41 @@ void environmentSave(int userNo, int flags) {
 			json_array_append_new(pokemonListDataArray, pokemonListData);
 		}
 
+		// computerSystemList 추출
+		json_t* computerSystemListDataArray = json_array();
+		for (int i = 0; i < 35; i++) {
+			json_t* computerSystemListData = json_object();
+			json_object_set_new(computerSystemListData, "no", json_integer(computerSystemList[i].no));
+			json_object_set_new(computerSystemListData, "displayName", json_string(computerSystemList[i].displayName));
+			json_object_set_new(computerSystemListData, "type", json_integer((long long)computerSystemList[i].type));
+			json_object_set_new(computerSystemListData, "level", json_integer(computerSystemList[i].level));
+			json_object_set_new(computerSystemListData, "exp", json_integer(computerSystemList[i].exp));
+			json_object_set_new(computerSystemListData, "crt_hp", json_integer(computerSystemList[i].crt_hp));
+			json_object_set_new(computerSystemListData, "max_hp", json_integer(computerSystemList[i].max_hp));
+			json_object_set_new(computerSystemListData, "dmg", json_integer(computerSystemList[i].dmg));
+			json_object_set_new(computerSystemListData, "def", json_integer(computerSystemList[i].def));
+			json_object_set_new(computerSystemListData, "spd", json_integer(computerSystemList[i].spd));
+
+			json_t* pokemonSkillDataArray = json_array();
+			for (int j = 0; j < 4; j++) {
+				json_t* pokemonSkillData = json_object();
+				json_object_set_new(pokemonSkillData, "no", json_integer(computerSystemList[i].skill[j].no));
+				json_object_set_new(pokemonSkillData, "displayName", json_string(computerSystemList[i].skill[j].displayName));
+				json_object_set_new(pokemonSkillData, "type", json_integer((long long)computerSystemList[i].skill[j].type));
+				json_object_set_new(pokemonSkillData, "dmg_cf", json_real(computerSystemList[i].skill[j].dmg_cf));
+				json_object_set_new(pokemonSkillData, "acc", json_real(computerSystemList[i].skill[j].acc));
+				json_object_set_new(pokemonSkillData, "crt_pp", json_integer(computerSystemList[i].skill[j].crt_pp));
+				json_object_set_new(pokemonSkillData, "max_pp", json_integer(computerSystemList[i].skill[j].max_pp));
+				json_object_set_new(pokemonSkillData, "level_condition", json_integer(computerSystemList[i].skill[j].level_condition));
+				json_object_set_new(pokemonSkillData, "own", json_boolean(computerSystemList[i].skill[j].own));
+
+				json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
+			}
+			json_object_set_new(computerSystemListData, "skill", pokemonSkillDataArray);
+
+			json_array_append_new(computerSystemListDataArray, computerSystemListData);
+		}
+
 		// objectPosition 추출
 		int depth_1_index = sizeof(objectPosition) / sizeof(objectPosition[0]);
 		int depth_2_index = sizeof(objectPosition[0]) / sizeof(objectPosition[0][0]);
@@ -108,6 +144,8 @@ void environmentSave(int userNo, int flags) {
 		json_object_set_new(pMessage, "GAME_STAGE", json_integer(GAME_STAGE));
 		// pokemonList 저장
 		json_object_set_new(pMessage, "POKEMON_LIST", pokemonListDataArray);
+		// computerSystemList 저장
+		json_object_set_new(pMessage, "COMPUTER_LIST", computerSystemListDataArray);
 		// objectPosition 저장
 		json_object_set_new(pMessage, "OBJECT_POSITION", objectPositionDataArray);
 
@@ -179,6 +217,41 @@ void environmentSave(int userNo, int flags) {
 			json_array_append_new(pokemonListDataArray, pokemonListData);
 		}
 
+		// computerSystemList 추출
+		json_t* computerSystemListDataArray = json_array();
+		for (int i = 0; i < 35; i++) {
+			json_t* computerSystemListData = json_object();
+			json_object_set_new(computerSystemListData, "no", json_integer(computerSystemList[i].no));
+			json_object_set_new(computerSystemListData, "displayName", json_string(computerSystemList[i].displayName));
+			json_object_set_new(computerSystemListData, "type", json_integer((long long)computerSystemList[i].type));
+			json_object_set_new(computerSystemListData, "level", json_integer(computerSystemList[i].level));
+			json_object_set_new(computerSystemListData, "exp", json_integer(computerSystemList[i].exp));
+			json_object_set_new(computerSystemListData, "crt_hp", json_integer(computerSystemList[i].crt_hp));
+			json_object_set_new(computerSystemListData, "max_hp", json_integer(computerSystemList[i].max_hp));
+			json_object_set_new(computerSystemListData, "dmg", json_integer(computerSystemList[i].dmg));
+			json_object_set_new(computerSystemListData, "def", json_integer(computerSystemList[i].def));
+			json_object_set_new(computerSystemListData, "spd", json_integer(computerSystemList[i].spd));
+
+			json_t* pokemonSkillDataArray = json_array();
+			for (int j = 0; j < 4; j++) {
+				json_t* pokemonSkillData = json_object();
+				json_object_set_new(pokemonSkillData, "no", json_integer(computerSystemList[i].skill[j].no));
+				json_object_set_new(pokemonSkillData, "displayName", json_string(computerSystemList[i].skill[j].displayName));
+				json_object_set_new(pokemonSkillData, "type", json_integer((long long)computerSystemList[i].skill[j].type));
+				json_object_set_new(pokemonSkillData, "dmg_cf", json_real(computerSystemList[i].skill[j].dmg_cf));
+				json_object_set_new(pokemonSkillData, "acc", json_real(computerSystemList[i].skill[j].acc));
+				json_object_set_new(pokemonSkillData, "crt_pp", json_integer(computerSystemList[i].skill[j].crt_pp));
+				json_object_set_new(pokemonSkillData, "max_pp", json_integer(computerSystemList[i].skill[j].max_pp));
+				json_object_set_new(pokemonSkillData, "level_condition", json_integer(computerSystemList[i].skill[j].level_condition));
+				json_object_set_new(pokemonSkillData, "own", json_boolean(computerSystemList[i].skill[j].own));
+
+				json_array_append_new(pokemonSkillDataArray, pokemonSkillData);
+			}
+			json_object_set_new(computerSystemListData, "skill", pokemonSkillDataArray);
+
+			json_array_append_new(computerSystemListDataArray, computerSystemListData);
+		}
+
 		// objectPosition 추출
 		int depth_1_index = sizeof(objectPosition) / sizeof(objectPosition[0]);
 		int depth_2_index = sizeof(objectPosition[0]) / sizeof(objectPosition[0][0]);
@@ -221,6 +294,8 @@ void environmentSave(int userNo, int flags) {
 		json_object_set_new(pMessage, "GAME_STAGE", json_integer(GAME_STAGE));
 		// pokemonList 저장
 		json_object_set_new(pMessage, "POKEMON_LIST", pokemonListDataArray);
+		// computerSystemList 저장
+		json_object_set_new(pMessage, "COMPUTER_LIST", computerSystemListDataArray);
 		// objectPosition 저장
 		json_object_set_new(pMessage, "OBJECT_POSITION", objectPositionDataArray);
 
@@ -245,6 +320,7 @@ void environmentSave(int userNo, int flags) {
 }
 
 void environmentParse(const json_t* pData) {
+
 	// PLAYER
 	json_t* playerData = json_object_get(pData, "PLAYER");
 	strcpy_s(user_player.cName, sizeof(user_player.cName), json_string_value(json_object_get(playerData, "cName")));
@@ -258,7 +334,7 @@ void environmentParse(const json_t* pData) {
 	user_player.iGold = json_integer_value(json_object_get(playerData, "iGold"));
 
 	GAME_STAGE = json_integer_value(json_object_get(pData, "GAME_STAGE"));
-
+	
 	// POKEMON_LIST
 	for (int i = 0; i < 6; i++) {
 		json_t* tmpData = json_array_get(json_object_get(pData, "POKEMON_LIST"), i);
@@ -300,7 +376,49 @@ void environmentParse(const json_t* pData) {
 		myPokemonList[i].icon[0] = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].icon[0]);
 		myPokemonList[i].icon[1] = al_clone_bitmap(pokemonBook[myPokemonList[i].no - 1].icon[1]);
 	}
+	
+	// COMPUTER_LIST
+	for (int i = 0; i < 35; i++) {
+		json_t* tmpData = json_array_get(json_object_get(pData, "COMPUTER_LIST"), i);
+		computerSystemList[i].no = json_integer_value(json_object_get(tmpData, "no"));
 
+		computerSystemList[i].displayName = (char*)json_string_value(json_object_get(tmpData, "displayName"));
+
+		computerSystemList[i].type = json_integer_value(json_object_get(tmpData, "type"));
+		computerSystemList[i].level = json_integer_value(json_object_get(tmpData, "level"));
+		computerSystemList[i].exp = json_integer_value(json_object_get(tmpData, "exp"));
+		computerSystemList[i].crt_hp = json_integer_value(json_object_get(tmpData, "crt_hp"));
+		computerSystemList[i].max_hp = json_integer_value(json_object_get(tmpData, "max_hp"));
+		computerSystemList[i].dmg = json_integer_value(json_object_get(tmpData, "dmg"));
+		computerSystemList[i].def = json_integer_value(json_object_get(tmpData, "def"));
+		computerSystemList[i].spd = json_integer_value(json_object_get(tmpData, "spd"));
+
+
+		if (computerSystemList[i].no == -1) continue;
+		for (int j = 0; j < 4; j++) {
+			json_t* tmpSkilData = json_array_get(json_object_get(tmpData, "skill"), j);
+			computerSystemList[i].skill[j].no = json_integer_value(json_object_get(tmpSkilData, "no"));
+			computerSystemList[i].skill[j].displayName = (char*)json_string_value(json_object_get(tmpSkilData, "displayName"));
+			computerSystemList[i].skill[j].type = json_integer_value(json_object_get(tmpSkilData, "type"));
+			computerSystemList[i].skill[j].dmg_cf = json_number_value(json_object_get(tmpSkilData, "dmg_cf"));
+			computerSystemList[i].skill[j].acc = json_number_value(json_object_get(tmpSkilData, "acc"));
+			computerSystemList[i].skill[j].crt_pp = json_integer_value(json_object_get(tmpSkilData, "crt_pp"));
+			computerSystemList[i].skill[j].max_pp = json_integer_value(json_object_get(tmpSkilData, "max_pp"));
+			computerSystemList[i].skill[j].level_condition = json_integer_value(json_object_get(tmpSkilData, "level_condition"));
+			computerSystemList[i].skill[j].own = json_boolean_value(json_object_get(tmpSkilData, "own"));
+		}
+
+		computerSystemList[i].front = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
+		computerSystemList[i].back = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
+		computerSystemList[i].icon[0] = al_create_bitmap(32 * GAME_SCALE, 32 * GAME_SCALE);
+		computerSystemList[i].icon[1] = al_create_bitmap(32 * GAME_SCALE, 32 * GAME_SCALE);
+
+		computerSystemList[i].front = al_clone_bitmap(pokemonBook[computerSystemList[i].no - 1].front);
+		computerSystemList[i].back = al_clone_bitmap(pokemonBook[computerSystemList[i].no - 1].back);
+		computerSystemList[i].icon[0] = al_clone_bitmap(pokemonBook[computerSystemList[i].no - 1].icon[0]);
+		computerSystemList[i].icon[1] = al_clone_bitmap(pokemonBook[computerSystemList[i].no - 1].icon[1]);
+	}
+	
 	// OBJECT_POSITION
 	json_t* tmpObjPosition = json_object_get(pData, "OBJECT_POSITION");
 	for (int i = 0; i < json_array_size(tmpObjPosition); i++) {
@@ -312,7 +430,7 @@ void environmentParse(const json_t* pData) {
 			}
 		}
 	}
-
+	
 	// INVENTORY_SLOTS
 	json_t* tmpInventorySlot = json_object_get(pData, "INVENTORY_SLOTS");
 	for (int i = 0; i < json_array_size(tmpInventorySlot); i++) {

@@ -10,7 +10,7 @@
 #include <jansson.h>
 #include <mysql.h>
 
-#define BUF_SIZE 16384
+#define BUF_SIZE 50000
 #define MAX_CLNT 100
 #define NAME_SIZE 512
 
@@ -105,6 +105,7 @@ void* handle_clnt(void* arg)
 	int saveDataSize = -1;
 	while ((n = read(*(int*)arg, cLatLng, BUF_SIZE)) > 0)
 	{
+		printf("%s\n", cLatLng);
 		if (saveDataSize != -1) {
 			while (strlen(cLatLng) < saveDataSize) {
 				n = read(*(int*)arg, &cLatLng[strlen(cLatLng)], BUF_SIZE - strlen(cLatLng));
@@ -133,6 +134,20 @@ void* handle_clnt(void* arg)
 		}
 		else if (strcmp(ContentType, "SAVE_SIZE") == 0) {
 			saveDataSize = json_integer_value(json_array_get(pData, 0));
+			json_t* pHeader = json_array();
+			json_t* pData = json_array();
+
+			json_array_append_new(pHeader, json_string("SAVE_COMPLETE"));
+			json_array_append_new(pData, json_string("READY"));
+
+			json_t* jsonArray = json_array();
+			json_array_append(jsonArray, pHeader);
+			json_array_append(jsonArray, pData);
+
+			char sendBuf[BUF_SIZE] = { 0 };
+			sprintf(sendBuf, "%s", json_dumps(jsonArray, JSON_ENCODE_ANY));
+			//printf("%s\n", sendBuf);
+			write(*(int*)arg, sendBuf, sizeof(sendBuf));
 		}
 		else if (strcmp(ContentType, "SAVE") == 0) {
 			//printf("ContentType is SAVE\n");

@@ -181,6 +181,7 @@
     <ClCompile Include="book.c" />
     <ClCompile Include="bush.c" />
     <ClCompile Include="catching.c" />
+    <ClCompile Include="computer.c" />
     <ClCompile Include="conversation.c" />
     <ClCompile Include="environment.c" />
     <ClCompile Include="menu.c" />
@@ -205,6 +206,7 @@
     <ClInclude Include="book.h" />
     <ClInclude Include="bush.h" />
     <ClInclude Include="catching.h" />
+    <ClInclude Include="computer.h" />
     <ClInclude Include="conversation.h" />
     <ClInclude Include="environment.h" />
     <ClInclude Include="menu.h" />

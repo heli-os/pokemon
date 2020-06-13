@@ -21,6 +21,7 @@
 #include "conversation.h"
 #include "environment.h"
 #include "sound.h"
+#include "computer.h"
 
 int GAME_SPEED = 1;
 int GAME_STAGE = 0;
@@ -61,7 +62,7 @@ extern ALLEGRO_USTR* chatInput;
 extern bool onChat;
 
 extern pokemon pokemonBook[15];
-
+bool loadCompleteFlag = false;
 int userNo = -1;
 void update() {
 	// 일반 메뉴
@@ -69,27 +70,87 @@ void update() {
 		if (is_key_pressed(ALLEGRO_KEY_UP)) {
 			// SFX_TALK
 			soundHandler(1000);
-			if (menu_status.menuIndex > 0)
-				menu_status.menuIndex--;
-			else
-				menu_status.menuIndex = menu_status.maxMenuIndex - 1;
+			// 컴퓨터 시스템에서의 작동
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+				if ((menu_status.menuIndex - 7) >= 0 && computerSystemList[menu_status.menuIndex - 7].no != -1) {
+					menu_status.menuIndex -= 7;
+				}
+			}
+			// 컴퓨터 시스템 외 메뉴에서의 작동
+			else {
+				if (menu_status.menuIndex > 0)
+					menu_status.menuIndex--;
+				else
+					menu_status.menuIndex = menu_status.maxMenuIndex - 1;
+			}
 		}
 		if (is_key_pressed(ALLEGRO_KEY_DOWN)) {
 			// SFX_TALK
 			soundHandler(1000);
-			if (menu_status.menuIndex < menu_status.maxMenuIndex - 1)
-				menu_status.menuIndex++;
-			else
-				menu_status.menuIndex = 0;
+			// 컴퓨터 시스템에서의 작동
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+				if ((menu_status.menuIndex + 7) < 35 && computerSystemList[menu_status.menuIndex + 7].no != -1) {
+					menu_status.menuIndex += 7;
+				}
+			}
+			// 컴퓨터 시스템 외 메뉴에서의 작동
+			else {
+				if (menu_status.menuIndex < menu_status.maxMenuIndex - 1)
+					menu_status.menuIndex++;
+				else
+					menu_status.menuIndex = 0;
+			}
 		}
-		if (is_key_pressed(ALLEGRO_KEY_LEFT) || is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+		if (is_key_pressed(ALLEGRO_KEY_LEFT)) {
+			soundHandler(1000);
+			// 마켓 리스트 0일때의 작동
 			if (menu_status.currentMenu == ITEM_MARKET_LIST_00) {
 				menu_status.currentMenu = ITEM_MARKET_LIST_01;
+				menu_status.menuIndex = 0;
 			}
+			// 마켓 리스트 1일때의 작동
 			else if (menu_status.currentMenu == ITEM_MARKET_LIST_01) {
 				menu_status.currentMenu = ITEM_MARKET_LIST_00;
+				menu_status.menuIndex = 0;
 			}
-			menu_status.menuIndex = 0;
+			// 컴퓨터 시스템에서의 작동
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+				if (menu_status.menuIndex % 7 == 0) {
+					int tmpIndex = menu_status.menuIndex;
+					for (int i = 0; i < 7; i++) {
+						if (computerSystemList[tmpIndex + i].no != -1)
+							menu_status.menuIndex = tmpIndex + i;
+					}
+				}
+				else {
+					menu_status.menuIndex--;
+				}
+			}
+		}
+		if (is_key_pressed(ALLEGRO_KEY_RIGHT)) {
+			soundHandler(1000);
+			// 마켓 리스트 0일때의 작동
+			if (menu_status.currentMenu == ITEM_MARKET_LIST_00) {
+				menu_status.currentMenu = ITEM_MARKET_LIST_01;
+				menu_status.menuIndex = 0;
+			}
+			// 마켓 리스트 1일때의 작동
+			else if (menu_status.currentMenu == ITEM_MARKET_LIST_01) {
+				menu_status.currentMenu = ITEM_MARKET_LIST_00;
+				menu_status.menuIndex = 0;
+			}
+			// 컴퓨터 시스템에서의 작동
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+				if (menu_status.menuIndex + 1 < 35 && computerSystemList[menu_status.menuIndex + 1].no == -1) {
+					menu_status.menuIndex = menu_status.menuIndex / 7 * 7;
+				}
+				else if ((menu_status.menuIndex + 1) % 7 == 0) {
+					menu_status.menuIndex -= 6;
+				}
+				else {
+					menu_status.menuIndex++;
+				}
+			}
 		}
 		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			// SFX_TALK
@@ -237,7 +298,7 @@ void update() {
 				// SFX_TALK
 				soundHandler(1000);
 				battleUI_status.battleUIConv = false;
-				// 포켓몬 포획
+				// 포켓몬 포획 성공
 				if (battleUI_status.currentMenu == 11) {
 					soundHandler(GAME_STAGE);
 					catchingPokemon(enemy);
@@ -312,7 +373,7 @@ void update() {
 							user_player.iGold += 500 * pokemon_grade;
 							if (user_player.iGold > 1000000) user_player.iGold = 1000000;
 							printf("GOLD:%d\n", user_player.iGold);
-							
+
 							battleUI_status.battleUIEnd = true;
 						}
 					}
@@ -686,6 +747,7 @@ int main(int argc, char* argv[]) {
 
 	// must be called first!l
 	init_framework("Pokemon By JupiterFlow.com", GAME_WIDTH, GAME_HEIGHT, false);
+
 	_map[0] = al_load_bitmap("gfx/Pallet_Town_Interiors.png");
 	_map[1] = al_load_bitmap("gfx/Pallet_Town_Full.png");
 	_map[2] = al_load_bitmap("gfx/Gym_Inner.png");
@@ -727,13 +789,17 @@ int main(int argc, char* argv[]) {
 
 	world_map = al_create_bitmap(GAME_MAP_WIDTH, GAME_MAP_HEIGHT);
 
+
 	initPokemonThumb();
 	initPokemonSkill();
+	initComputerSystemList();
+	initSound();
 
 	// 세이브 파일 로드
 	environmentLoad(userNo);
+	//GAME_STAGE = 4;
+	while (!loadCompleteFlag) {}
 
-	initSound();
 	soundHandler(GAME_STAGE);
 
 	init_terrain(_map[mapOffset[GAME_STAGE][0]]);

@@ -20,15 +20,18 @@ json_t* htonJson(json_t* header, json_t* data) {
 	json_array_append(jsonData, data);
 	return jsonData;
 }
+
+char* buf;
+extern bool loadCompleteFlag;
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
-	char buf[16384];
 	while (1)
 	{
-		memset(buf, 0, sizeof(buf));
+		buf = (char*)malloc(BUF_SIZE);
+		memset(buf, 0, BUF_SIZE);
 		//Recive wait From Server(_beginThread)
-		int recvsize = recv(sock, buf, sizeof(buf), 0);
+		int recvsize = recv(sock, buf, BUF_SIZE, 0);
 		if (recvsize <= 0)
 		{
 			printf("접속종료\n");
@@ -44,6 +47,7 @@ void __cdecl RecvThread(void* p)
 		if (ContentType == NULL) continue; 
 		if (strcmp(ContentType, "LOAD_COMPLETE") == 0) {
 			environmentParse(json_loads(json_string_value(json_array_get(pData, 0)), JSON_ENCODE_ANY, &error));
+			loadCompleteFlag = true;
 		}
 		else if (strcmp(ContentType, "SAVE_COMPLETE") == 0) {
 			environmentSave(userNo, 1);

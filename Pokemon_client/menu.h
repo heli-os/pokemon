@@ -18,7 +18,11 @@ enum MENU_ID {
 	POKEBALL_02_MENU,
 	ITEM_MARKET_LIST_00,
 	ITEM_MARKET_LIST_01,
-	PLAYER_GOLD_MENU
+	PLAYER_GOLD_MENU,
+	COMPUTER_SYSTEM_POPUP,
+	COMPUTER_SYSTEM_MENU_RELEASE,
+	COMPUTER_SYSTEM_MENU_TAKE,
+	COMPUTER_SYSTEM_MENU_STORE
 };
 
 // maxIndex, 가로, 세로
@@ -30,6 +34,10 @@ static int mapMenu[][3] = {
 	{6, 11, 9 }, // ITEM_MARKET_LIST_00
 	{4, 11, 6 }, // ITEM_MARKET_LIST_01
 	{2, 6, 3},   // PLAYER_GOLD_MENU
+	{4, 8, 6},	 // COMPUTER_SYSTEM_POPUP
+	{6, 25, 18}, // COMPUTER_SYSTEM_MENU_RELEASE
+	{6, 25, 18}, // COMPUTER_SYSTEM_MENU_TAKE
+	{6, 25, 18}, // COMPUTER_SYSTEM_MENU_STORE
 };
 
 static char* mapMenuChar[][6] = {
@@ -39,7 +47,11 @@ static char* mapMenuChar[][6] = {
 	{"YES", "NO"},
 	{"POTION","SUPER POTION","HYPER POTION","MAX POTION","ETHER","REVIVE"},
 	{"Poke BALL", "GREAT BALL", "ULTRA BALL", "MASTER BALL"},
-	{"GOLD", ""}
+	{"GOLD", ""},
+	{"RELEASE", "TAKE", "STORE", "EXIT"},
+	{""},
+	{""},
+	{""},
 };
 
 void showMenu(int menuId);

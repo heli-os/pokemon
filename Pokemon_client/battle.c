@@ -25,7 +25,7 @@ extern pokemon enemy;
 void drawBasicUI() {
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 0, 107, 240, 112, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.3333333, GAME_SCALE, 0, 0);
 
-	char tmp_crt_hp[255], tmp_max_hp[255], tmp_level[255];
+	char tmp_crt_hp[255] = { 0 }, tmp_max_hp[255] = { 0 }, tmp_level[255] = { 0 };
 	// enemy
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 246, 107, 100, 29, al_map_rgb(255, 255, 255), 0, 0, camera_position_x + 6 * GAME_SCALE, camera_position_y + 8 * GAME_SCALE, 3.3333333, GAME_SCALE, 0, 0);
 

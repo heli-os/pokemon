@@ -44,7 +44,8 @@ enum OBJECT_ID {
 	COMMON_MASTERBALL,		// 마스터볼
 	GYM_LEADER,				// 체육관 관장
 	HEALNG_MACHINE,			// 힐링 머신
-	ITEM_MARKET				// 아이템 마켓
+	ITEM_MARKET,			// 아이템 마켓
+	COMPUTER_SYSTEM,		// 컴퓨터 시스템
 };
 
 

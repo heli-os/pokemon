@@ -6,4 +6,5 @@ void environmentSave(int userNo, int flags);
 void environmentParse(const json_t* pData);
 void environmentLoad(int userNo);
 
+#define BUF_SIZE 50000
 #endif
