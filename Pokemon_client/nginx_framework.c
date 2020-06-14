@@ -6,6 +6,7 @@
 #include <time.h>
 #include <assert.h>
 #include "player.h"
+#include "menu.h"
 
 static ALLEGRO_EVENT_QUEUE* event_queue = NULL;
 static ALLEGRO_DISPLAY* display = NULL;
@@ -38,10 +39,10 @@ static bool mouse_buttons[MAX_MOUSE_BUTTONS] = { false };
 static bool mouse_buttons_pressed[MAX_MOUSE_BUTTONS] = { false };
 static bool mouse_buttons_released[MAX_MOUSE_BUTTONS] = { false };
 
-extern ALLEGRO_USTR* chatInput;
-extern bool onChat;
+extern ALLEGRO_USTR* transferUserNickInput;
 
 extern player user_player;
+extern menuStatus menu_status;
 
 void write_logfile(int log_level, const char* format, ...)
 {
@@ -181,7 +182,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 		log_error("Failed to create timer");
 	}
 
-	chatInput = al_ustr_new("");
+	transferUserNickInput = al_ustr_new("");
 
 
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -261,15 +262,16 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 			//	event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
 			//	al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, !(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW));
 			//}
-			//if (onChat)
-			//{
-			//	int unichar = event.keyboard.unichar;
-			//	if (unichar == 8)
-			//		al_ustr_remove_chr(chatInput, (int)al_ustr_length(chatInput)-1);
-			//	if (unichar >= 32)
-			//		al_ustr_append_chr(chatInput, unichar);
-			//}
-			
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT)
+			{
+				int unichar = event.keyboard.unichar;
+				if (unichar == 8 && transferUserNickInput->slen >= 1)
+					al_ustr_remove_chr(transferUserNickInput, (int)al_ustr_length(transferUserNickInput)-1);
+				if ((('a'<= unichar && unichar <= 'z')||('A' <= unichar && unichar <= 'Z')) && transferUserNickInput->slen < 12) {
+					printf("%d\n", unichar);
+					al_ustr_append_chr(transferUserNickInput, unichar);
+				}
+			} 
 			break;
 
 		case ALLEGRO_EVENT_MOUSE_AXES:

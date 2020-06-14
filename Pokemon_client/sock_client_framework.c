@@ -66,6 +66,7 @@ void __cdecl sendMessage(const json_t* message) {
 
 	//send Packet Data (Client To Server)
 	int sendsize = send(serv_sock, buf, (int)strlen(buf), 0);
+	free(buf);
 	//if (sendsize <= 0)
 	//------------------------------------------
 }

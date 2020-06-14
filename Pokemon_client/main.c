@@ -58,8 +58,7 @@ ALLEGRO_BITMAP* _object = NULL;
 
 pokemon enemy;
 
-extern ALLEGRO_USTR* chatInput;
-extern bool onChat;
+extern ALLEGRO_USTR* transferUserNickInput;
 
 extern pokemon pokemonBook[15];
 bool loadCompleteFlag = false;
@@ -71,7 +70,7 @@ void update() {
 			// SFX_TALK
 			soundHandler(1000);
 			// 컴퓨터 시스템에서의 작동
-			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER) {
 				if ((menu_status.menuIndex - 7) >= 0 && computerSystemList[menu_status.menuIndex - 7].no != -1) {
 					menu_status.menuIndex -= 7;
 				}
@@ -88,7 +87,7 @@ void update() {
 			// SFX_TALK
 			soundHandler(1000);
 			// 컴퓨터 시스템에서의 작동
-			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER) {
 				if ((menu_status.menuIndex + 7) < 35 && computerSystemList[menu_status.menuIndex + 7].no != -1) {
 					menu_status.menuIndex += 7;
 				}
@@ -114,7 +113,7 @@ void update() {
 				menu_status.menuIndex = 0;
 			}
 			// 컴퓨터 시스템에서의 작동
-			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER) {
 				if (menu_status.menuIndex % 7 == 0) {
 					int tmpIndex = menu_status.menuIndex;
 					for (int i = 0; i < 7; i++) {
@@ -140,7 +139,7 @@ void update() {
 				menu_status.menuIndex = 0;
 			}
 			// 컴퓨터 시스템에서의 작동
-			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE) {
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_RELEASE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TAKE || menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER) {
 				if (menu_status.menuIndex + 1 < 35 && computerSystemList[menu_status.menuIndex + 1].no == -1) {
 					menu_status.menuIndex = menu_status.menuIndex / 7 * 7;
 				}
@@ -152,18 +151,80 @@ void update() {
 				}
 			}
 		}
-		if (is_key_pressed(ALLEGRO_KEY_Z) || is_key_pressed(ALLEGRO_KEY_ENTER)) {
+		if (is_key_pressed(ALLEGRO_KEY_Z)) {
+			if (menu_status.currentMenu != COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT) {
+				// SFX_TALK
+				soundHandler(1000);
+				menuHandler();
+			}
+		}
+		if (is_key_pressed(ALLEGRO_KEY_ENTER)) {
 			// SFX_TALK
 			soundHandler(1000);
 			menuHandler();
 		}
 
-		if (is_key_pressed(ALLEGRO_KEY_ESCAPE) || is_key_pressed(ALLEGRO_KEY_X)) {
+
+		if (is_key_pressed(ALLEGRO_KEY_ESCAPE)) {
 			// SFX_TALK
 			soundHandler(1000);
-			closeMenu();
-			closeConversation();
-			closePokemonThumb();
+			switch (menu_status.currentMenu) {
+			case COMPUTER_SYSTEM_MENU_RELEASE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 0;
+				break;
+			case COMPUTER_SYSTEM_MENU_TAKE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 1;
+				break;
+			case COMPUTER_SYSTEM_MENU_STORE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 2;
+				break;
+			case COMPUTER_SYSTEM_MENU_TRANSFER:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 3;
+				break;
+			case COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT:
+				menu_status.currentMenu = COMPUTER_SYSTEM_MENU_TRANSFER;
+				transferUserNickInput = al_ustr_new("");
+				break;
+			default:
+				closeMenu();
+				closeConversation();
+				closePokemonThumb();
+				break;
+			}
+		}
+
+		if (is_key_pressed(ALLEGRO_KEY_X)) {
+			// SFX_TALK
+			soundHandler(1000);
+			switch (menu_status.currentMenu) {
+			case COMPUTER_SYSTEM_MENU_RELEASE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 0;
+				break;
+			case COMPUTER_SYSTEM_MENU_TAKE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 1;
+				break;
+			case COMPUTER_SYSTEM_MENU_STORE:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 2;
+				break;
+			case COMPUTER_SYSTEM_MENU_TRANSFER:
+				menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+				menu_status.menuIndex = 3;
+				break;
+			case COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT:
+				break;
+			default:
+				closeMenu();
+				closeConversation();
+				closePokemonThumb();
+				break;
+			}
 		}
 	}
 	// 대화창
@@ -224,6 +285,22 @@ void update() {
 					// SFX_USE_ITEM
 					soundHandler(303);
 					interactItem(bagUI_status.currentIndex + 3, &myPokemonList[pokemonMenu_status.currentIndex]);
+				}
+				// 포켓몬 보관 인터랙션
+				else if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_STORE) {
+					for (int i = 0; i < 35; i++) {
+						if (computerSystemList[i].no == -1) {
+							computerSystemList[i] = myPokemonList[pokemonMenu_status.currentIndex];
+							myPokemonList[pokemonMenu_status.currentIndex].no = -1;
+						}
+					}
+					for (int i = 0; i < 5; i++) {
+						if (myPokemonList[i].no == -1) {
+							myPokemonList[i] = myPokemonList[i + 1];
+							myPokemonList[i + 1].no = -1;
+						}
+					}
+					environmentSave(userNo, 0);
 				}
 				else {
 					// 배틀, 일반
@@ -688,25 +765,6 @@ void update() {
 
 	updateCamera(user_player);
 
-
-	//if (is_key_pressed(ALLEGRO_KEY_ENTER))
-	//{
-	//	if (onChat && chatInput->slen > 0)
-	//	{
-	//		const char* txt = al_cstr(chatInput);
-	//		json_t* pHeader = json_array();
-	//		json_t* pData = json_array();
-	//		json_array_append_new(pHeader, json_string("CHAT"));
-	//		json_array_append_new(pData, json_string(user_player.cName));
-	//		json_array_append_new(pData, json_string(txt));
-
-	//		json_t* pMessage = htonJson(pHeader, pData);
-
-	//		sendMessage(pMessage);
-	//		chatInput = al_ustr_new("");
-	//	}
-	//	onChat = !onChat;
-	//}
 
 	//showChat(camera_position_x, camera_position_y + (GAME_HEIGHT - 120));
 }

@@ -1,6 +1,7 @@
 ﻿#include "book.h"
 #include <math.h>
 #include "battle.h"
+#include "menu.h"
 
 extern pokemonSkill pokemonSkillRef[20];
 /*
@@ -248,31 +249,44 @@ void showPokemonMenu() {
 	int index_0_icon_pos_x = camera_position_x + -1 * GAME_SCALE;
 	int index_0_icon_pos_y = camera_position_y + 22 * GAME_SCALE;
 	if (myPokemonList[0].no != -1) {
-		if (pokemonMenu_status.currentIndex == 0)
+		static pokeIconIdx = 0;
+		pokeIconIdx++;
+		if (pokemonMenu_status.currentIndex == 0 && pokeIconIdx % 8 == 0)
 			al_draw_bitmap(myPokemonList[0].icon[0], index_0_icon_pos_x, index_0_icon_pos_y, 0);
 		else
 			al_draw_bitmap(myPokemonList[0].icon[1], index_0_icon_pos_x, index_0_icon_pos_y, 0);
+		if (pokeIconIdx == 16)
+			pokeIconIdx = 0;
 	}
 
 	int index_other_icon_pos_x = camera_position_x + 63 * GAME_SCALE;
 	int index_other_icon_pos_y = camera_position_y + 1 * GAME_SCALE;
 	for (int i = 1; i <= 5; i++) {
 		if (myPokemonList[i].no != -1) {
-			if (pokemonMenu_status.currentIndex == i)
+			static pokeIconIdx = 0;
+			pokeIconIdx++;
+			if (pokemonMenu_status.currentIndex == i && pokeIconIdx % 8 == 0) 
 				al_draw_bitmap(myPokemonList[i].icon[0], index_other_icon_pos_x, index_other_icon_pos_y + 24 * (i-1) * GAME_SCALE, 0);
 			else
 				al_draw_bitmap(myPokemonList[i].icon[1], index_other_icon_pos_x, index_other_icon_pos_y + 24 * (i - 1) * GAME_SCALE, 0);
+			if (pokeIconIdx == 16)
+				pokeIconIdx = 0;
 		}
 	}
 }
 
 extern battleUIStatus battleUI_status;
+extern menuStatus menu_status;
 void closePokemonMenu() {
 	if (battleUI_status.battleUIOpen) {
 		battleUI_status.battleUIConv = false;
 		battleUI_status.battleUISkill = false;
 		battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
 		battleUI_status.currentMenu = 0;
+	}
+	if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_STORE) {
+		menu_status.currentMenu = COMPUTER_SYSTEM_POPUP;
+		menu_status.menuIndex = 2;
 	}
 	pokemonMenu_status.currentIndex = -1;
 	pokemonMenu_status.pokemonMenuOpen = false;

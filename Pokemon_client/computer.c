@@ -1,5 +1,6 @@
 ﻿#include "computer.h"
 
+ALLEGRO_USTR* transferUserNickInput;
 void initComputerSystemList() {
 	int size = sizeof(computerSystemList) / sizeof(pokemon);
 	for (int i = 0; i < size; i++) {
