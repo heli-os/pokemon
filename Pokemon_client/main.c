@@ -12,7 +12,6 @@
 #include "collision.h"
 #include "portal.h"
 #include "bush.h"
-#include "chat.h"
 #include "book.h"
 #include "menu.h"
 #include "battle.h"
@@ -764,9 +763,6 @@ void update() {
 	}
 
 	updateCamera(user_player);
-
-
-	//showChat(camera_position_x, camera_position_y + (GAME_HEIGHT - 120));
 }
 
 int move_tick = 0;

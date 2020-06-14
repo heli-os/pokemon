@@ -105,7 +105,7 @@ void* handle_clnt(void* arg)
 	int saveDataSize = -1;
 	while ((n = read(*(int*)arg, cLatLng, BUF_SIZE)) > 0)
 	{
-		printf("%s\n", cLatLng);
+		//printf("%s\n", cLatLng);
 		if (saveDataSize != -1) {
 			while (strlen(cLatLng) < saveDataSize) {
 				n = read(*(int*)arg, &cLatLng[strlen(cLatLng)], BUF_SIZE - strlen(cLatLng));
@@ -201,6 +201,54 @@ void* handle_clnt(void* arg)
 				sprintf(sendBuf, "%s", json_dumps(jsonArray, JSON_ENCODE_ANY));
 				//printf("%s\n", sendBuf);
 				write(*(int*)arg, sendBuf, sizeof(sendBuf));
+			}
+			mysql_close(&conn);
+			memset(cLatLng, 0, sizeof(cLatLng));
+		}
+		else if (strcmp(ContentType, "TRANSFER") == 0) {
+			char userID[15] = { 0 };
+			char transferPokemon[500] = { 0 };
+			sprintf(userID, "%s", json_string_value(json_array_get(pData, 0)));
+			sprintf(transferPokemon, "%s", json_string_value(json_array_get(pData, 1)));
+
+			mysql_init(&conn);
+			connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+
+			MYSQL_RES* result = NULL;
+			MYSQL_ROW row = { 0 };
+
+			char query[255] = { 0 };
+			sprintf(query, "select * from user where userid='%s'", userID);
+			if (mysql_query(connection, query) == 0) {
+				result = mysql_store_result(connection);
+				if (mysql_num_rows(result) != 0) {
+					row = mysql_fetch_row(result);
+					int userNo = atoi(row[0]);
+
+					char query[255] = { 0 };
+					sprintf(query, "select * from data where userNo=%d", userNo);
+					if (mysql_query(connection, query) == 0) {
+						result = mysql_store_result(connection);
+
+						json_error_t jError;
+
+						char pkms[BUF_SIZE];
+						row = mysql_fetch_row(result);
+						sprintf(pkms, "%s", row[1]);
+						for (int i = 0; i < 35; i++) {
+							json_t* pkmsJson = json_loads(pkms, JSON_ENCODE_ANY, &jError);
+							json_t* tmpData = json_array_get(json_object_get(pkmsJson, "COMPUTER_LIST"), i);
+							int tmpNo = json_integer_value(json_object_get(tmpData, "no"));
+							if (tmpNo == -1) {
+								json_array_set(json_object_get(pkmsJson, "COMPUTER_LIST"), i, json_loads(transferPokemon, JSON_ENCODE_ANY, &jError));
+								memset(query, 0, sizeof(query));
+								sprintf(query, "update data set pkms=%s where userNo=%d", json_dumps(json_string(json_dumps(pkmsJson, JSON_ENCODE_ANY)), JSON_ENCODE_ANY), userNo);
+								mysql_query(connection, query);
+								break;
+							}
+						}
+					}
+				}
 			}
 			mysql_close(&conn);
 			memset(cLatLng, 0, sizeof(cLatLng));

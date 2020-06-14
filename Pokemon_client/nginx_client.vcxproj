@@ -188,7 +188,6 @@
     <ClCompile Include="otherUtils.c" />
     <ClCompile Include="portal.c" />
     <ClCompile Include="screen.c" />
-    <ClCompile Include="chat.c" />
     <ClCompile Include="collision.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
@@ -213,7 +212,6 @@
     <ClInclude Include="otherUtils.h" />
     <ClInclude Include="portal.h" />
     <ClInclude Include="screen.h" />
-    <ClInclude Include="chat.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="nginx_common.h" />
