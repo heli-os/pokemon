@@ -165,15 +165,43 @@ static int colBoxArray[][26][4] = {
 	}
 };
 
+/*
+충돌영역(접근제한영역)을 지정하는 구조체
+	int sx;
+	int sy;
+	int width;
+	int height;
+*/
 typedef struct _COLLISION_BOX {
 	int sx;
 	int sy;
 	int width;
 	int height;
 }collisionBox;
+
+// 접근제한영역을 임시로 저장하는 포인터.
+// 최종적으로는 배열 형태로 사용됨.
 static collisionBox* colBoxes = NULL;
 
+/// <summary>
+/// 플레이어의 현재 위치가 접근제한영역인지 판단하는 함수
+/// </summary>
+/// <param name="_player">플레이어</param>
+/// <returns>접근제한영역 여부</returns>
 bool isCollision(player _player);
+
+/// <summary>
+/// colBoxArray을 바탕으로 접근제한영역을 생성 하는 함수
+/// </summary>
+/// <param name="colBox"></param>
+/// <param name="iPosX"></param>
+/// <param name="iPosY"></param>
+/// <param name="iWidth"></param>
+/// <param name="iHeight"></param>
 void createCollision(collisionBox* colBox, int iPosX, int iPosY, int iWidth, int iHeight);
+
+/// <summary>
+/// 접근제한영역을 초기화하는 함수
+/// </summary>
 void initCollision();
 #endif

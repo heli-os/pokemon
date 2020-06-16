@@ -1,5 +1,6 @@
-#include "portal.h"
-// bounding box(bb) algorithm
+﻿#include "portal.h"
+// 사용자의 현재 위치가 Portal인지 확인.
+// 마찬가지로 Bounding Box Algorithm
 int isPortal(player _player)
 {
 	const int portalBoxLength = sizeof(mapPortal[GAME_STAGE]) / sizeof(mapPortal[GAME_STAGE][0][0]) / sizeof(int);

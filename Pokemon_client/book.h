@@ -8,22 +8,31 @@ ALLEGRO_BITMAP* pokemonMenuBitmap;
 
 extern ALLEGRO_BITMAP* menuFrame;
 
+/*
+포켓몬 썸네일 상태를 저장하는 구조체
+	bool thumbOpen;
+	int currentThumb;
+*/
 typedef struct BOOKTHUMB {
 	bool thumbOpen;
 	int currentThumb;
 } pokemonThumbStatus;
 
+/*
+포켓몬 메뉴 상태를 저장하는 구조체
+	bool pokemonMenuOpen;
+	int currentIndex;
+*/
 typedef struct POKEMONMENU {
 	bool pokemonMenuOpen;
 	int currentIndex;
 } pokemonMenuStatus;
 
 
-/*
-포켓몬 도감
-포켓몬 정보(구조체)를 담은 리스트?
-*/
-// 도감번호, 이름, 타입, HP, 공격, 방어, 속도, 비트맵(64x64, 64x64, 32x16, 32x16)
+/// <summary>
+/// 포켓몬 도감
+/// 도감번호, 이름, 타입, HP, 공격, 방어, 속도, 비트맵(64x64, 64x64, 32x16, 32x16)
+/// </summary>
 typedef struct _POKEMON_STATUS {
 	int no;				// 도감 번호
 	char* displayName;	// 포켓몬 이름
@@ -80,17 +89,48 @@ enum POKEMONBOOK {
 };
 
 
+/// <summary>
+/// 포켓몬 썸네일을 초기화하는 함수
+/// </summary>
 void initPokemonThumb();
-bool checkPokemonType(const pokemon _pokemon, const int type);
+
+/// <summary>
+/// 포켓몬 썸네일을 그리는 함수
+/// </summary>
+/// <param name="pokemonId"></param>
 void showPokemonThumb(int pokemonId);
+
+/// <summary>
+/// 포켓몬 썸네일을 닫는 함수
+/// </summary>
 void closePokemonThumb();
 
+/// <summary>
+///  포켓몬 메뉴를 그리는 함수
+/// </summary>
 void showPokemonMenu();
+/// <summary>
+/// 포켓몬 메뉴를 닫는 함수
+/// </summary>
 void closePokemonMenu();
 
-
+/// <summary>
+///  포켓몬을 생성해주는 함수
+/// </summary>
+/// <param name="pokemonId"></param>
+/// <param name="level"></param>
+/// <returns>pokemon 구조체</returns>
 pokemon createPokemon(int pokemonId, int level);
+
+/// <summary>
+/// 체육관 관장 포켓몬을 초기화 하는 함수
+/// </summary>
 void initGymLeaderPokemon();
+
+/// <summary>
+/// 진화 가능한지 확인하는 함수
+/// </summary>
+/// <param name="target"></param>
 void isEvolution(pokemon* target);
 
 #endif

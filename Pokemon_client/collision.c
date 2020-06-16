@@ -1,10 +1,14 @@
 ﻿#include "collision.h"
+
+// 접근 제한영역 구조체 초기화
 void createCollision(collisionBox* colBox, int iPosX, int iPosY, int iWidth, int iHeight) {
 	colBox->sx = iPosX;
 	colBox->sy = iPosY;
 	colBox->width = iWidth;
 	colBox->height = iHeight;
 }
+
+// 접근제한구역 초기화
 void initCollision() {
 	const int colBoxLength = sizeof(colBoxArray[GAME_STAGE]) / sizeof(colBoxArray[GAME_STAGE][0][0]) / sizeof(int);
 
@@ -20,7 +24,8 @@ void initCollision() {
 
 }
 
-// bounding box(bb) algorithm
+// bounding box(bb) algorithm 기반 충돌 영역 검출 함수
+// 플레이어가 현재 위치한 장소가 접근제한구역인지 확인한다.(PPT 참고)
 bool isCollision(player _player)
 {
 	const int colBoxLength = sizeof(colBoxArray[GAME_STAGE]) / sizeof(colBoxArray[GAME_STAGE][0][0]) / sizeof(int);

@@ -163,7 +163,7 @@
       <AdditionalOptions>/Ylsymbol %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>jansson.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -199,7 +199,6 @@
     <ClCompile Include="sound.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\network_protocols.h" />
     <ClInclude Include="bag.h" />
     <ClInclude Include="battle.h" />
     <ClInclude Include="book.h" />

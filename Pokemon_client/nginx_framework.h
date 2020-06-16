@@ -22,7 +22,9 @@
 #define log_warning(...) write_logfile(LOG_WARNING, __VA_ARGS__);
 #define log_error(...)   write_logfile(LOG_ERROR, __VA_ARGS__);
 
- // logging levels (used in write_logfile)
+/// <summary>
+/// logging levels (used in write_logfile)
+/// </summary>
 enum { LOG_MESSAGE, LOG_WARNING, LOG_ERROR };
 
 /*
@@ -35,6 +37,12 @@ void write_logfile(int log_level, const char* format, ...);
 // FRAMEWORK
 //==============================================================================
 
+/// <summary>
+/// </summary>
+/// <param name="title"></param>
+/// <param name="window_width"></param>
+/// <param name="window_height"></param>
+/// <param name="fullscreen"></param>
 /*
 	Initializes the framework.
 	This must be called before you use anything else in this framework!
@@ -43,15 +51,22 @@ void write_logfile(int log_level, const char* format, ...);
 	window_width: the width of the window
 	window_height: the height of the window
 	fullscreen: whether to start in fullscreen or not
- */
+*/
 void init_framework(const char* title, int window_width, int window_height, bool fullscreen);
 
+/// <summary>
+/// </summary>
+/// <param name=""></param>
 /*
 	Destroys everything we need to clean up when it is time to quit the program.
 	This function is called automatically at program exit.
- */
+*/
 void destroy_framework(void);
 
+/// <summary>
+/// </summary>
+/// <param name="update_proc"></param>
+/// <param name="render_proc"></param>
 /*
 	Runs the game loop; the heart of the game!
 
@@ -59,7 +74,7 @@ void destroy_framework(void);
 	Will call update_proc() 60 times per second.
 	Will call render_proc() 60 times a second if there is no other events to deal with.
 	If there is nothing else to do, the game loop will sleep.
- */
+*/
 void run_game_loop(void (*update_proc)(), void (*render_proc)());
 
 // Stops the game loop.
@@ -92,26 +107,6 @@ ALLEGRO_FONT* get_pokemonmenu_level_Print_font();
 ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
 ALLEGRO_FONT* get_convsPirnt_font();
 
-// Default colors.
-extern ALLEGRO_COLOR black_color;
-extern ALLEGRO_COLOR white_color;
-extern ALLEGRO_COLOR dark_grey_color;
-extern ALLEGRO_COLOR grey_color;
-extern ALLEGRO_COLOR light_grey_color;
-extern ALLEGRO_COLOR red_color;
-extern ALLEGRO_COLOR green_color;
-extern ALLEGRO_COLOR dark_green_color;
-extern ALLEGRO_COLOR blue_color;
-extern ALLEGRO_COLOR yellow_color;
-extern ALLEGRO_COLOR cyan_color;
-extern ALLEGRO_COLOR magenta_color;
-extern ALLEGRO_COLOR maroon_color;
-extern ALLEGRO_COLOR purple_color;
-extern ALLEGRO_COLOR lime_color;
-extern ALLEGRO_COLOR olive_color;
-extern ALLEGRO_COLOR navy_color;
-extern ALLEGRO_COLOR teal_color;
-extern ALLEGRO_COLOR brown_color;
 
 //==============================================================================
 // INPUT

@@ -1,5 +1,6 @@
 ﻿#include "bush.h"
-// bounding box(bb) algorithm
+// bounding box(bb) algorithm 기반 충돌 영역 검출 함수
+// 플레이어가 현재 위치한 장소가 Bush인지 확인한다.(PPT 참고)
 int isBush(player _player)
 {
 	const int bushBoxLength = sizeof(mapBush) / sizeof(mapBush[0][0]) / sizeof(int);

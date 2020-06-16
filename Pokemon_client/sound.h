@@ -4,6 +4,10 @@
 
 ALLEGRO_SAMPLE_INSTANCE* sounds[16];
 
+/*
+사운드 파일이 저장되어있는 장소를 가리키는 배열
+enum SOUNDLIST와 연동된다.
+*/
 static char* soundPath[16] = {
 	"sounds/bgm_town.ogg",
 	"sounds/bgm_oak.ogg",
@@ -42,6 +46,14 @@ enum SOUNDLIST {
 	SFX_USE_ITEM
 };
 
+/// <summary>
+/// sound를 초기화하는 함수. File을 읽어 배열에 할당한다.
+/// </summary>
 void initSound();
+
+/// <summary>
+/// GAME_STAGE에 따른 사운드 재생 핸들러 함수
+/// </summary>
+/// <param name="GAME_STAGE"></param>
 void soundHandler(int GAME_STAGE);
 #endif

@@ -113,36 +113,36 @@ void showMenu(int menuId) {
 		// 플레이어 골드 출력
 		if (menuId == ITEM_MARKET_LIST_00 || menuId == ITEM_MARKET_LIST_01) {
 			menuId = PLAYER_GOLD_MENU;
-			thumbX = camera_position_x + 16;
+			int goldX = camera_position_x + 16;
 			menuY = camera_position_y + 16;
 
 			menuCol = mapMenu[menuId][1];
 			menuRow = mapMenu[menuId][2];
 
 			// 상단
-			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
+			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
 			for (col = 0; col < menuCol; col++)
-				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
-			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
+				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
+			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 0, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY, GAME_SCALE, GAME_SCALE, 0, 0);
 
 			// 중단
 			for (row = 0; row < menuRow; row++) {
-				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 				for (col = 0; col < menuCol; col++)
-					al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
-				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+					al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 7, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 			}
 			// 하단
-			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 			for (col = 0; col < menuCol; col++)
-				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
-			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, thumbX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+				al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 7, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
+			al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 14, 14, 7, 7, al_map_rgb(255, 255, 255), 0, 0, goldX + (col + 1) * 7 * GAME_SCALE, menuY + (row + 1) * 7 * GAME_SCALE, GAME_SCALE, GAME_SCALE, 0, 0);
 
 			// 골드 출력
-			al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), thumbX + 8 * GAME_SCALE, menuY + 8 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, mapMenuChar[menuId][0]);
+			al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), goldX + 8 * GAME_SCALE, menuY + 8 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, mapMenuChar[menuId][0]);
 			char goldtxt[255] = { 0 };
 			sprintf_s(goldtxt, sizeof(goldtxt), "%d", user_player.iGold);
-			al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), thumbX + 8 * GAME_SCALE, menuY + 8 * GAME_SCALE + 43, ALLEGRO_ALIGN_LEFT, goldtxt);
+			al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), goldX + 8 * GAME_SCALE, menuY + 8 * GAME_SCALE + 43, ALLEGRO_ALIGN_LEFT, goldtxt);
 		}
 		// 선택 화살표
 		al_draw_tinted_scaled_rotated_bitmap_region(menuBitmap, 0, 21, 6, 8, al_map_rgb(255, 255, 255), 0, 0, thumbX + 7 * GAME_SCALE, menuY + 8 * GAME_SCALE + (43 * menu_status.menuIndex), GAME_SCALE, GAME_SCALE, 0, 0);
@@ -372,6 +372,8 @@ void menuHandler() {
 		if (computerSystemList[menu_status.menuIndex].no == -1)
 			menu_status.menuIndex--;
 		menu_status.currentMenu = COMPUTER_SYSTEM_MENU_TRANSFER;
+
+		transferUserNickInput = al_ustr_new("");
 
 		environmentSave(userNo, 0);
 

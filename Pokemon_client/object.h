@@ -48,7 +48,15 @@ enum OBJECT_ID {
 	COMPUTER_SYSTEM,		// 컴퓨터 시스템
 };
 
-
+/*
+Object 상태를 저장하는 함수
+	int btmId;
+	int type;
+	int sx;
+	int sy;
+	int sw;
+	int sh;
+*/
 typedef struct _OBJEECT_BOX {
 	int btmId;
 	int type;
@@ -60,7 +68,23 @@ typedef struct _OBJEECT_BOX {
 
 static objectBox* objBoxes = NULL;
 ALLEGRO_BITMAP* objectBitmap;
+
+/// <summary>
+/// Object를 초기화하는 함수
+/// </summary>
+/// <param name="object"></param>
 void initObject(ALLEGRO_BITMAP* object);
+
+/// <summary>
+/// 플레이어 앞에 오브젝트가 있는지 여부 확인
+/// </summary>
+/// <param name="_player"></param>
+/// <returns></returns>
 int isObject(const player _player);
+
+/// <summary>
+/// 오브젝트에 따른 오브젝트 인터랙션을 처리하는 핸들러 함수
+/// </summary>
+/// <param name="objId"></param>
 void interactObject(int objId);
 #endif

@@ -4,6 +4,9 @@
 
 ALLEGRO_BITMAP* menuFrame;
 
+/// <summary>
+/// 
+/// </summary>
 typedef struct MENU_STATUS {
 	bool menuOpen;
 	int currentMenu;

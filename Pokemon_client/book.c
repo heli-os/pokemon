@@ -46,18 +46,12 @@ pokemon pokemonBook[15] = {
 	{ 15, "Raichu",     POKEMON_TYPE_ELECTRIC, 1, 0, 240, 240, 70, 21, 14},
 };
 
-bool checkPokemonType(const pokemon _pokemon, const int type) {
-	for (int i = 0; i < 7; i++) {
-		if (_pokemon.type & type)
-			return true;
-	}
-	return false;
-}
-
+// 포켓몬 썸네일 초기화
 void initPokemonThumb() {
 	int i = 0;
 	al_convert_mask_to_alpha(pokemonBitmap, al_map_rgb(200, 200, 168));
 
+	// 15마리의 포켓몬의 이미지 4개 초기화
 	for (i = 0; i < 15; i++) {
 		pokemonBook[i].front = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
 		pokemonBook[i].back = al_create_bitmap(64 * GAME_SCALE, 64 * GAME_SCALE);
@@ -82,6 +76,7 @@ void initPokemonThumb() {
 
 extern float camera_position_x;
 extern float camera_position_y;
+// 포켓몬 썸네일 출력, pokemonId 기반
 void showPokemonThumb(int pokemonId) {
 	if (pokemonId == -1) return;
 
@@ -89,10 +84,11 @@ void showPokemonThumb(int pokemonId) {
 	ALLEGRO_BITMAP* menuBitmap = al_clone_bitmap(menuFrame);
 	al_convert_mask_to_alpha(menuBitmap, al_map_rgb(112, 200, 160));
 
-
+	// 썸네일 위치 정의
 	int thumbX = camera_position_x + (GAME_WIDTH / 2) - 28 * GAME_SCALE;
 	int thumbY = camera_position_y + (GAME_HEIGHT / 2) - 28 * GAME_SCALE;
 
+	// 썸네일 크기 정의 (7x7 사이즈)
 	int thumbCol = 7;
 	int thumbRow = 7;
 
@@ -117,10 +113,12 @@ void showPokemonThumb(int pokemonId) {
 
 	//al_draw_tinted_scaled_rotated_bitmap_region(pokemonBook[pokemonId].front, 0, 0, 64, 64, al_map_rgb(255, 255, 255), 0, 0, thumbX, thumbY, GAME_SCALE, GAME_SCALE, 0, 0);
 
+	// 썸네일 출력
 	al_draw_bitmap(pokemonBook[pokemonId].front, thumbX, thumbY, 0);
 }
 extern pokemonThumbStatus pokemonThumb_status;
 
+// 썸네일 닫기
 void closePokemonThumb() {
 	pokemonThumb_status.currentThumb = -1;
 	pokemonThumb_status.thumbOpen = false;
@@ -132,12 +130,16 @@ extern ALLEGRO_FONT* get_pokemonmenuPirnt_font();
 extern ALLEGRO_FONT* get_menuPirnt_font();
 extern ALLEGRO_FONT* get_pokemonmenu_level_Print_font();
 extern ALLEGRO_FONT* get_pokemonmenu_hp_Print_font();
+
+// 포켓몬 메뉴 렌더링
 void showPokemonMenu() {
+	// 포켓몬 메뉴가 열려있지 않으면 렌더링 취소
 	if (!pokemonMenu_status.pokemonMenuOpen) return;
 
-
+	// 포켓몬 메뉴 배경 출력
 	al_draw_tinted_scaled_rotated_bitmap_region(pokemonMenuBitmap, 250, 5, 240, 160, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.33333333, GAME_SCALE, 0, 0);
 
+	// 첫 번째 포켓몬 출력
 	int index_0_pos_x = camera_position_x + 2 * GAME_SCALE;
 	int index_0_pos_y = camera_position_y + 18 * GAME_SCALE;
 	if (myPokemonList[0].no != -1) {
@@ -148,10 +150,13 @@ void showPokemonMenu() {
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_0_pos_x + (myPokemonList[0].no == 6 ? 30 : 27) * GAME_SCALE, index_0_pos_y + 22 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[0].displayName);
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_0_pos_x + (myPokemonList[0].no == 6 ? 30 : 27) * GAME_SCALE - 2, index_0_pos_y + 22 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[0].displayName);
 
+		// 레벨 버퍼링 및 출력
 		char tmp_level[255];
 		sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[0].level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_0_pos_x + 40 * GAME_SCALE, index_0_pos_y + 29 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(255, 255, 255), index_0_pos_x + 40 * GAME_SCALE - 2, index_0_pos_y + 29 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_level);
+
+		// 현재 HP, 최대 HP 버퍼링 및 출력
 		char tmp_crt_hp[255], tmp_max_hp[255];
 		sprintf_s(tmp_crt_hp, sizeof(tmp_crt_hp), "%d", myPokemonList[0].crt_hp);
 		sprintf_s(tmp_max_hp, sizeof(tmp_max_hp), "%d", myPokemonList[0].max_hp);
@@ -160,6 +165,7 @@ void showPokemonMenu() {
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_0_pos_x + 54 * GAME_SCALE, index_0_pos_y + 46 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(255, 255, 255), index_0_pos_x + 54 * GAME_SCALE - 2, index_0_pos_y + 46 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
 		
+		// HPbar 출력
 		int index_0_hp_pos_x = index_0_pos_x + 25.1 * GAME_SCALE;
 		int index_0_hp_pos_y = index_0_pos_y + 41 * GAME_SCALE;
 		double hp_matrix = myPokemonList[0].crt_hp / (double)myPokemonList[0].max_hp * 100;
@@ -173,6 +179,7 @@ void showPokemonMenu() {
 		}	
 	}
 
+	// 첫번째 포켓몬을 제외한 2~6번째 포켓몬 출력
 	int index_other_pos_x = camera_position_x + 73.4 * GAME_SCALE;
 	int index_other_pos_y = camera_position_y + 9 * GAME_SCALE;
 	int index_other_hp_pos_x = index_other_pos_x + 80 * GAME_SCALE;
@@ -185,6 +192,7 @@ void showPokemonMenu() {
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 23 * GAME_SCALE, index_other_pos_y + 5 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[1].displayName);
 		al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 23 * GAME_SCALE - 2, index_other_pos_y + 5 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[1].displayName);
 
+		// 레벨, HP 버퍼링 및 출력
 		char tmp_level[255];
 		sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[1].level);
 		al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 42 * GAME_SCALE, index_other_pos_y + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
@@ -197,7 +205,7 @@ void showPokemonMenu() {
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 109 * GAME_SCALE, index_other_pos_y + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
 		al_draw_text(get_pokemonmenu_hp_Print_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 109 * GAME_SCALE - 2, index_other_pos_y + 14 * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, tmp_max_hp);
 	
-		
+		// HPbar 출력
 		double hp_matrix = myPokemonList[1].crt_hp / (double)myPokemonList[1].max_hp * 100;
 		for (int i = 0; i < hp_matrix; i++) {
 			if (hp_matrix <= 25)
@@ -217,6 +225,7 @@ void showPokemonMenu() {
 			al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 23 * GAME_SCALE, index_other_pos_y + ((i-2)*24 + 29) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[i].displayName);
 			al_draw_text(get_pokemonmenuPirnt_font(), al_map_rgb(255, 255, 255), index_other_pos_x + 23 * GAME_SCALE - 2, index_other_pos_y + ((i - 2) * 24 + 29) * GAME_SCALE - 2, ALLEGRO_ALIGN_LEFT, myPokemonList[i].displayName);
 
+			// 레벨, HP 버퍼링 및 출력
 			char tmp_level[255];
 			sprintf_s(tmp_level, sizeof(tmp_level), "%d", myPokemonList[i].level);
 			al_draw_text(get_pokemonmenu_level_Print_font(), al_map_rgb(115, 115, 115), index_other_pos_x + 42 * GAME_SCALE, index_other_pos_y + ((i - 2) * 24 + 38) * GAME_SCALE, ALLEGRO_ALIGN_LEFT, tmp_level);
@@ -262,11 +271,11 @@ void showPokemonMenu() {
 	int index_other_icon_pos_x = camera_position_x + 63 * GAME_SCALE;
 	int index_other_icon_pos_y = camera_position_y + 1 * GAME_SCALE;
 	for (int i = 1; i <= 5; i++) {
+		static pokeIconIdx = 0;
+		pokeIconIdx++;
 		if (myPokemonList[i].no != -1) {
-			static pokeIconIdx = 0;
-			pokeIconIdx++;
 			if (pokemonMenu_status.currentIndex == i && pokeIconIdx % 8 == 0) 
-				al_draw_bitmap(myPokemonList[i].icon[0], index_other_icon_pos_x, index_other_icon_pos_y + 24 * (i-1) * GAME_SCALE, 0);
+				al_draw_bitmap(myPokemonList[i].icon[0], index_other_icon_pos_x, index_other_icon_pos_y + 24 * (i - 1) * GAME_SCALE, 0);
 			else
 				al_draw_bitmap(myPokemonList[i].icon[1], index_other_icon_pos_x, index_other_icon_pos_y + 24 * (i - 1) * GAME_SCALE, 0);
 			if (pokeIconIdx == 16)
@@ -277,6 +286,7 @@ void showPokemonMenu() {
 
 extern battleUIStatus battleUI_status;
 extern menuStatus menu_status;
+// 포켓몬 메뉴 닫기
 void closePokemonMenu() {
 	if (battleUI_status.battleUIOpen) {
 		battleUI_status.battleUIConv = false;
@@ -292,6 +302,8 @@ void closePokemonMenu() {
 	pokemonMenu_status.pokemonMenuOpen = false;
 }
 
+// 포켓몬 생성 함수
+// 포켓몬 ID를 기반으로 그에 적절한 값으로 포켓몬 생성 및 반환
 pokemon createPokemon(int pokemonId, int level) {
 	pokemon tmpPokemon = pokemonBook[pokemonId];
 	tmpPokemon.level = level;
@@ -310,6 +322,8 @@ pokemon createPokemon(int pokemonId, int level) {
 }
 
 extern pokemon gymLeaderPokemonList[6];
+// 체육관 관장 포켓몬 초기화(6마리)
+// 순서는 랜덤으로 배치
 void initGymLeaderPokemon() {
 	gymLeaderPokemonList[0] = createPokemon(2, 76);
 	gymLeaderPokemonList[1] = createPokemon(5, 75);
@@ -325,9 +339,10 @@ void initGymLeaderPokemon() {
 		gymLeaderPokemonList[i] = gymLeaderPokemonList[rn];
 		gymLeaderPokemonList[rn] = temp;
 	}
-
 }
 
+// 진화할 수 있는 레벨에 진입하였는지 확인하는 함수
+// 15레벨, 35레벨에 각각 레벨업 가능
 void isEvolution(pokemon* target) {
 	int evolutionLevel = 100;
 	
@@ -335,7 +350,7 @@ void isEvolution(pokemon* target) {
 	if (target->no == 1 || target->no == 4 || target->no == 7 || target->no == 10)
 		evolutionLevel = 15;
 	else if (target->no == 2 || target->no == 5 || target->no == 8 || target->no == 11 || target->no == 14)
-		evolutionLevel = 30;
+		evolutionLevel = 35;
 
 	printf("targetLevel: %d\nevolutionLevel:%d\n", target->level, evolutionLevel);
 	if (target->level >= evolutionLevel)

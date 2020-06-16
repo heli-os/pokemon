@@ -47,6 +47,7 @@ extern battleUIStatus battleUI_status;
 extern pokemon enemy;
 extern pokemon gymLeaderPokemonList[6];
 
+// Object 생성 함수
 void createObject(objectBox* objBox, int objId, int iPosX, int iPosY, int iWidth, int iHeight) {
 	objBox->type = objId;
 	objBox->sx = iPosX;
@@ -55,6 +56,7 @@ void createObject(objectBox* objBox, int objId, int iPosX, int iPosY, int iWidth
 	objBox->sh = iHeight;
 }
 
+// Object 초기화 함수
 void initObject(ALLEGRO_BITMAP* object) {
 	const int objBoxLength = (sizeof(objectPosition[GAME_STAGE]) / (sizeof(objectPosition[GAME_STAGE][0]) / sizeof(int))) / sizeof(int);
 
@@ -68,12 +70,15 @@ void initObject(ALLEGRO_BITMAP* object) {
 		if (objectPosition[GAME_STAGE][i][4] == 1) {
 			int objectTarget = objectPosition[GAME_STAGE][i][0];
 
+			// 0이라면 렌더링하지 않는다.
 			if (objectTarget == 0)
 				continue;
 
+			// 99 98 97이라면 Bitmap이 없기때문에 영역만 생성한다.
 			if (objectTarget == 99 || objectTarget == 98 || objectTarget == 97) {
 				createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], 16 * GAME_SCALE, 32 * GAME_SCALE);
 			}
+			// 그렇지 않다면 일반 Object(포켓볼)이다. Bitmap도 렌더링한다.
 			else {
 				createObject(&objBoxes[i], objectPosition[GAME_STAGE][i][1], 500 + objectPosition[GAME_STAGE][i][2], 500 + objectPosition[GAME_STAGE][i][3], objectItem[objectTarget][2] * GAME_SCALE, objectItem[objectTarget][3] * GAME_SCALE);
 				al_draw_tinted_scaled_rotated_bitmap_region(object, objectItem[objectTarget][0], objectItem[objectTarget][1], objectItem[objectTarget][2], objectItem[objectTarget][3], al_map_rgb(255, 255, 255), 0, 0, objBoxes[i].sx, objBoxes[i].sy, GAME_SCALE, GAME_SCALE, 0, 0);
@@ -82,7 +87,8 @@ void initObject(ALLEGRO_BITMAP* object) {
 	}
 }
 
-
+// 사용자의 앞이 Object인지 확인.
+// 마찬가지로 Bounding Box Algorithm
 int isObject(const player _player) {
 	const int objBoxLength = (sizeof(objectPosition[GAME_STAGE]) / (sizeof(objectPosition[GAME_STAGE][0]) / sizeof(int))) / sizeof(int);
 
@@ -133,6 +139,7 @@ int isObject(const player _player) {
 	return -1;
 }
 
+// Object에 따른 인터랙션 정의
 void interactObject(int objId) {
 	switch (objId) {
 	case LAB_POKEBALL_0:

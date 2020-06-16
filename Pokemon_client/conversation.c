@@ -13,7 +13,9 @@ extern ALLEGRO_FONT* get_convsPirnt_font();
 
 extern pokemon enemy;
 
+// Conversation을 렌더링하는 함수
 void showConversation(int convsId) {
+	// ConvsID가 -1이라면 비정상적이므로 렌더링하지 않는다.
 	if (convsId == -1) return;
 
 	int col = 0, row = 0;
@@ -51,6 +53,8 @@ void showConversation(int convsId) {
 		al_draw_text(get_convsPirnt_font(), al_map_rgb(90, 90, 90), convsX + 15 * GAME_SCALE, convsY + 9 * GAME_SCALE + (52 * mChar), ALLEGRO_ALIGN_LEFT, mapConversationChar[convsId][mChar]);
 
 }
+
+// Conversation 닫기
 void closeConversation() {
 	//if (conversation_status.currentConvs == 5 || conversation_status.currentConvs == 6 || conversation_status.currentConvs == 7)
 	//	return;
@@ -60,11 +64,9 @@ void closeConversation() {
 	conversation_status.index = 0;
 	conversation_status.currentConvs = -1;
 
+	// 만약 포켓몬 메뉴가 열려있다면, 포켓몬 메뉴도 닫는다.
 	if (pokemonMenu_status.pokemonMenuOpen) {
 		pokemonMenu_status.pokemonMenuOpen = false;
 		pokemonMenu_status.currentIndex = 0;
 	}
-}
-void conversationHandler() {
-
 }

@@ -15,5 +15,10 @@ GRADE2: 70
 GRADE1: 100
 */
 
+/// <summary>
+/// 포켓몬을 포획하는 함수
+/// createPokemon과 연계하여 작동한다
+/// </summary>
+/// <param name="target"></param>
 void catchingPokemon(pokemon target);
 #endif

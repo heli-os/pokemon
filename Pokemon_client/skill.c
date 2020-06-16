@@ -6,6 +6,8 @@ extern pokemon pokemonBook[15];
 extern battleUIStatus battleUI_status;
 extern pokemon myPokemonList[6];
 extern ALLEGRO_FONT* get_pokemonSkill_list_font();
+
+// 포켓몬 스킬 사전 정의
 pokemonSkill pokemonSkillRef[20] = {
 	{1,		"Tackle",			POKEMON_TYPE_NORMAL,	1.1,	0.95,	35,	35, 1,	true},
 	{2,		"Vine Whip",		POKEMON_TYPE_GRASS,		1.1,	1.0,	10,	10, 13,	false},
@@ -34,6 +36,7 @@ pokemonSkill pokemonSkillRef[20] = {
 	{20,	"Thunder",			POKEMON_TYPE_ELECTRIC,	2.0,	0.7,	10,	10, 41,	false},
 };
 
+// 포켓몬에 따른 스킬 할당
 void initPokemonSkill() {
 	for (int i = 0; i <= 2; i++) {
 		pokemonBook[i].skill[0] = pokemonSkillRef[0];
@@ -75,6 +78,7 @@ void initPokemonSkill() {
 	}
 }
 
+// 포켓몬 Type(정수형)을 문자열로 변환
 const char* skillTypeIntToChar(int type) {
 	switch (type) {
 	case POKEMON_TYPE_NORMAL:	return "NORMAL";
@@ -90,27 +94,32 @@ const char* skillTypeIntToChar(int type) {
 
 extern float camera_position_x;
 extern float camera_position_y;
+// 배틀 중 스킬 목록 출력
 void showSkillList() {
 	int convsX = camera_position_x + 14 * GAME_SCALE;
 	int convsY = camera_position_y + (GAME_HEIGHT - 48 * GAME_SCALE) + 14 * GAME_SCALE;
 
+	// 첫 번째 스킬이 있다면 스킬 이름 출력
 	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[0].no != 0)
 		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[0].own)
 			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[0].displayName);
 
+	// 두 번째 스킬이 있다면 스킬 이름 출력
 	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[1].no != 0)
 		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[1].own)
 			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[1].displayName);
 
+	// 세 번째 스킬이 있다면 스킬 이름 출력
 	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[2].no != 0)
 		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[2].own)
 			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[2].displayName);
 
+	// 네 번째 스킬이 있다면 스킬 이름 출력
 	if (myPokemonList[battleUI_status.currentPokemonIdx].skill[3].no != 0)
 		if (strlen(myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName) != 0 && myPokemonList[battleUI_status.currentPokemonIdx].skill[3].own)
 			al_draw_text(get_pokemonSkill_list_font(), al_map_rgb(64, 64, 64), convsX + 54.5 * GAME_SCALE, convsY + 14 * GAME_SCALE, ALLEGRO_ALIGN_LEFT, myPokemonList[battleUI_status.currentPokemonIdx].skill[3].displayName);
 
-
+	// 스킬의 현재 PP, 최대 PP 버퍼링 및 출력
 	char tmp_crt_pp[255], tmp_max_pp[255];
 	sprintf_s(tmp_crt_pp, sizeof(tmp_crt_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].crt_pp);
 	sprintf_s(tmp_max_pp, sizeof(tmp_max_pp), "%d", myPokemonList[battleUI_status.currentPokemonIdx].skill[battleUI_status.currentIndex].max_pp);
@@ -122,6 +131,7 @@ void showSkillList() {
 	int arrowOffset_x = 0;
 	int arrowOffset_y = 0;
 
+	// 선택된 스킬에 따라 선택 화살표 위치 변경
 	switch (battleUI_status.currentIndex) {
 	case 0:
 		arrowOffset_x = -5.5 * GAME_SCALE;
@@ -140,10 +150,12 @@ void showSkillList() {
 		arrowOffset_y = 13 * GAME_SCALE;
 		break;
 	}
+	// 선택 화살표 출력 
 	al_draw_tinted_scaled_rotated_bitmap_region(battleUIBitmap, 123, 0, 6, 10, al_map_rgb(255, 255, 255), 0, 0, convsX + arrowOffset_x, convsY + arrowOffset_y, 3.3333333, GAME_SCALE, 0, 0);
 
 }
 
+// this Type이 target Type에 어떤 시너지를 가지는지 반환해주는 함수
 double convertSynergy(int this, int target) {
 	if (this == POKEMON_TYPE_NORMAL) return 1.0;
 

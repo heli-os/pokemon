@@ -2,6 +2,8 @@
 #define _POKEMON_PORTAL_HEADER_
 #include "nginx_common.h"
 #include "player.h"
+
+// Portal 위치와 크기를 사전에 정의해둔 map
 static int mapPortal[][3][5] = {
 	{ // 집 2층
 		{112,32,16,32,1},
@@ -41,5 +43,10 @@ static int mapPortal[][3][5] = {
 
 };
 
+/// <summary>
+/// 플레이어의 현재 위치가 portal인지 확인하는 함수
+/// </summary>
+/// <param name="_player"></param>
+/// <returns>포탈에 대응하는 스테이지 고유 코드 반환</returns>
 int isPortal(player _player);
 #endif

@@ -17,7 +17,10 @@ extern bagUIStatus bagUI_status;
 extern pokemonMenuStatus pokemonMenu_status;
 extern conversationStatus conversation_status;
 
-
+/*
+	인벤토리 슬롯, 2개의 카테고리(회복제/ 포켓볼)
+	한 카테고리당 최대 6개의 아이템 수록
+*/
 inventoryItem inventorySlots[2][6] = {
 	// 회복제
 	{
@@ -37,54 +40,85 @@ inventoryItem inventorySlots[2][6] = {
 	}
 };
 
+// 아이템 상호작용
 void interactItem(int itemNo, pokemon* target) {
 	inventoryItem* item = &inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex];
 	printf("CLICK:%s\n", item->itemName);
-	// 가방 메뉴 인덱스가 0일 때(회복아이템)
+
+	// 아이템 재고가 없다면 상호작용 취소
 	if (item->itemStock <= 0) return;
+
+	// 가방 메뉴 인덱스가 0일 때(회복아이템)
 	if (bagUI_status.currentMenu == 0) {
 		switch (itemNo) {
 		case COMMON_POTION:
+			/*
+				POTION 사용시
+				포켓몬이 살아있다면 체력을 20회복하고 POTION 재고를 1 감소
+			*/
 			if (!isDead(target)) {
 				target->crt_hp += 20;
 				item->itemStock -= 1;
 			}
 			break;
 		case COMMON_SUPER_POTION:
+			/*
+				SUPER POTION 사용시
+				포켓몬이 살아있다면 체력을 50회복하고 SUPER POTION 재고를 1 감소
+			*/
 			if (!isDead(target)) {
 				target->crt_hp += 50;
 				item->itemStock -= 1;
 			}
 			break;
 		case COMMON_HYPER_POTION:
+			/*
+				HYPER POTION 사용시
+				포켓몬이 살아있다면 체력을 200회복하고 HYPER POTION 재고를 1 감소
+			*/
 			if (!isDead(target)) {
 				target->crt_hp += 200;
 				item->itemStock -= 1;
 			}
 			break;
 		case COMMON_MAX_POTION:
+			/*
+				MAX POTION 사용시
+				포켓몬이 살아있다면 체력을 모두 회복하고 MAX POTION 재고를 1 감소
+			*/
 			if (!isDead(target)) {
 				target->crt_hp = target->max_hp;
 				item->itemStock -= 1;
 			}
 			break;
 		case COMMON_ETHER:
-			for (int i = 0; i < 4; i++) {
-				if (target->skill[i].own) {
-					target->skill[i].crt_pp += 10;
-					if (target->skill[i].crt_pp > target->skill[i].max_pp)
-						target->skill[i].crt_pp = target->skill[i].max_pp;
+			/*
+				ETHER 사용시
+				포켓몬이 살아있다면 모든 스킬의 pp를 10씩 회복하고 ETHER 재고를 1 감소
+			*/
+			if (!isDead(target)) {
+				for (int i = 0; i < 4; i++) {
+					if (target->skill[i].own) {
+						target->skill[i].crt_pp += 10;
+						if (target->skill[i].crt_pp > target->skill[i].max_pp)
+							target->skill[i].crt_pp = target->skill[i].max_pp;
+					}
 				}
 			}
 			item->itemStock -= 1;
 			break;
 		case COMMON_REVIVE:
+			/*
+				REVIVE 사용시
+				포켓몬이 죽어있다면, 체력을 절반 회복하고 ETHER 재고를 1 감소
+			*/
 			if (isDead(target)) {
 				target->crt_hp = target->max_hp / 2;
 				item->itemStock -= 1;
 			}
 			break;
 		}
+		// 만약 현재 HP가 최대 HP를 초과한다면 초과분을 절삭한다.
 		if (target->crt_hp > target->max_hp)
 			target->crt_hp = target->max_hp;
 
@@ -99,23 +133,38 @@ void interactItem(int itemNo, pokemon* target) {
 		double pokemon_grade_rate = target->no == 14 ? 30.0 : ((target->no == 1) || (target->no == 4) || (target->no == 7)) ? 50.0 : 70.0;
 		switch (itemNo) {
 		case COMMON_POKEBALL:
+			/*
+				일반 포켓볼 사용시 CATCHING_MOD_POKEBALL에 따른 포획 확률 공식 적용
+			*/
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_POKEBALL + 1) * 255.0 / 256.0;
 			break;
 		case COMMON_GREATBALL:
+			/*
+				GREAT BALL 사용시 CATCHING_MOD_GREATBALL에 따른 포획 확률 공식 적용
+			*/
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_GREATBALL + 1) * 255.0 / 256.0;
 			break;
 		case COMMON_ULTRABALL:
+			/*
+				ULTRA BALL 사용시 CATCHING_MOD_ULTRABALL에 따른 포획 확률 공식 적용
+			*/
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_ULTRABALL + 1) * 255.0 / 256.0;
 			break;
 		case COMMON_MASTERBALL:
+			/*
+				MASTER BALL 사용시 CATCHING_MOD_MASTERBALL에 따른 포획 확률 공식 적용
+			*/
 			catchingRate = ((1.0 - (2.0 / 3.0 * target->crt_hp / target->max_hp)) * pokemon_grade_rate * CATCHING_MOD_MASTERBALL + 1) * 255.0 / 256.0;
 			break;
 		}
+
+		// 계산된 포획 확률을 기반으로 포획 성공 여부 계산
 		if (catchingRate >= rand() % 100)
 			battleUI_status.catchingResult = true;
 		else
 			battleUI_status.catchingResult = false;
 
+		// catching에 따른 UI 출력
 		battleUI_status.battleUICatching = true;
 		inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock -= 1;
 		bagUI_status.currentIndex = itemNo - 9;
@@ -125,10 +174,13 @@ void interactItem(int itemNo, pokemon* target) {
 }
 extern pokemon enemy;
 
+// 인벤토리 상호작용
 void interactInventory() {
+	// 배틀 중이 아닌데, 포켓볼을 사용했다면 상호작용 취소
 	if (!battleUI_status.battleUIOpen && bagUI_status.currentMenu != 0)
 		return;
 
+	// 아이템 재고가 없다면 상호작용 취소
 	if (inventorySlots[bagUI_status.currentMenu][bagUI_status.currentIndex].itemStock <= 0)
 		return;
 
@@ -146,8 +198,10 @@ void interactInventory() {
 
 
 void drawBagUI() {
+	// 가방이 닫겨있다면 가방 렌더링 취소
 	if (!bagUI_status.bagUIOpen) return;
 
+	// 가방 배경 렌더링
 	al_draw_tinted_scaled_rotated_bitmap_region(bagUIBitmap, 0, 0, 240, 160, al_map_rgb(255, 255, 255), 0, 0, camera_position_x, camera_position_y, 3.3333333, GAME_SCALE, 0, 0);
 
 	// 가방 오프셋(X) Y는 163 가로 58 높이 63
@@ -247,12 +301,16 @@ void drawBagUI() {
 		al_draw_text(get_menuPirnt_font(), al_map_rgb(90, 90, 90), camera_position_x + (item_posX + 84) * GAME_SCALE, camera_position_y + item_posY * GAME_SCALE, ALLEGRO_ALIGN_LEFT, stockMSG);
 	}
 }
+
+// 가방 메뉴를 닫는 함수
 void closeBagMenu() {
+	// 배틀중이라면, 배틀 Conv 닫기
 	if (battleUI_status.battleUIOpen) {
 		battleUI_status.battleUIConv = false;
 		battleUI_status.currentIndex = battleUI_status.currentMenu - 1;
 		battleUI_status.currentMenu = 0;
 	}
+	// 가방 닫기
 	bagUI_status.currentIndex = -1;
 	bagUI_status.lastIndex = -1;
 	bagUI_status.bagUIOpen = false;

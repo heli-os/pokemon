@@ -1,5 +1,6 @@
 ﻿#include "sound.h"
 
+// 사운드를 초기화하는 함수
 void initSound() {
 	al_reserve_samples(1);
 
@@ -10,6 +11,7 @@ void initSound() {
 	
 }
 
+// 모든 사운드 재생을 일시정지하는 함수
 void stopAllSound() {
 	for (int i = 0; i < 16; i++) {
 		al_set_sample_instance_playing(sounds[i], false);

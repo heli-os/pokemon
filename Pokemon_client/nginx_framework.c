@@ -44,6 +44,7 @@ extern ALLEGRO_USTR* transferUserNickInput;
 extern player user_player;
 extern menuStatus menu_status;
 
+// Log 작성 함수
 void write_logfile(int log_level, const char* format, ...)
 {
 	char buffer[4096];
@@ -59,6 +60,7 @@ void write_logfile(int log_level, const char* format, ...)
 		al_fputs(logfile, "ERROR: ");
 	}
 
+	// va_list에 기반하여 데이터 작성 후 fputs
 	va_list args;
 	va_start(args, format);
 	vsnprintf(buffer, sizeof(buffer), format, args);
@@ -72,6 +74,7 @@ void write_logfile(int log_level, const char* format, ...)
 	}
 }
 
+// 게임 framework 초기화
 void init_framework(const char* title, int window_width, int window_height, bool fullscreen)
 {
 	if (!al_init()) {

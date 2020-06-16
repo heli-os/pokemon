@@ -4,7 +4,13 @@
 
 extern ALLEGRO_BITMAP* menuFrame;
 
-
+/*
+Conversation 상태를 저장하는 구조체
+	bool convsOpen;
+	int currentConvs;
+	int index;
+	int maxIndex;
+*/
 typedef struct CONVERSATION {
 	bool convsOpen;
 	int currentConvs;
@@ -33,8 +39,20 @@ static char* mapConversationChar[][2] = {
 	{"You don't have enough gold","to purchase the item"}
 };
 
+/// <summary>
+/// Conversation을 그리는 함수
+/// </summary>
+/// <param name="convsId"></param>
 void showConversation(int convsId);
+
+/// <summary>
+/// Conversation을 닫는 함수
+/// </summary>
 void closeConversation();
+
+/// <summary>
+/// Conversation 인터랙션을 처리하는 핸들러 함수
+/// </summary>
 void conversationHandler();
 
 #endif
