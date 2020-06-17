@@ -1010,8 +1010,6 @@ void update() {
 					}
 					// 생존 포켓몬이 있어 배틀이 가능하다면
 					else {
-						// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
-						soundHandler(101);
 						/*
 						> 랜덤 값을 가져와 포켓몬 등장 확률과 비교한다.
 							1. 포켓몬 등장 확률 비교
@@ -1022,6 +1020,8 @@ void update() {
 						*/
 						double randItem = ((double)rand() / RAND_MAX * 1.0);
 						if (randItem <= TOTAL_APPEAR_RATE) {
+							// 101: 임시로 사용하는 배틀 페이즈(WILD) 식별자
+							soundHandler(101);
 							// HP 회복 임시
 							//healingPokemon();
 
