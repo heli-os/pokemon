@@ -862,7 +862,6 @@ void update() {
 		if (is_key_pressed(ALLEGRO_KEY_ESCAPE))
 			quit();
 
-		
 		/*
 		[플레이어 이동]
 		@@bMoveFlag가 false인 경우@@

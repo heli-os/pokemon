@@ -44,9 +44,7 @@ extern ALLEGRO_USTR* transferUserNickInput;
 extern player user_player;
 extern menuStatus menu_status;
 
-// Log 작성 함수
-void write_logfile(int log_level, const char* format, ...)
-{
+void write_logfile(int log_level, const char* format, ...) {
 	char buffer[4096];
 
 	if (!logfile) {
@@ -74,9 +72,7 @@ void write_logfile(int log_level, const char* format, ...)
 	}
 }
 
-// 게임 framework 초기화
-void init_framework(const char* title, int window_width, int window_height, bool fullscreen)
-{
+void init_framework(const char* title, int window_width, int window_height, bool fullscreen) {
 	if (!al_init()) {
 		log_error("Failed to initialize allegro");
 	}
@@ -91,32 +87,43 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	al_change_directory(al_path_cstr(path, '/'));
 	al_destroy_path(path);
 
+	// 키보드 초기화
 	if (!al_install_keyboard()) {
 		log_error("Failed to install keyboard");
 	}
 
+	// 마우스 초기화
 	if (!al_install_mouse()) {
 		log_error("Failed to install mouse");
 	}
 
+	// primitives addon 초기화
 	if (!al_init_primitives_addon()) {
 		log_error("Failed to init primitives addon");
 	}
 
+	// image addon 초기화
 	if (!al_init_image_addon()) {
 		log_error("Failed to init image addon");
 	}
 
+	// audio install
 	if (!al_install_audio()) {
 		log_error("Failed to init install audio");
 	}
+
+	// acodec addon 초기화
 	if (!al_init_acodec_addon()) {
 		log_error("Failed to init init acodec");
 	}
 
+	// font 및 ttf addon 초기화
 	al_init_font_addon();
-	al_init_ttf_addon();	
+	al_init_ttf_addon();
 
+	/*
+		각종 font를 사전의 초기화
+	*/
 	default_font = al_load_ttf_font("fonts/NanumGothic.ttf", 50, ALLEGRO_TTF_NO_KERNING);
 	if (!default_font) {
 		log_error("Failed to load ttf font");
@@ -146,7 +153,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	if (!pokemonMenu_level_Print_font) {
 		log_error("Failed to load ttf font");
 	}
-	
+
 	pokemonMenu_hp_Print_font = al_load_ttf_font("fonts/pkm.ttf", 21, ALLEGRO_TTF_NO_KERNING);
 	if (!pokemonMenu_hp_Print_font) {
 		log_error("Failed to load ttf font");
@@ -156,7 +163,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	if (!pokemonSkill_list_font) {
 		log_error("Failed to load ttf font");
 	}
-	
+
 	convsPrint_font = al_load_ttf_font("fonts/pkm.ttf", 35, ALLEGRO_TTF_NO_KERNING);
 	if (!convsPrint_font) {
 		log_error("Failed to load ttf font");
@@ -196,8 +203,7 @@ void init_framework(const char* title, int window_width, int window_height, bool
 	srand(time(NULL));
 }
 
-void destroy_framework(void)
-{
+void destroy_framework(void) {
 	if (default_font) {
 		al_destroy_font(default_font);
 		default_font = NULL;
@@ -224,8 +230,7 @@ void destroy_framework(void)
 	}
 }
 
-void run_game_loop(void (*update_proc)(), void (*render_proc)())
-{
+void run_game_loop(void (*update_proc)(), void (*render_proc)()) {
 	bool should_redraw = true;
 	al_start_timer(timer);
 
@@ -265,16 +270,15 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 			//	event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
 			//	al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, !(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW));
 			//}
-			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT)
-			{
+			if (menu_status.currentMenu == COMPUTER_SYSTEM_MENU_TRANSFER_NICK_INPUT) {
 				int unichar = event.keyboard.unichar;
 				if (unichar == 8 && transferUserNickInput->slen >= 1)
-					al_ustr_remove_chr(transferUserNickInput, (int)al_ustr_length(transferUserNickInput)-1);
-				if ((('a'<= unichar && unichar <= 'z')||('A' <= unichar && unichar <= 'Z')) && transferUserNickInput->slen < 12) {
+					al_ustr_remove_chr(transferUserNickInput, (int)al_ustr_length(transferUserNickInput) - 1);
+				if ((('a' <= unichar && unichar <= 'z') || ('A' <= unichar && unichar <= 'Z')) && transferUserNickInput->slen < 12) {
 					printf("%d\n", unichar);
 					al_ustr_append_chr(transferUserNickInput, unichar);
 				}
-			} 
+			}
 			break;
 
 		case ALLEGRO_EVENT_MOUSE_AXES:
@@ -320,42 +324,35 @@ void run_game_loop(void (*update_proc)(), void (*render_proc)())
 }
 
 
-void quit()
-{
+void quit() {
 	is_done = true;
 }
 
-void alt_tab_should_pause(bool true_or_false)
-{
+void alt_tab_should_pause(bool true_or_false) {
 	should_alt_tab_pause = true_or_false;
 }
 
-int get_window_width()
-{
+int get_window_width() {
 	assert(display != NULL);
 	return al_get_display_width(display);
 }
 
-int get_window_height()
-{
+int get_window_height() {
 	assert(display != NULL);
 	return al_get_display_height(display);
 }
 
-bool is_key_down(int keycode)
-{
+bool is_key_down(int keycode) {
 	assert(keycode >= 0 && keycode < ALLEGRO_KEY_MAX);
 	return keys[keycode];
 }
 
-bool is_key_pressed(int keycode)
-{
+bool is_key_pressed(int keycode) {
 	assert(keycode >= 0 && keycode < ALLEGRO_KEY_MAX);
 	return keys_pressed[keycode];
 }
 
-bool is_key_released(int keycode)
-{
+bool is_key_released(int keycode) {
 	assert(keycode >= 0 && keycode < ALLEGRO_KEY_MAX);
 	return keys_released[keycode];
 }
@@ -366,46 +363,38 @@ void clear_key_buffered() {
 	memset(keys_released, false, sizeof(keys_pressed));
 }
 
-int get_mouse_x()
-{
+int get_mouse_x() {
 	return mouse_x;
 }
 
-int get_mouse_y()
-{
+int get_mouse_y() {
 	return mouse_y;
 }
 
-int get_mouse_dx()
-{
+int get_mouse_dx() {
 	return mouse_x - mouse_old_x;
 }
 
-int get_mouse_dy()
-{
+int get_mouse_dy() {
 	return mouse_y - mouse_old_y;
 }
 
-bool is_mouse_button_down(int mouse_button)
-{
+bool is_mouse_button_down(int mouse_button) {
 	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons[mouse_button];
 }
 
-bool is_mouse_button_pressed(int mouse_button)
-{
+bool is_mouse_button_pressed(int mouse_button) {
 	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons_pressed[mouse_button];
 }
 
-bool is_mouse_button_released(int mouse_button)
-{
+bool is_mouse_button_released(int mouse_button) {
 	assert(mouse_button >= 0 && mouse_button < (int)al_get_mouse_num_buttons());
 	return mouse_buttons_released[mouse_button];
 }
 
-int wait_for_keypress()
-{
+int wait_for_keypress() {
 	ALLEGRO_EVENT event;
 	do {
 		al_wait_for_event(event_queue, &event);
@@ -413,40 +402,31 @@ int wait_for_keypress()
 	return event.keyboard.keycode;
 }
 
-ALLEGRO_FONT* get_default_font()
-{
+ALLEGRO_FONT* get_default_font() {
 	return default_font;
 }
-ALLEGRO_FONT* get_chatInput_font()
-{
+ALLEGRO_FONT* get_chatInput_font() {
 	return chatInput_font;
 }
-ALLEGRO_FONT* get_chatText_font()
-{
+ALLEGRO_FONT* get_chatText_font() {
 	return chatText_font;
 }
-ALLEGRO_FONT* get_menuPirnt_font()
-{
+ALLEGRO_FONT* get_menuPirnt_font() {
 	return menuPrint_font;
 }
-ALLEGRO_FONT* get_pokemonmenuPirnt_font()
-{
+ALLEGRO_FONT* get_pokemonmenuPirnt_font() {
 	return pokemonMenuPrint_font;
 }
-ALLEGRO_FONT* get_pokemonmenu_level_Print_font()
-{
+ALLEGRO_FONT* get_pokemonmenu_level_Print_font() {
 	return pokemonMenu_level_Print_font;
 }
-ALLEGRO_FONT* get_pokemonmenu_hp_Print_font()
-{
+ALLEGRO_FONT* get_pokemonmenu_hp_Print_font() {
 	return pokemonMenu_hp_Print_font;
 }
-ALLEGRO_FONT* get_convsPirnt_font()
-{
+ALLEGRO_FONT* get_convsPirnt_font() {
 	return convsPrint_font;
 }
 
-ALLEGRO_FONT* get_pokemonSkill_list_font()
-{
+ALLEGRO_FONT* get_pokemonSkill_list_font() {
 	return pokemonSkill_list_font;
 }

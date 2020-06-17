@@ -27,7 +27,7 @@ extern bool loadCompleteFlag;
 void __cdecl RecvThread(void* p)
 {
 	SOCKET sock = (SOCKET)p;
-	// 무한히 반복하면서 데이터 수신
+	// 무한히 반복하면서 패킷 수신
 	while (1)
 	{
 		// 버퍼를 BUF_SIZE로 동적 할당
