@@ -1181,7 +1181,7 @@ int main(int argc, char* argv[]) {
 	//user_player.iPos_x = mapOffset[GAME_STAGE][1] + mapOffset[GAME_STAGE][7] * GAME_SCALE;
 	//user_player.iPos_y = mapOffset[GAME_STAGE][2] + mapOffset[GAME_STAGE][8] * GAME_SCALE - 16;
 
-	/* 
+	/*
 	각종 요소 초기화
 	1. 포켓몬 썸네일
 	2. 포켓몬 스킬
@@ -1210,14 +1210,16 @@ int main(int argc, char* argv[]) {
 	/*
 	포켓몬 6마리 임시 생성
 	*/
-	//for (int i = 0; i < 6; i++)
-	//	myPokemonList[i].no = -1;
-	//myPokemonList[0] = createPokemon(5, 65);
-	//myPokemonList[1] = createPokemon(2, 65);
-	//myPokemonList[2] = createPokemon(8, 65);
-	//myPokemonList[3] = createPokemon(11, 65);
-	//myPokemonList[4] = createPokemon(12, 65);
-	//myPokemonList[5] = createPokemon(14,65);
+	if (userNo == 1) {
+		for (int i = 0; i < 6; i++)
+			myPokemonList[i].no = -1;
+		myPokemonList[0] = createPokemon(5, 65);
+		myPokemonList[1] = createPokemon(2, 65);
+		myPokemonList[2] = createPokemon(8, 65);
+		myPokemonList[3] = createPokemon(11, 65);
+		myPokemonList[4] = createPokemon(12, 65);
+		myPokemonList[5] = createPokemon(14, 65);
+	}
 
 
 	// the game loop runs until we call quit()

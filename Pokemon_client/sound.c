@@ -38,7 +38,7 @@ void soundHandler(int GAME_STAGE) {
 		if (!al_get_sample_instance_playing(sounds[BGM_TOWN])) {
 			al_set_sample_instance_playing(sounds[BGM_TOWN], true);
 			al_set_sample_instance_playmode(sounds[BGM_TOWN], ALLEGRO_PLAYMODE_LOOP);
-			al_set_sample_instance_gain(sounds[BGM_TOWN], 0.5);
+			al_set_sample_instance_gain(sounds[BGM_TOWN], 0.2);
 		}
 	}
 	// 집
@@ -46,21 +46,21 @@ void soundHandler(int GAME_STAGE) {
 		if (!al_get_sample_instance_playing(sounds[BGM_TOWN])) {
 			al_set_sample_instance_playing(sounds[BGM_TOWN], true);
 			al_set_sample_instance_playmode(sounds[BGM_TOWN], ALLEGRO_PLAYMODE_LOOP);
-			al_set_sample_instance_gain(sounds[BGM_TOWN], 0.5);
+			al_set_sample_instance_gain(sounds[BGM_TOWN], 0.2);
 		}
 	}
 	// 체육관
 	else if (GAME_STAGE == 6) {
 		stopAllSound();
 		al_set_sample_instance_playing(sounds[BGM_BATTLE_GYM], true);
-		al_set_sample_instance_gain(sounds[BGM_BATTLE_GYM], 0.5);
+		al_set_sample_instance_gain(sounds[BGM_BATTLE_GYM], 0.2);
 		al_set_sample_instance_playmode(sounds[BGM_BATTLE_GYM], ALLEGRO_PLAYMODE_LOOP);
 	}
 	// 오박사 연구실
 	else if (GAME_STAGE == 4) {
 		stopAllSound();
 		al_set_sample_instance_playing(sounds[BGM_OAK_LAB], true);
-		al_set_sample_instance_gain(sounds[BGM_OAK_LAB], 0.5);
+		al_set_sample_instance_gain(sounds[BGM_OAK_LAB], 0.2);
 		al_set_sample_instance_playmode(sounds[BGM_OAK_LAB], ALLEGRO_PLAYMODE_LOOP);
 	}
 	// 야생 배틀
@@ -68,7 +68,7 @@ void soundHandler(int GAME_STAGE) {
 		al_set_sample_instance_playing(sounds[BGM_TOWN], false);
 		al_set_sample_instance_playing(sounds[BGM_BATTLE_GYM], false);
 		al_set_sample_instance_playing(sounds[BGM_BATTLE_WILD], true);
-		al_set_sample_instance_gain(sounds[BGM_BATTLE_WILD], 0.5);
+		al_set_sample_instance_gain(sounds[BGM_BATTLE_WILD], 0.2);
 		al_set_sample_instance_playmode(sounds[BGM_BATTLE_WILD], ALLEGRO_PLAYMODE_LOOP);
 	}
 	// 포켓볼 바운스
