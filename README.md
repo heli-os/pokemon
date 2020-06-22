@@ -105,19 +105,19 @@ Project Link: [https://github.com/960813/pokemon](https://github.com/960813/poke
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/JupiterFlow/pokemon?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/960813/pokemon?style=flat-square
 [contributors-url]: https://github.com/960813/pokemon/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/JupiterFlow/pokemon?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/960813/pokemon?style=flat-square
 [forks-url]: https://github.com/960813/pokemon/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/JupiterFlow/pokemon?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/960813/pokemon?style=flat-square
 [stars-url]: https://github.com/960813/pokemon/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/JupiterFlow/pokemon?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/960813/pokemon?style=flat-square
 [issues-url]: https://github.com/960813/pokemon/issues
 
-[license-shield]: https://img.shields.io/github/license/JupiterFlow/pokemon?style=flat-square
+[license-shield]: https://img.shields.io/github/license/960813/pokemon?style=flat-square
 [license-url]: https://github.com/960813/pokemon/blob/master/LICENSE
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
