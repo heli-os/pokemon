@@ -23,9 +23,9 @@
     <br />
     <br />
     <a href="https://www.youtube.com/playlist?list=PLhIMdWOb1dj-Us_Kz0CIfKQJmhKbF5OLj">View Demo</a>
-    ¡¤
+    Â·
     <a href="https://github.com/960813/pokemon/issues">Report Bug</a>
-    ¡¤
+    Â·
     <a href="https://github.com/960813/pokemon/issues">Request Feature</a>
   </p>
 </p>
