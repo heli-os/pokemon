@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/960813/pokemon">
-    <img src="https://github.com/960813/pokemon/blob/master/_data_/README.png?raw=true" alt="Logo" width="80" height="80">
+    <img src="https://github.com/960813/pokemon/blob/master/_data/README.png?raw=true" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Pokemon</h3>
@@ -123,4 +123,4 @@ Project Link: [https://github.com/960813/pokemon](https://github.com/960813/poke
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/jupiterflow
 
-[product-screenshot]: https://github.com/960813/pokemon/blob/master/_data/000.JPG?raw=true
+[product-screenshot]: https://github.com/960813/pokemon/blob/master/_data/000.png?raw=true
