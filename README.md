@@ -19,7 +19,7 @@
   <p align="center">
     This repository is a very important project that I developed for the final exams in college.    
     <br />
-    <a href="https://github.com/960813/pokemon"><strong>Explore the Github ?</strong></a>
+    <a href="https://github.com/960813/pokemon"><strong>Explore the Github »</strong></a>
     <br />
     <br />
     <a href="https://www.youtube.com/playlist?list=PLhIMdWOb1dj-Us_Kz0CIfKQJmhKbF5OLj">View Demo</a>
