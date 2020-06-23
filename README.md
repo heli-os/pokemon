@@ -72,8 +72,8 @@ This is an online Pokemon game where data is synchronized to the central server.
 <!-- USAGE EXAMPLES -->
 ## Usage
 1. Set up dependency
- - Client: Allegro5 in NuGet, jansson
- - Server: jansson, MySQL-lib
+    - Client: Allegro5 in NuGet, jansson
+    - Server: jansson, MySQL-lib
 2. Configure Server Property
 3. Run Server
 4. Run GameLauncher
